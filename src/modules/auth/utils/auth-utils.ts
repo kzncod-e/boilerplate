@@ -21,6 +21,7 @@ async function getAuth() {
     }
 
     const { env } = await getCloudflareContext();
+    console.log("Cloudflare Context:", env);
     const db = await getDb();
 
     cachedAuth = betterAuth({
@@ -34,8 +35,8 @@ async function getAuth() {
         socialProviders: {
             google: {
                 enabled: true,
-                clientId: env.GOOGLE_CLIENT_ID!,
-                clientSecret: env.GOOGLE_CLIENT_SECRET!,
+                clientId: env.GOOGLE_CLIENT_ID,
+                clientSecret: env.GOOGLE_CLIENT_SECRET,
             },
         },
         plugins: [nextCookies()],
