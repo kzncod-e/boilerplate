@@ -3,26 +3,24 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import LogoutButton from "@/modules/auth/components/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-import { Calendar, ChevronsUpDown, Home, Inbox, Search, Settings } from "lucide-react";
+import {  ChevronsUpDown,  } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { NavProjects } from "@/modules/dashboard/components/nav-projects";
-import { ROOT_NAVBAR } from "@/constants/sidebar";
+import { ROOT_NAVBAR } from "@/constants/dashboard";
 
 
 export function AppSidebar() {

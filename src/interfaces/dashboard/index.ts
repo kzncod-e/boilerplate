@@ -40,3 +40,30 @@ export const SOCMED_PLATFORMS = PLATFORMS.filter(
 
 export type Platform = (typeof PLATFORMS)[number];
 export type SocmedPlatform = (typeof SOCMED_PLATFORMS)[number];
+// api socmed
+
+
+
+
+
+
+export interface SocmedMentionDataType {
+  platform: Platform;
+  total_mentions: number;
+  growth_summary: GrowthSummary;
+  sentiment_breakdown: {
+    sentiment: SentimentText;
+    count: number;
+  }[];
+}
+
+
+
+
+
+
+export interface GrowthSummary {
+  current_count: number;
+  previous_count: number;
+  percentage_change: number;
+}

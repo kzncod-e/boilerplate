@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ROOT_NAVBAR } from "@/constants/sidebar";
+import { ROOT_NAVBAR } from "@/constants/dashboard";
 
 
 export function DynamicBreadcrumb() {
