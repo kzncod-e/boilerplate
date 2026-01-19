@@ -2,7 +2,9 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    domains: ["github.com"], // ← IZININ GITHUB DI SINI
+  },
 };
 
 initOpenNextCloudflareForDev();

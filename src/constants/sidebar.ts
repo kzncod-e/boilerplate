@@ -2,13 +2,7 @@
 
 import {
   BarChart3,
-  Building2,
-  Megaphone,
-  Newspaper,
-  Radio,
-  Users,
-  Landmark,
-  Search,
+
   User,
   GitCompare,
   FileText,
@@ -35,20 +29,52 @@ export const ROOT_NAVBAR = [
       {
         name: "card",
         description: "Monitoring ARS",
-        url: "/monitoring/ars",
+        url: "/dashboard/card",
         icon: IdCard,
       },
       {
         name: "forms",
         description: "Analisis kompetitor",
-        url: "/monitoring/competitor",
+        url: "/dashboard/forms",
         icon: FormInput,
       },
       {
         name: "charts",
         description: "Bandingkan data",
-        url: "/monitoring/compare",
+        url: "/dashboard/charts",
         icon: ChartColumnDecreasing,
+      },
+    ],
+  },
+  {
+    name: "Widgets",
+    description: "Manajemen dan pembuatan digest harian",
+    url: "/widget",
+    icon: FileText,
+    items: [
+      {
+        name: "Gmaps",
+        description: "Buat digest baru",
+        url: "/widget/gmaps",
+        icon: User,
+      },
+      {
+        name: "wordcloud",
+        description: "Lihat data widget",
+        url: "/widget/wordcloud",
+        icon: ShieldUser,
+      },
+      {
+        name: "novu",
+        description: "Lihat data widget",
+        url: "/widget/novu",
+        icon: Users2,
+      },
+      {
+        name: "sna",
+        description: "Lihat data widget",
+        url: "/widget/sna",
+        icon: Users2,
       },
     ],
   },
