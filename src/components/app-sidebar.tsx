@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -13,40 +13,21 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import LogoutButton from "@/modules/auth/components/logout-button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+
+import { Calendar, ChevronsUpDown, Home, Inbox, Search, Settings } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { NavProjects } from "@/modules/dashboard/components/nav-projects";
+import { ROOT_NAVBAR } from "@/constants/sidebar";
+
 
 export function AppSidebar() {
   //   const { open } = useSidebar();
-  const items = [
-    {
-      title: "Home",
-      url: "#",
-      icon: Home,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-    },
-    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings,
-    },
-  ];
+  
   return (
     <Sidebar>
       <SidebarHeader>
@@ -68,28 +49,64 @@ export function AppSidebar() {
           </div>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <h1 className="text-[1rem]">Menu</h1>
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+     <SidebarContent>
+        <NavProjects projects={ROOT_NAVBAR} isLoading={false} />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter >
+        <SidebarMenu>
+
+        <SidebarMenuItem>
+        <DropdownMenu >
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="userAuth-[state=open]:bg-sidebar-accent userAuth-[state=open]:text-sidebar-accent-foreground"
+            >
+             <Avatar className="roundud">
+        <AvatarImage className="object-cover! rounded-2xl" height={20} width={20} src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-normal">rehan</span>
+                {/* <span className="truncate text-xs">{userAuth?.email}</span> */}
+                <span className="truncate text-xs">rehan@gmail.com</span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="min-w-60! ml-2 rounded-lg bg-slate-200 "
+            side={"right"}
+            align="start"
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage
+                    src={"#"}
+                    // alt={userAuth?.name}
+                    className="!object-cover rounded-2xl! border-2"
+                  />
+                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  {/* <span className="truncate font-normal">{userAuth?.name}</span> */}
+                  <span className="truncate font-normal">rehan</span>
+                  {/* <span className="truncate text-xs">{userAuth?.email}</span> */}
+                  <span className="truncate text-xs">rehan@gmail.com</span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <LogoutButton />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+        </SidebarMenu>  
+      </SidebarFooter>
     </Sidebar>
   );
 }

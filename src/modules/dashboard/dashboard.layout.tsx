@@ -19,7 +19,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex w-full relative flex-col justify-center">
+      <main className="flex w-full relative flex-col">
         <Navigation />
         {/* <SidebarTrigger /> */}
         {children}
