@@ -19,14 +19,21 @@ export async function getNovuPublicConfig(): Promise<NovuConfig> {
   };
 }
 
-export function buildNovuSubscriberId(userId: string) {
-  return `boilerplate-nextjs-${userId}`;
+export function buildNovuSubscriberId(prefix: string, userId: string) {
+  return `${prefix}-${userId}`;
+}
+
+export async function getNovuSubscriberId(userId: string) {
+  const { env } = await getCloudflareContext();
+
+  const prefix = env.NEXT_PUBLIC_NOVU_USERID_PREFIX || "parlemen-user";
+  return buildNovuSubscriberId(prefix, userId);
 }
 
 export async function ensureNovuSubscriber(user: AuthUser) {
   const { env } = await getCloudflareContext();
 
-  const subscriberId = buildNovuSubscriberId(user.id);
+  const subscriberId = await getNovuSubscriberId(user.id);
   const response = await fetch(`${env.NOVU_BACKEND_URL}/v2/subscribers`, {
     method: "POST",
     headers: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Inbox } from "@novu/react";
+import { Inbox } from "@novu/nextjs";
 
 type NovuInboxProps = {
   appIdentifier: string;

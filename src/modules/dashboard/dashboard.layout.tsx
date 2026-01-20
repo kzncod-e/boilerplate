@@ -10,9 +10,9 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { DynamicBreadcrumb } from "./components/dynamic-breadcrumb";
 import {
-  buildNovuSubscriberId,
   ensureNovuSubscriber,
   getNovuPublicConfig,
+  getNovuSubscriberId,
 } from "@/modules/novu/novu.server";
 import { NovuInbox } from "@/modules/novu/components/novu-inbox";
 import { PushInitializer } from "@/modules/novu/components/push-initializer";
@@ -30,6 +30,7 @@ export default async function DashboardLayout({
 
   const user = await getCurrentUser();
   const novuConfig = await getNovuPublicConfig();
+  const subscriberId = user ? await getNovuSubscriberId(user.id) : "";
 
   if (user) {
     try {
@@ -58,7 +59,7 @@ export default async function DashboardLayout({
                 <PushInitializer vapidKey={novuConfig.fcmVapidKey} />
                 <NovuInbox
                   appIdentifier={novuConfig.appIdentifier}
-                  subscriberId={buildNovuSubscriberId(user.id)}
+                  subscriberId={subscriberId}
                   backendUrl={novuConfig.backendUrl}
                   socketUrl={novuConfig.socketUrl}
                 />

@@ -1,11 +1,11 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/modules/auth/utils/auth-utils";
-import { buildNovuSubscriberId } from "@/modules/novu/novu.server";
+import { getNovuSubscriberId } from "@/modules/novu/novu.server";
 
 export async function POST(request: Request) {
   const user = await requireAuth();
-  const subscriberId = buildNovuSubscriberId(user.id);
+  const subscriberId = await getNovuSubscriberId(user.id);
 
   const body = (await request.json().catch(() => null)) as
     | { token?: unknown }
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
   const user = await requireAuth();
-  const subscriberId = buildNovuSubscriberId(user.id);
+  const subscriberId = await getNovuSubscriberId(user.id);
 
   const { env } = await getCloudflareContext();
   const response = await fetch(
