@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./colors.css";
+@import "./cards.css";
+@import "./forms.css";
+@import "./charts.css";
+@import "./tables.css";
+
+@custom-variant dark (&:is(.dark *));
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+

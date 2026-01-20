@@ -1,7 +1,3 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -164,28 +160,7 @@
   --chart-tiktok: oklch(0.74 0.16 180);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-.card {
-  @apply bg-card rounded-lg p-4 shadow-xl shadow-black/5 border-0;
-}
-
-/* disable spinner icon on loading */
-#nprogress .spinner-icon {
-  display: none;
-}
-
-div#forecast-chart div > div > div.apexcharts-toolbar {
-  display: none !important;
-}
-
-a.branding--link.text-n-slate-11.hover\:text-n-slate-12.cursor-pointer.text-xs.inline-flex.grayscale-\[1\].hover\:grayscale-0.hover\:opacity-100.opacity-90.no-underline.justify-center.items-center.leading-3 {
-  display: none !important;
-}
+/* custom colors for tempalte here */
+/* example: */
+/* --custom-primary: #ff0000; */
+/* --custom-secondary: #00ff00; */
