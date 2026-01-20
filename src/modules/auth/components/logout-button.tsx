@@ -5,14 +5,19 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/modules/auth/actions/auth.action";
 import authRoutes from "../auth.route";
+import { clearStoredFcmToken } from "@/modules/novu/components/push-initializer";
 
 export default function LogoutButton() {
     const router = useRouter();
 
     const handleLogout = async () => {
         try {
+            await fetch("/api/novu/credentials", { method: "DELETE" }).catch(
+                () => null,
+            );
             const result = await signOut();
             if (result.success) {
+                clearStoredFcmToken();
                 router.push(authRoutes.login);
                 router.refresh(); // Refresh to clear any cached data
             } else {
