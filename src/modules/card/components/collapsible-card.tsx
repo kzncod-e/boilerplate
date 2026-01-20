@@ -1,0 +1,68 @@
+'use client'
+
+import React from "react"
+
+import { useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { ChevronDown } from 'lucide-react'
+import { BaseCardWrapper } from "./baseCard-wrapper"
+
+interface CollapsibleCardProps {
+  title: string
+  previewText?: string
+  expandedContent: React.ReactNode
+  defaultOpen?: boolean
+  className?: string
+}
+
+export function CollapsibleCard({
+  title,
+  previewText,
+  expandedContent,
+  defaultOpen = false,
+  className,
+}: CollapsibleCardProps) {
+  const [isExpanded, setIsExpanded] = useState(defaultOpen)
+
+  return (
+    <BaseCardWrapper className={className}>
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <CardTitle className="text-lg">{title}</CardTitle>
+            {previewText && !isExpanded && (
+              <p className="text-sm text-muted-foreground mt-1">{previewText}</p>
+            )}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="h-8 w-8 p-0 ml-4 flex-shrink-0"
+            aria-expanded={isExpanded}
+          >
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
+            />
+          </Button>
+        </div>
+      </CardHeader>
+
+      {isExpanded && (
+        <CardContent className="pt-0 border-t border-border">
+          <div className="mt-4">
+            {typeof expandedContent === 'string' ? (
+              <p className="text-sm text-foreground">{expandedContent}</p>
+            ) : (
+              expandedContent
+            )}
+          </div>
+        </CardContent>
+      )}
+    </BaseCardWrapper>
+  )
+}

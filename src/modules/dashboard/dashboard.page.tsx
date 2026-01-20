@@ -18,6 +18,7 @@ import { dummySocmedMentionData } from "@/constants/dashboard";
 import { LineChart } from "../charts/components/line-charts";
 import MetricItem from "../card/components/statistic-card";
 import { dummyMetrics } from "../card/constans/constan";
+import { chartConfig, chartData } from "../charts/constant/constant";
 
 export default function Dashboard() {
   return (
@@ -38,7 +39,10 @@ export default function Dashboard() {
           <SentimentAnalysisSection />
         </GlobalCard>
           <MentionsPercategory data={dummySocmedMentionData} />
-          <LineChart/>
+            <GlobalCard title="example of area charts">
+          
+          <LineChart data={chartData} config={chartConfig}/>
+          </GlobalCard>
       </div>
     </div>
   );

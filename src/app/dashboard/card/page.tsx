@@ -1,9 +1,6 @@
-import React from 'react'
+import CardsPage from "@/modules/card/card.page";
+import Dashboard from "@/modules/dashboard/dashboard.page";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export default  function Page() {
+  return <CardsPage />;
 }
-
-export default page
