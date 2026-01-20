@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 export const ROOT_NAVBAR = [
   {
-    name: "Dashboard",
+    name: "Elements",
     description: "",
     url: "/dashboard",
     icon: BarChart3,

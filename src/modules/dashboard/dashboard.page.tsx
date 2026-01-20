@@ -12,10 +12,12 @@ import {
 import GlobalCard from "@/components/global-card";
 import SentimentAnalysisSection from "../charts/components/sentiment-analysis";
 import { stats } from "@/constants/cardData";
-import { StatisticCard } from "./components/statistic-card";
+
 import MentionsPercategory from "./components/table-card";
 import { dummySocmedMentionData } from "@/constants/dashboard";
 import { LineChart } from "../charts/components/line-charts";
+import MetricItem from "../card/components/statistic-card";
+import { dummyMetrics } from "../card/constans/constan";
 
 export default function Dashboard() {
   return (
@@ -25,10 +27,10 @@ export default function Dashboard() {
       <h1 className="tracking-tight flex items-center gap-3 font-semibold text-3xl text-primary">Optimasi Template</h1>
       </div>
 
-      <div className=" flex gap-10 flex-col text-center">
+      <div className=" flex gap-10 flex-col ">
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((item, idx) => (
-        <StatisticCard key={idx} {...item} />
+      {dummyMetrics.map((item, idx) => (
+        <MetricItem key={idx} {...item} />
       ))}
     </div>
         
