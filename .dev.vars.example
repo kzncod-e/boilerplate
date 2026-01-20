@@ -22,6 +22,7 @@ NOVU_APP_IDENTIFIER=your-novu-app-identifier
 NOVU_BACKEND_URL=https://novu-api.optimasi.ai
 NOVU_SOCKET_URL=https://novu-ws.optimasi.ai
 NOVU_API_KEY=your-novu-api-key
+NEXT_PUBLIC_NOVU_USERID_PREFIX=boilerplate-nextjs-user
 
 # Firebase Cloud Messaging (Web Push)
 FCM_VAPID_KEY=your-fcm-vapid-key
