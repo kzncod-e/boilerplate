@@ -14,6 +14,8 @@ import { NovuInbox } from "@/modules/novu/components/novu-inbox";
 import { PushInitializer } from "@/modules/novu/components/push-initializer";
 import { HeadlessInboxWidget } from "@/modules/novu/components/headless-inbox-widget";
 import { HeadlessNotificationsCenter } from "@/modules/novu/components/headless-notifications-center";
+import BaseLayout from "@/components/global/base-layout";
+import PageHeader from "@/components/global/page-header";
 
 type NovuWidgetPageProps = {
   config: Awaited<ReturnType<typeof getNovuPublicConfig>>;
@@ -22,15 +24,20 @@ type NovuWidgetPageProps = {
 
 export function NovuWidgetPage({ config, subscriberId }: NovuWidgetPageProps) {
   return (
-    <div className="mx-auto w-full">
+    <BaseLayout>
       <PushInitializer vapidKey={config.fcmVapidKey} />
 
       <div className="space-y-2">
-        <div className="text-2xl font-semibold">Novu Widgets</div>
+        {/* <div className="text-2xl font-semibold">Novu Widgets</div>
         <div className="text-muted-foreground text-sm">
           Boilerplate templates: default Inbox UI, headless widget, and headless
           full-page notifications center.
-        </div>
+        </div> */}
+        <PageHeader
+          title="Novu widgets"
+          description=" Boilerplate templates: default Inbox UI, headless widget, and headless
+          full-page notifications center."
+        />
         <div className="text-muted-foreground text-xs">
           subscriberId: {subscriberId}
         </div>
@@ -96,6 +103,6 @@ export function NovuWidgetPage({ config, subscriberId }: NovuWidgetPageProps) {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </BaseLayout>
   );
 }

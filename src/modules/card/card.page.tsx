@@ -11,6 +11,7 @@ import { socmedAccountsDummy } from "@/constants/sosmed-data";
 import { ScrollableCard } from "@/components/global/cards/scrollable-card";
 import PageHeader from "@/components/global/page-header";
 import BaseLayout from "@/components/global/base-layout";
+import { MultiActionAreaCard } from "@/components/global/cards/multiAction-card";
 
 export default function CardsPage() {
   return (
@@ -172,19 +173,29 @@ export default function CardsPage() {
           />
         </div>
         {/* scrollablecard with custom content */}
-        <ScrollableCard
-          title="Recent Activity"
-          description="Last 30 days"
-          height="h-[300px]"
-        >
-          <ul className="space-y-3">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <li key={i} className="text-sm">
-                Activity #{i + 1}
-              </li>
-            ))}
-          </ul>
-        </ScrollableCard>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
+          <ScrollableCard
+            title="Recent Activity"
+            description="Last 30 days"
+            height="h-[300px]"
+          >
+            <ul className="space-y-3">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <li key={i} className="text-sm">
+                  Activity #{i + 1}
+                </li>
+              ))}
+            </ul>
+          </ScrollableCard>
+
+          <MultiActionAreaCard
+            title="Lizard"
+            description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+            image="https://github.com/shadcn.png"
+            onClick={() => console.log("Card clicked")}
+            onShare={() => console.log("Share clicked")}
+          />
+        </div>
       </div>
     </BaseLayout>
   );

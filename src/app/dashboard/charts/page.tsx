@@ -1,9 +1,5 @@
-import React from 'react'
+import ChartPage from "@/modules/charts/chart.page";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+const Page = () => <ChartPage />;
 
-export default page
+export default Page;

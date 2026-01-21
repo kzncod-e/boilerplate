@@ -16,6 +16,7 @@ import {
 } from "@/modules/novu/novu.server";
 import { NovuInbox } from "@/modules/novu/components/novu-inbox";
 import { PushInitializer } from "@/modules/novu/components/push-initializer";
+import { ModeToggle } from "@/components/darkMode-toggle";
 
 export default async function DashboardLayout({
   children,
@@ -43,7 +44,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className="bg-primary/3 w-full overflow-x-hidden">
+      <SidebarInset className="bg-background w-full overflow-x-hidden">
         <header className="flex h-12 max-sm:border-b max-sm:my-3 sm:h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex w-full items-center justify-between px-4 md:px-7">
             <div className="flex items-center gap-2">
@@ -56,6 +57,7 @@ export default async function DashboardLayout({
             </div>
             {user ? (
               <div className="flex items-center gap-3">
+                <ModeToggle />
                 <PushInitializer vapidKey={novuConfig.fcmVapidKey} />
                 <NovuInbox
                   appIdentifier={novuConfig.appIdentifier}
@@ -67,7 +69,7 @@ export default async function DashboardLayout({
             ) : null}
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 pb-8 px-5 md:px-8 pt-0">
+        <div className="flex bg-background flex-1 flex-col gap-4 pb-8 px-5 md:px-8 pt-0">
           {children}
         </div>
       </SidebarInset>

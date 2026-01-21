@@ -1,3 +1,4 @@
+"use client";
 import {
   Popover,
   PopoverContent,
@@ -49,7 +50,7 @@ const PageHeader = ({
 
   return (
     <>
-      <div className="border-b py-4 pb-5 flex flex-col sm:flex-row justify-between gap-4">
+      <div className="border-b py-4 pb-3 mb-3 flex flex-col sm:flex-row justify-between gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex flex-row justify-between w-full">
             <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 text-primary">
@@ -79,7 +80,7 @@ const PageHeader = ({
                     variant="outline"
                     className={cn(
                       "h-8 justify-start text-left font-normal dark:bg-secondary/50",
-                      !date && "text-muted-foreground"
+                      !date && "text-muted-foreground",
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />

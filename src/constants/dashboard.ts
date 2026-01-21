@@ -20,6 +20,9 @@ import {
   ShieldUser,
   Users2,
   Link,
+  Bell,
+  MapPin,
+  Cloudy,
 } from "lucide-react";
 export const ROOT_NAVBAR = [
   {
@@ -58,19 +61,19 @@ export const ROOT_NAVBAR = [
         name: "Gmaps",
         description: "Buat digest baru",
         url: "/widget/gmaps",
-        icon: User,
+        icon: MapPin,
       },
       {
         name: "wordcloud",
         description: "Lihat data widget",
         url: "/widget/wordcloud",
-        icon: ShieldUser,
+        icon: Cloudy,
       },
       {
         name: "novu",
         description: "Lihat data widget",
         url: "/widget/novu",
-        icon: Users2,
+        icon: Bell,
       },
       {
         name: "sna",

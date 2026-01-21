@@ -27,7 +27,7 @@ function formatDateKey(input: number | string | undefined) {
     // YYYY-MM-DD
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
       2,
-      "0"
+      "0",
     )}-${String(d.getDate()).padStart(2, "0")}`;
   } catch {
     return "";
@@ -228,8 +228,8 @@ const SentimentAnalysisSection = ({
       rawKey === "positive"
         ? "positive"
         : rawKey === "negative"
-        ? "negative"
-        : "neutral";
+          ? "negative"
+          : "neutral";
 
     grouped[dateKey][key]++;
   });
@@ -262,7 +262,7 @@ const SentimentAnalysisSection = ({
 
   const totalCount = doughnutData.reduce(
     (s, it) => s + (Number(it.value) || 0),
-    0
+    0,
   );
   const sentimentScore = (() => {
     const totalEvents = (trendData || []).length;
