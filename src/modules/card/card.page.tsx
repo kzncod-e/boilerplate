@@ -1,42 +1,36 @@
-"use client"
+"use client";
 
-import { CollapsibleCard } from '@/components/global/cards/collapsible-card'
-import { HeaderCard } from '@/components/global/cards/header-card'
-import { TaskCard } from '@/components/global/cards/header-footerCard'
-import { Users, TrendingUp, Activity, Clock } from 'lucide-react'
-import { dummyMetrics } from './constans/constan'
-import MetricItem from '../../components/global/cards/statistic-card'
-import SocmedAccounts from '@/components/global/cards/sosmed-card'
-import { socmedAccountsDummy } from '@/constants/sosmed-data'
-import { ScrollableCard } from '@/components/global/cards/scrollable-card'
+import { CollapsibleCard } from "@/components/global/cards/collapsible-card";
+import { HeaderCard } from "@/components/global/cards/header-card";
+import { TaskCard } from "@/components/global/cards/header-footerCard";
+import { Users, TrendingUp, Activity, Clock } from "lucide-react";
+import { dummyMetrics } from "./constans/constan";
+import MetricItem from "../../components/global/cards/statistic-card";
+import SocmedAccounts from "@/components/global/cards/sosmed-card";
+import { socmedAccountsDummy } from "@/constants/sosmed-data";
+import { ScrollableCard } from "@/components/global/cards/scrollable-card";
+import PageHeader from "@/components/global/page-header";
+import BaseLayout from "@/components/global/base-layout";
 
 export default function CardsPage() {
   return (
-    <main className="min-h-screen ">
-      <div className=" ">
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold mb-2">Cards</h1>
-          <p className="text-muted-foreground">
-            Reusable dashboard components with dynamic props
-          </p>
-        </div>
-<div className=" flex flex-col w-full gap-6">
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {dummyMetrics.map((item, idx) => (
-
-        <MetricItem key={idx} {...item} />
-      ))}
-    </div>
-            <SocmedAccounts
-        accounts={socmedAccountsDummy}
-        
+    <BaseLayout>
+      <PageHeader
+        title="Cards page"
+        description="reusable card components with dynamic props"
       />
 
-          {/* HeaderCard Example */}
+      <div className=" flex flex-col w-full gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {dummyMetrics.map((item, idx) => (
+            <MetricItem key={idx} {...item} />
+          ))}
+        </div>
+        <SocmedAccounts accounts={socmedAccountsDummy} />
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
+        {/* HeaderCard Example */}
 
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
           <HeaderCard
             icon={Activity}
             title="Performance Metrics"
@@ -47,7 +41,7 @@ export default function CardsPage() {
                 <div className="w-full bg-secondary rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full"
-                    style={{ width: '65%' }}
+                    style={{ width: "65%" }}
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">65% of capacity</p>
@@ -59,7 +53,7 @@ export default function CardsPage() {
                 <div className="w-full bg-secondary rounded-full h-2">
                   <div
                     className="bg-primary h-2 rounded-full"
-                    style={{ width: '42%' }}
+                    style={{ width: "42%" }}
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">42% of capacity</p>
@@ -72,20 +66,19 @@ export default function CardsPage() {
             title="Tasks & Activities"
             description="Pending items"
             items={[
-              { label: 'Code Review', value: 5 },
-              { label: 'Bug Fixes', value: 12 },
-              { label: 'Deployments', value: 3 },
+              { label: "Code Review", value: 5 },
+              { label: "Bug Fixes", value: 12 },
+              { label: "Deployments", value: 3 },
             ]}
             primaryAction={{
-              label: 'View All',
-              onClick: () => console.log('View all tasks'),
+              label: "View All",
+              onClick: () => console.log("View all tasks"),
             }}
             lastUpdated="Updated 2 hours ago"
           />
-          </div>
+        </div>
 
- <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
           <CollapsibleCard
             title="API Documentation"
             previewText="Click to expand..."
@@ -125,11 +118,10 @@ export default function CardsPage() {
               </div>
             }
           />
- </div>
-          {/* CollapsibleCard Example 1 */}
+        </div>
+        {/* CollapsibleCard Example 1 */}
 
-     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
-
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
           {/* HeaderCard with Icon */}
           <HeaderCard
             icon={TrendingUp}
@@ -178,26 +170,22 @@ export default function CardsPage() {
               </div>
             }
           />
-     </div>
-     {/* scrollablecard with custom content */}
-     <ScrollableCard
-  title="Recent Activity"
-  description="Last 30 days"
-  height="h-[300px]"
->
-  <ul className="space-y-3">
-    {Array.from({ length: 20 }).map((_, i) => (
-      <li key={i} className="text-sm">
-        Activity #{i + 1}
-      </li>
-    ))}
-  </ul>
-</ScrollableCard>
-
-</div>
-       
-      
+        </div>
+        {/* scrollablecard with custom content */}
+        <ScrollableCard
+          title="Recent Activity"
+          description="Last 30 days"
+          height="h-[300px]"
+        >
+          <ul className="space-y-3">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <li key={i} className="text-sm">
+                Activity #{i + 1}
+              </li>
+            ))}
+          </ul>
+        </ScrollableCard>
       </div>
-    </main>
-  )
+    </BaseLayout>
+  );
 }

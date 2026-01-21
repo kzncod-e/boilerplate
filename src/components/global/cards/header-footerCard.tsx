@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { BaseCardWrapper } from './baseCard-wrapper'
+import GlobalCard from './global-card'
 
 interface TaskItem {
   label: string
@@ -33,15 +34,10 @@ export function TaskCard({
   className,
 }: TaskCardProps) {
   return (
-    <BaseCardWrapper className={className}>
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg">{title}</CardTitle>
-        {description && (
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
-        )}
-      </CardHeader>
+    <GlobalCard title={title} description={description} className={className}>
+     
 
-      <CardContent className="space-y-4">
+      
         {/* Items List */}
         <div className="space-y-3">
           {items.map((item, idx) => (
@@ -53,7 +49,7 @@ export function TaskCard({
             </div>
           ))}
         </div>
-      </CardContent>
+
 
       {(primaryAction || lastUpdated) && (
         <CardFooter className="flex items-center justify-between pt-4 border-t border-border">
@@ -67,7 +63,7 @@ export function TaskCard({
           )}
         </CardFooter>
       )}
-    </BaseCardWrapper>
+    </GlobalCard>
   )
 }
 

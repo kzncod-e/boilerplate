@@ -16,7 +16,7 @@ export default function LoginPage() {
               className="rounded-sm md:mb-5"
             />
             <h1 className="text-xl font-bold text-center">
-Selamat datang di optimasi offcial template            </h1>
+Selamat datang di optimasi official template            </h1>
           </div>
         <LoginForm />
       </div>

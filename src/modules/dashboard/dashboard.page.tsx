@@ -9,41 +9,47 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import GlobalCard from "@/components/global-card";
+
 import SentimentAnalysisSection from "../charts/components/sentiment-analysis";
 import { stats } from "@/constants/card-data";
 
-import MentionsPercategory from "./components/table-card";
+import MentionsPercategory from "../../components/global/cards/table-card";
 import { dummySocmedMentionData } from "@/constants/dashboard";
 import { LineChart } from "../charts/components/line-charts";
 import MetricItem from "../../components/global/cards/statistic-card";
 import { dummyMetrics } from "../card/constans/constan";
 import { chartConfig, chartData } from "../charts/constant/constant";
+import GlobalCard from "@/components/global/cards/global-card";
+import PageHeader from "@/components/global/page-header";
+import BaseLayout from "@/components/global/base-layout";
 
 export default function Dashboard() {
   return (
-    <div className="container mx-auto  px-4">
-      <div className="flex items-center p-6 justify-center">
+    <BaseLayout>
+      {/* <div className="flex items-center p-6 justify-center">
 
       <h1 className="tracking-tight flex items-center gap-3 font-semibold text-3xl text-primary">Optimasi Template</h1>
-      </div>
+      </div> */}
+      <PageHeader
+        title="Optimasi template"
+        description="optimasi official template"
+      />
 
       <div className=" flex gap-10 flex-col ">
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {dummyMetrics.map((item, idx) => (
-        <MetricItem key={idx} {...item} />
-      ))}
-    </div>
-        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {dummyMetrics.map((item, idx) => (
+            <MetricItem key={idx} {...item} />
+          ))}
+        </div>
+
         <GlobalCard title="Sentiment Analysis">
           <SentimentAnalysisSection />
         </GlobalCard>
-          <MentionsPercategory data={dummySocmedMentionData} />
-            <GlobalCard title="example of area charts">
-          
-          <LineChart data={chartData} config={chartConfig}/>
-          </GlobalCard>
+        <MentionsPercategory data={dummySocmedMentionData} />
+        <GlobalCard title="example of area charts">
+          <LineChart data={chartData} config={chartConfig} />
+        </GlobalCard>
       </div>
-    </div>
+    </BaseLayout>
   );
 }

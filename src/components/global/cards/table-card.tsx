@@ -18,7 +18,9 @@ import {
   Send,
 } from "lucide-react";
 import { SocmedMentionDataType } from "@/interfaces";
-import GlobalCard from "@/components/global-card";
+import GlobalCard from "@/components/global/cards/global-card";
+
+
  
 
 const MentionsPercategory = ({

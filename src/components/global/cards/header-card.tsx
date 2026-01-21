@@ -3,6 +3,7 @@ import React from "react"
 import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Type as type, LucideIcon } from 'lucide-react'
 import { BaseCardWrapper } from "./baseCard-wrapper"
+import GlobalCard from "./global-card"
 
 interface HeaderCardProps {
   icon?: LucideIcon
@@ -24,20 +25,9 @@ export function HeaderCard({
   className,
 }: HeaderCardProps) {
   return (
-    <BaseCardWrapper className={className} padding="lg">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              {Icon && <Icon className="w-5 h-5" />}
-              {title}
-            </CardTitle>
-            <CardDescription className="text-sm">{description}</CardDescription>
-          </div>
-        </div>
-      </CardHeader>
+    <GlobalCard className={className} title={title} description={description}>
+     
 
-      <CardContent className="space-y-4">
         {/* Content Layout */}
         {leftContent && rightContent ? (
           <div className="grid grid-cols-2 gap-6">
@@ -54,7 +44,7 @@ export function HeaderCard({
         {footerText && (
           <p className="text-xs text-muted-foreground pt-2">{footerText}</p>
         )}
-      </CardContent>
-    </BaseCardWrapper>
+   
+    </GlobalCard>
   )
 }

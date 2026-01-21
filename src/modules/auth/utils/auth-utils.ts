@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/style/noNonNullAssertion: <we will make sure it's not null> */
+"use server"
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";

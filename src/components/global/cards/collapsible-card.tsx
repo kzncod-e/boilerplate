@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { ChevronDown } from 'lucide-react'
 import { BaseCardWrapper } from "./baseCard-wrapper"
+import GlobalCard from "./global-card"
 
 interface CollapsibleCardProps {
   title: string
@@ -27,13 +28,13 @@ export function CollapsibleCard({
   const [isExpanded, setIsExpanded] = useState(defaultOpen)
 
   return (
-    <BaseCardWrapper className={className}>
-      <CardHeader className="pb-4">
+    <GlobalCard title={title} className={className}>
+
         <div className="flex items-center justify-between">
           <div className="flex-1">
-            <CardTitle className="text-lg">{title}</CardTitle>
+            
             {previewText && !isExpanded && (
-              <p className="text-sm text-muted-foreground mt-1">{previewText}</p>
+              <p className="text-sm text-muted-foreground ">{previewText}</p>
             )}
           </div>
           <Button
@@ -50,19 +51,18 @@ export function CollapsibleCard({
             />
           </Button>
         </div>
-      </CardHeader>
-
+    
       {isExpanded && (
-        <CardContent className="pt-0 border-t border-border">
-          <div className="mt-4">
+      
+          <div className="">
             {typeof expandedContent === 'string' ? (
               <p className="text-sm text-foreground">{expandedContent}</p>
             ) : (
               expandedContent
             )}
           </div>
-        </CardContent>
+
       )}
-    </BaseCardWrapper>
+    </GlobalCard>
   )
 }
