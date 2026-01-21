@@ -1,6 +1,6 @@
 
 
-import { SocmedMentionDataType } from "@/interfaces/dashboard";
+import { SocmedMentionDataType } from "@/interfaces";
 import {
   BarChart3,
 

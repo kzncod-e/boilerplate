@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/card";
 import GlobalCard from "@/components/global-card";
 import SentimentAnalysisSection from "../charts/components/sentiment-analysis";
-import { stats } from "@/constants/cardData";
+import { stats } from "@/constants/card-data";
 
 import MentionsPercategory from "./components/table-card";
 import { dummySocmedMentionData } from "@/constants/dashboard";
 import { LineChart } from "../charts/components/line-charts";
-import MetricItem from "../card/components/statistic-card";
+import MetricItem from "../../components/global/cards/statistic-card";
 import { dummyMetrics } from "../card/constans/constan";
 import { chartConfig, chartData } from "../charts/constant/constant";
 

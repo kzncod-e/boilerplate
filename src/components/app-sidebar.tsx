@@ -34,7 +34,7 @@ export function AppSidebar() {
           className={cn("flex flex-row gap-3 items-center pt-3 px-2", "px-0")}
         >
           <div className="flex aspect-square size-8 items-center justify-center object-contain bg-white text-primary">
-            <Image src="https://github.com/shadcn.png" alt="Logo" width={500} height={500} />
+            <Image src="" alt="Logo" width={500} height={500} />
           </div>
 
           <div className="grid flex-1 text-left text-sm leading-tight text-primary dark:text-white">

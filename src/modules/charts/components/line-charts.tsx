@@ -47,13 +47,14 @@ export function LineChart({data,config,xKey,height}:AreaChartTemplateProps) {
     startDate.setDate(startDate.getDate() - daysToSubtract)
     return date >= startDate
   })
+console.log(filteredData,'ini data');
 
   return (
   
      
         <ChartContainer
           config={config}
-          className={`aspect-auto h-[${height?height:250}px] w-full`}
+          className={`aspect-auto h-[250px] w-full`}
         >
           <AreaChart data={filteredData}>
             <defs>

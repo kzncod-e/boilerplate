@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { badgeColorByValue } from "../utils/utils";
+import { badgeColorByValue } from "../../../modules/card/utils/utils";
 import Badge from "@/components/ui/badge";
 
 
@@ -19,7 +19,7 @@ const MetricItem: React.FC<MetricItemProps> = ({
 }) => {
   return (
   
-    <div className="bg-card rounded-lg p-4 shadow-xl shadow-primary/5">
+    <div className="bg-card rounded-lg p-4 shadow-xl  shadow-primary/5">
       <div className="flex gap-1 text-xs items-center">
         <h5 className="font-semibold leading-5 text-primary capitalize">
           {title}

@@ -1,4 +1,4 @@
-import { SentimentText } from "@/interfaces/dashboard";
+import { SentimentText } from "@/interfaces";
 type VariantKey = SentimentText | "default";
 export function badgeColorByValue(
   value: number | VariantKey | SentimentText
@@ -29,6 +29,15 @@ export function getSentimentTextByValue(value: string | number) {
   return namedValue;
 }
 
+export const convertNumber = (num: number) => {
+  if (num === undefined) return "0";
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + "M";
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + "K";
+  }
+  return num.toString();
+};
 
 
 import { cva, type VariantProps } from "class-variance-authority";

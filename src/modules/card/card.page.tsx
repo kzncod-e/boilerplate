@@ -1,53 +1,42 @@
 "use client"
-import { CardGrid } from '@/modules/card/components/card-grid'
-import { CollapsibleCard } from '@/modules/card/components/collapsible-card'
-import { HeaderCard } from '@/modules/card/components/header-card'
-import { TaskCard } from '@/modules/card/components/header-footerCard'
+
+import { CollapsibleCard } from '@/components/global/cards/collapsible-card'
+import { HeaderCard } from '@/components/global/cards/header-card'
+import { TaskCard } from '@/components/global/cards/header-footerCard'
 import { Users, TrendingUp, Activity, Clock } from 'lucide-react'
 import { dummyMetrics } from './constans/constan'
-import MetricItem from './components/statistic-card'
+import MetricItem from '../../components/global/cards/statistic-card'
+import SocmedAccounts from '@/components/global/cards/sosmed-card'
+import { socmedAccountsDummy } from '@/constants/sosmed-data'
+import { ScrollableCard } from '@/components/global/cards/scrollable-card'
 
 export default function CardsPage() {
   return (
-    <main className="min-h-screen  p-8">
-      <div className=" mx-auto">
+    <main className="min-h-screen ">
+      <div className=" ">
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-2">Cards</h1>
           <p className="text-muted-foreground">
             Reusable dashboard components with dynamic props
           </p>
         </div>
+<div className=" flex flex-col w-full gap-6">
 
-        <CardGrid>
-             {dummyMetrics.map((item, idx) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {dummyMetrics.map((item, idx) => (
+
         <MetricItem key={idx} {...item} />
       ))}
-          {/* StatCard Example */}
-          {/* <StatCar
-            title="Total Users"
-            badge="This month"
-            value="1,245"
-            change={12}
-            subStats={[
-              { label: 'Active', value: '987' },
-              { label: 'New', value: '258' },
-              { label: 'Inactive', value: '128' },
-            ]}
-          /> */}
-
-          {/* StatCard Example 2 */}
-          {/* <StatCard
-            title="Revenue"
-            value="$45,231"
-            change={-3}
-            subStats={[
-              { label: 'Target', value: '$50K' },
-              { label: 'Avg', value: '$1.2K' },
-              { label: 'Peak', value: '$5.8K' },
-            ]}
-          /> */}
+    </div>
+            <SocmedAccounts
+        accounts={socmedAccountsDummy}
+        
+      />
 
           {/* HeaderCard Example */}
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
+
           <HeaderCard
             icon={Activity}
             title="Performance Metrics"
@@ -93,8 +82,10 @@ export default function CardsPage() {
             }}
             lastUpdated="Updated 2 hours ago"
           />
+          </div>
 
-          {/* CollapsibleCard Example 1 */}
+ <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
+
           <CollapsibleCard
             title="API Documentation"
             previewText="Click to expand..."
@@ -134,14 +125,10 @@ export default function CardsPage() {
               </div>
             }
           />
+ </div>
+          {/* CollapsibleCard Example 1 */}
 
-          {/* Another StatCard for variety */}
-          {/* <StatCard
-            title="Conversion Rate"
-            badge="Last 30 days"
-            value="3.24%"
-            change={5}
-          /> */}
+     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
 
           {/* HeaderCard with Icon */}
           <HeaderCard
@@ -191,7 +178,25 @@ export default function CardsPage() {
               </div>
             }
           />
-        </CardGrid>
+     </div>
+     {/* scrollablecard with custom content */}
+     <ScrollableCard
+  title="Recent Activity"
+  description="Last 30 days"
+  height="h-[300px]"
+>
+  <ul className="space-y-3">
+    {Array.from({ length: 20 }).map((_, i) => (
+      <li key={i} className="text-sm">
+        Activity #{i + 1}
+      </li>
+    ))}
+  </ul>
+</ScrollableCard>
+
+</div>
+       
+      
       </div>
     </main>
   )

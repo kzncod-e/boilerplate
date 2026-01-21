@@ -17,7 +17,7 @@ import {
   Instagram,
   Send,
 } from "lucide-react";
-import { SocmedMentionDataType } from "@/interfaces/dashboard";
+import { SocmedMentionDataType } from "@/interfaces";
 import GlobalCard from "@/components/global-card";
  
 

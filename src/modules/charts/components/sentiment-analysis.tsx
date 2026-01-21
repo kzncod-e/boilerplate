@@ -15,7 +15,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
-import type { SocmedEventType } from "@/interfaces/dashboard";
+import type { SocmedEventType } from "@/interfaces";
 
 type EventItem = SocmedEventType;
 

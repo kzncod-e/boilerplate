@@ -9,6 +9,7 @@ const GlobalCard = ({
 }: {
   title: string | React.ReactNode;
   className?: string;
+ 
   children: React.ReactNode;
 }) => {
   return (
@@ -16,6 +17,7 @@ const GlobalCard = ({
       <CardHeader>
         <CardTitle className="tracking-tight flex items-center gap-3 font-semibold text-xl text-primary">
           {title}
+
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 pt-0">{children}</CardContent>
