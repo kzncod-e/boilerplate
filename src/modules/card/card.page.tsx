@@ -11,7 +11,7 @@ import { socmedAccountsDummy } from "@/constants/sosmed-data";
 import { ScrollableCard } from "@/components/global/cards/scrollable-card";
 import PageHeader from "@/components/global/page-header";
 import BaseLayout from "@/components/global/base-layout";
-import { MultiActionAreaCard } from "@/components/global/cards/multiAction-card";
+import { MultiActionAreaCard } from "@/components/global/cards/multiaction-card";
 
 export default function CardsPage() {
   return (

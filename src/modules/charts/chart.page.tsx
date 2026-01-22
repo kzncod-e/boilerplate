@@ -7,8 +7,28 @@ import SentimentAnalysisSection from "./components/sentiment-analysis";
 import { LineChart } from "./components/line-charts";
 import { SocmedAreaChart } from "@/components/global/charts/socmed-area-chart";
 import { chartConfig, chartData } from "./constant/constant";
-import { socmedAreaChartDummyData } from "@/constants/sosmed-data";
 
+import { ChartPie } from "@/components/global/charts/pie-chart";
+import { Dot } from "recharts";
+import DotChart from "@/components/global/charts/dot-chart";
+
+import {
+  dummyBarChartConfig,
+  dummyBarChartData,
+  dummyLineChart,
+  dummyLineChatConfig,
+  socmedAreaChartDummyData,
+} from "@/constants/chart-data";
+import { ChartLine } from "@/components/global/charts/line-chart";
+import { TrendingUp } from "lucide-react";
+import { MultipleChartBar } from "@/components/global/charts/multiple-barchart";
+import { BasicBarChart } from "@/components/global/charts/basic-chartbar";
+
+const browserData = [
+  { browser: "Chrome", users: 275, color: "var(--chart-1)" },
+  { browser: "Safari", users: 200, color: "var(--chart-2)" },
+  { browser: "Firefox", users: 187, color: "var(--chart-3)" },
+];
 const ChartPage = () => {
   return (
     <BaseLayout>
@@ -28,6 +48,48 @@ const ChartPage = () => {
         <SocmedAreaChart
           data={socmedAreaChartDummyData}
           title="socmed area chart"
+        />
+
+        <ChartPie
+          title="Browser Usage"
+          description="Jan - Jun 2024"
+          data={browserData}
+          config={chartConfig}
+          valueKey="users"
+          labelKey="browser"
+          fillKey="color"
+        />
+
+        <DotChart data={socmedAreaChartDummyData} />
+        <BasicBarChart
+          data={dummyBarChartData}
+          config={dummyBarChartConfig}
+          footer={
+            <div className="flex flex-col gap-2 text-sm mt-4">
+              <div className="flex gap-2 font-medium">
+                Trending up by 5.2% this month{" "}
+                <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground">
+                Showing data for the last period
+              </div>
+            </div>
+          }
+        />
+        <MultipleChartBar />
+        <ChartLine
+          title="User Growth"
+          description="Jan - Jun 2024"
+          data={dummyLineChart}
+          config={dummyLineChatConfig}
+          xKey="month"
+          valueKey="users"
+          footer={
+            <>
+              <div className="font-medium">Trending up this quarter 🚀</div>
+              <div className="text-muted-foreground">Monthly active users</div>
+            </>
+          }
         />
       </div>
     </BaseLayout>

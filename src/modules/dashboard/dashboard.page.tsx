@@ -23,7 +23,7 @@ import GlobalCard from "@/components/global/cards/global-card";
 import PageHeader from "@/components/global/page-header";
 import BaseLayout from "@/components/global/base-layout";
 import { SocmedAreaChart } from "@/components/global/charts/socmed-area-chart";
-import { socmedAreaChartDummyData } from "@/constants/sosmed-data";
+import { socmedAreaChartDummyData } from "@/constants/chart-data";
 
 export default function Dashboard() {
   return (
