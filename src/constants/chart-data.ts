@@ -86,3 +86,24 @@ export const dummyLineChatConfig = {
     color: "var(--chart-1)",
   },
 } satisfies ChartConfig;
+
+
+export const dummyMultipleChartBar = [
+  { month: "January", desktop: 180, mobile: 90 },
+  { month: "February", desktop: 260, mobile: 160 },
+  { month: "March", desktop: 220, mobile: 130 },
+  { month: "April", desktop: 120, mobile: 200 },
+  { month: "May", desktop: 240, mobile: 150 },
+  { month: "June", desktop: 300, mobile: 180 },
+];
+
+export const dummyMultipleChartBarConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "var(--chart-1)",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "var(--chart-2)",
+  },
+} satisfies ChartConfig;

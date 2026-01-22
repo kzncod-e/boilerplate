@@ -7,13 +7,7 @@ import {
   User,
   GitCompare,
   FileText,
-  Database,
-  BookmarkCheck,
-  TrendingUp,
-  Plus,
-  ChartNoAxesColumn,
-  Flame,
-  ChartColumn,
+ 
   FormInput,
   IdCard,
   ChartColumnDecreasing,
@@ -23,6 +17,7 @@ import {
   Bell,
   MapPin,
   Cloudy,
+  Table,
 } from "lucide-react";
 export const ROOT_NAVBAR = [
   {
@@ -37,6 +32,13 @@ export const ROOT_NAVBAR = [
         url: "/dashboard/card",
         icon: IdCard,
       },
+      {
+        name: "tables",
+        description: "Monitoring ARS",
+        url: "/dashboard/tables",
+        icon: Table,
+      },
+    
       {
         name: "forms",
         description: "Analisis kompetitor",

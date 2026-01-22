@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { ReactNode } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import { CardFooter } from "@/components/ui/card";
@@ -12,64 +12,76 @@ import {
 } from "@/components/ui/chart";
 import GlobalCard from "../cards/global-card";
 
-export const description = "A multiple bar chart";
+/* ================= TYPES ================= */
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+type KeyOf<T> = Extract<keyof T, string>;
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig;
+interface BarSeries<T> {
+  key: KeyOf<T>;
+  radius?: number;
+}
 
-export function MultipleChartBar() {
+interface ChartBarMultiProps<T extends Record<string, any>> {
+  title?: string;
+
+  data: T[];
+  config: ChartConfig;
+
+  /** key untuk X axis */
+  xKey: KeyOf<T>;
+
+  /** bar series (desktop, mobile, etc) */
+  series: BarSeries<T>[];
+
+  footer?: ReactNode;
+}
+
+/* ================= COMPONENT ================= */
+
+export function ChartBarMulti<T extends Record<string, any>>({
+  title = "Multiple Bar Chart",
+  data,
+  config,
+  xKey,
+  series,
+  footer,
+}: ChartBarMultiProps<T>) {
   return (
-    <GlobalCard title={"multiple chart bar"}>
-      <ChartContainer config={chartConfig}>
-        <BarChart accessibilityLayer data={chartData}>
+    <GlobalCard title={title}>
+      <ChartContainer config={config}>
+        <BarChart data={data} accessibilityLayer>
           <CartesianGrid vertical={false} />
+
           <XAxis
-            dataKey="month"
+            dataKey={xKey}
             tickLine={false}
             tickMargin={10}
             axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
           />
-          <YAxis
-            tickLine={false}
-            axisLine={false}
-            width={60}
-            label={{ value: "", angle: -90, position: "insideLeft" }}
-          />
+
+          <YAxis tickLine={false} axisLine={false} width={60} />
+
           <ChartTooltip
             cursor={false}
             content={<ChartTooltipContent indicator="dashed" />}
           />
-          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-          <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+
+          {series.map((item) => (
+            <Bar
+              key={String(item.key)}
+              dataKey={item.key}
+              fill={`var(--color-${String(item.key)})`}
+              radius={item.radius ?? 4}
+            />
+          ))}
         </BarChart>
       </ChartContainer>
 
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
+      {footer && (
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          {footer}
+        </CardFooter>
+      )}
     </GlobalCard>
   );
 }

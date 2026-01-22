@@ -17,12 +17,15 @@ import {
   dummyBarChartData,
   dummyLineChart,
   dummyLineChatConfig,
+  dummyMultipleChartBar,
+  dummyMultipleChartBarConfig,
   socmedAreaChartDummyData,
 } from "@/constants/chart-data";
 import { ChartLine } from "@/components/global/charts/line-chart";
 import { TrendingUp } from "lucide-react";
-import { MultipleChartBar } from "@/components/global/charts/multiple-barchart";
+
 import { BasicBarChart } from "@/components/global/charts/basic-chartbar";
+import { ChartBarMulti } from "@/components/global/charts/multiple-barchart";
 
 const browserData = [
   { browser: "Chrome", users: 275, color: "var(--chart-1)" },
@@ -76,7 +79,22 @@ const ChartPage = () => {
             </div>
           }
         />
-        <MultipleChartBar />
+        <ChartBarMulti
+          title="multiple chart bar"
+          data={dummyMultipleChartBar}
+          config={dummyMultipleChartBarConfig}
+          xKey="month"
+          series={[{ key: "desktop" }, { key: "mobile" }]}
+          footer={
+            <>
+              <div className="flex gap-2 font-medium">
+                Trending up 5.2% <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground">Last 6 months traffic</div>
+            </>
+          }
+        />
+
         <ChartLine
           title="User Growth"
           description="Jan - Jun 2024"
