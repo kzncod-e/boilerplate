@@ -36,7 +36,7 @@ export default function NewsPagination({
   const hasPages = calculatedTotalPages > 0 && calculatedTotalItems > 0;
 
   const getPageNumbers = () => {
-    const pages = [];
+    const pages: number[] = [];
     const maxVisiblePages = 3;
 
     if (calculatedTotalPages <= maxVisiblePages) {

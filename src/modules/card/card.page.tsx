@@ -192,6 +192,7 @@ export default function CardsPage() {
             title="Lizard"
             description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
             image="https://github.com/shadcn.png"
+            footerTitle="Reptile Information"
             onClick={() => console.log("Card clicked")}
             onShare={() => console.log("Share clicked")}
           />

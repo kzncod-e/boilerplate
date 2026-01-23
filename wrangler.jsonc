@@ -43,12 +43,7 @@
 		},
 		
 	],
-	"vectorize": [
-		{
-			"binding": "VECTORIZE",
-			"index_name": "next-cf-app-index"
-		}
-	],
+
 	"ai": {
 		"binding": "AI"
 	}
