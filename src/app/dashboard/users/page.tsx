@@ -109,12 +109,18 @@ export default function UserManagementPage() {
             </Button>
           </DialogTrigger>
           <DialogContent className="p-0! border-0!">
+            <DialogHeader className="hidden!">
+              <DialogTitle>Create New User</DialogTitle>
+            </DialogHeader>
             <CreateUserForm onSuccess={handleUserCreated} />
           </DialogContent>
         </Dialog>
 
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="p-0! border-0! ">
+            <DialogHeader className="hidden!">
+              <DialogTitle>update user</DialogTitle>
+            </DialogHeader>
             {selectedUser && (
               <UpdateUserForm
                 userId={selectedUser.id}
