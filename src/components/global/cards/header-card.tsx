@@ -7,7 +7,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Type as type, LucideIcon } from "lucide-react";
-import { BaseCardWrapper } from "./baseCard-wrapper";
+import { BaseCardWrapper } from "./basecard-wrapper";
 import GlobalCard from "./global-card";
 
 interface HeaderCardProps {

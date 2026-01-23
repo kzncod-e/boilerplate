@@ -1,28 +1,32 @@
-'use client'
+"use client";
 
-
-import { Button } from '@/components/ui/button'
-import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { BaseCardWrapper } from './baseCard-wrapper'
-import GlobalCard from './global-card'
+import { Button } from "@/components/ui/button";
+import {
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { BaseCardWrapper } from "./basecard-wrapper";
+import GlobalCard from "./global-card";
 
 interface TaskItem {
-  label: string
-  value: number
+  label: string;
+  value: number;
 }
 
 interface PrimaryAction {
-  label: string
-  onClick?: () => void
+  label: string;
+  onClick?: () => void;
 }
 
 interface TaskCardProps {
-  title: string
-  description?: string
-  items: TaskItem[]
-  primaryAction?: PrimaryAction
-  lastUpdated?: string
-  className?: string
+  title: string;
+  description?: string;
+  items: TaskItem[];
+  primaryAction?: PrimaryAction;
+  lastUpdated?: string;
+  className?: string;
 }
 
 export function TaskCard({
@@ -35,21 +39,17 @@ export function TaskCard({
 }: TaskCardProps) {
   return (
     <GlobalCard title={title} description={description} className={className}>
-     
-
-      
-        {/* Items List */}
-        <div className="space-y-3">
-          {items.map((item, idx) => (
-            <div key={idx} className="flex items-center justify-between">
-              <span className="text-sm text-foreground">{item.label}</span>
-              <span className="text-sm font-semibold text-foreground">
-                {item.value}
-              </span>
-            </div>
-          ))}
-        </div>
-
+      {/* Items List */}
+      <div className="space-y-3">
+        {items.map((item, idx) => (
+          <div key={idx} className="flex items-center justify-between">
+            <span className="text-sm text-foreground">{item.label}</span>
+            <span className="text-sm font-semibold text-foreground">
+              {item.value}
+            </span>
+          </div>
+        ))}
+      </div>
 
       {(primaryAction || lastUpdated) && (
         <CardFooter className="flex items-center justify-between pt-4 border-t border-border">
@@ -64,8 +64,8 @@ export function TaskCard({
         </CardFooter>
       )}
     </GlobalCard>
-  )
+  );
 }
 
 // Export old name for backward compatibility
-export const HeaderFooterCard = TaskCard
+export const HeaderFooterCard = TaskCard;

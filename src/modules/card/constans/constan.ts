@@ -3,14 +3,9 @@ export const dummyMetrics = [
     title: "Total Users",
     description: "Compared to last month",
     numberValue: 1250,
-    percentageOfChange: 12.4,
+    percentageOfChange: 12.7,
   },
-  {
-    title: "Active Users",
-    description: "Users active in last 7 days",
-    numberValue: 980,
-    percentageOfChange: -5.2,
-  },
+ 
   {
     title: "New Signups",
     description: "Today",
