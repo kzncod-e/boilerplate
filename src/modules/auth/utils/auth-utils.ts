@@ -11,7 +11,7 @@ import { admin } from "better-auth/plugins"
 /**
  * Cached auth instance singleton so we don't create a new instance every time
  */
-let cachedAuth =null
+let cachedAuth: ReturnType<typeof betterAuth> | null = null
 
 /**
  * Create auth instance dynamically to avoid top-level async issues
