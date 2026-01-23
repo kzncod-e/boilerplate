@@ -106,7 +106,7 @@ export const ROOT_NAVBAR = [
       {
         name: "user",
         description: "Lihat data digest",
-        url: "/digest/data",
+        url: "/dashboard/users",
         icon: Users2,
       },
     ],

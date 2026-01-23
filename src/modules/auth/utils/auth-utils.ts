@@ -7,25 +7,26 @@ import { nextCookies } from "better-auth/next-js";
 import { headers } from "next/headers";
 import { getDb } from "@/db";
 import type { AuthUser } from "@/modules/auth/models/user.model";
-
+import { admin } from "better-auth/plugins"
 /**
  * Cached auth instance singleton so we don't create a new instance every time
  */
-let cachedAuth: ReturnType<typeof betterAuth> | null = null;
+let cachedAuth =null
 
 /**
  * Create auth instance dynamically to avoid top-level async issues
  */
-async function getAuth() {
-    if (cachedAuth) {
-        return cachedAuth;
-    }
 
-    const { env } = await getCloudflareContext();
-    console.log("Cloudflare Context:", env);
+
+async function getAuth() {
+ if(cachedAuth){
+    return cachedAuth
+ }
+    const { env } =  getCloudflareContext();
+    // console.log("Cloudflare Context:", env);
     const db = await getDb();
 
-    cachedAuth = betterAuth({
+cachedAuth = betterAuth({
         secret: env.BETTER_AUTH_SECRET,
         database: drizzleAdapter(db, {
             provider: "sqlite",
@@ -40,7 +41,7 @@ async function getAuth() {
                 clientSecret: env.GOOGLE_CLIENT_SECRET,
             },
         },
-        plugins: [nextCookies()],
+        plugins: [nextCookies(),admin(),],
     });
 
     return cachedAuth;

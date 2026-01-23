@@ -24,6 +24,7 @@ import PageHeader from "@/components/global/page-header";
 import BaseLayout from "@/components/global/base-layout";
 import { SocmedAreaChart } from "@/components/global/charts/socmed-area-chart";
 import { socmedAreaChartDummyData } from "@/constants/chart-data";
+import SocmedTable from "./components/table-card";
 
 export default function Dashboard() {
   return (
@@ -43,7 +44,7 @@ export default function Dashboard() {
         <GlobalCard title="Sentiment Analysis">
           <SentimentAnalysisSection />
         </GlobalCard>
-        <MentionsPercategory data={dummySocmedMentionData} />
+        <SocmedTable data={dummySocmedMentionData} />
         <GlobalCard title="example of area charts">
           <LineChart data={chartData} config={chartConfig} />
         </GlobalCard>
