@@ -1,33 +1,19 @@
 "use client";
-import { CheckSquare, List, Plus } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 import SentimentAnalysisSection from "../charts/components/sentiment-analysis";
-import { stats } from "@/constants/card-data";
-
 import MentionsPercategory from "./components/table-card";
-import { dummySocmedMentionData } from "@/constants/dashboard";
+import { dummySocmedMentionData } from "@/mock/dashboard-data";
 import { LineChart } from "../charts/components/line-charts";
 import MetricItem from "../../components/global/cards/statistic-card";
 import { dummyMetrics } from "../card/constans/constan";
 import { chartConfig, chartData } from "../charts/constant/constant";
 import GlobalCard from "@/components/global/cards/global-card";
 import PageHeader from "@/components/global/page-header";
-import BaseLayout from "@/components/global/base-layout";
 import { SocmedAreaChart } from "@/components/global/charts/socmed-area-chart";
-import { socmedAreaChartDummyData } from "@/constants/chart-data";
+import { socmedAreaChartDummyData } from "@/mock/chart-data";
 
 export default function Dashboard() {
   return (
-    <BaseLayout>
+    <>
       <PageHeader
         title="Optimasi template"
         description="optimasi official template"
@@ -52,6 +38,6 @@ export default function Dashboard() {
           title="socmed area chart"
         />
       </div>
-    </BaseLayout>
+    </>
   );
 }

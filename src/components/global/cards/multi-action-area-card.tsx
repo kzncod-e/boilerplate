@@ -6,10 +6,10 @@ import Image from "next/image";
 import GlobalCard from "./global-card";
 
 export interface MultiActionAreaCardProps {
-  title: string;
-  description: string;
-  image: string;
-  footerTitle: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  footerTitle?: string;
   imageAlt?: string;
   onClick?: () => void;
   onShare?: () => void;
@@ -23,6 +23,7 @@ export function MultiActionAreaCard({
   imageAlt,
   onClick,
   onShare,
+  footerTitle,
   className,
 }: MultiActionAreaCardProps) {
   return (
@@ -35,13 +36,13 @@ export function MultiActionAreaCard({
         <Image
           width={200}
           height={200}
-          src={image}
-          alt={imageAlt ?? title}
+          src={image || ""}
+          alt={imageAlt || title || ""}
           className="h-[140px] w-full object-cover"
         />
 
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <h3 className="text-lg font-semibold">{title || ""}</h3>
+        <p className="text-sm text-muted-foreground">{description || ""}</p>
       </button>
 
       {/* CardActions */}
@@ -53,7 +54,9 @@ export function MultiActionAreaCard({
             e.stopPropagation();
             onShare?.();
           }}
-        ></Button>
+        >
+          {footerTitle || "Share"}
+        </Button>
       </CardFooter>
     </GlobalCard>
   );

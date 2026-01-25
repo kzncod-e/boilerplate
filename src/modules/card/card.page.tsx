@@ -7,15 +7,14 @@ import { Users, TrendingUp, Activity, Clock } from "lucide-react";
 import { dummyMetrics } from "./constans/constan";
 import MetricItem from "../../components/global/cards/statistic-card";
 import SocmedAccounts from "@/components/global/cards/sosmed-card";
-import { socmedAccountsDummy } from "@/constants/sosmed-data";
+import { socmedAccountsDummy } from "@/mock/socmeds-data";
 import { ScrollableCard } from "@/components/global/cards/scrollable-card";
 import PageHeader from "@/components/global/page-header";
-import BaseLayout from "@/components/global/base-layout";
-import { MultiActionAreaCard } from "@/components/global/cards/multiaction-card";
+import { MultiActionAreaCard } from "@/components/global/cards/multi-action-area-card";
 
 export default function CardsPage() {
   return (
-    <BaseLayout>
+    <>
       <PageHeader
         title="Cards page"
         description="reusable card components with dynamic props"
@@ -192,11 +191,12 @@ export default function CardsPage() {
             title="Lizard"
             description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
             image="https://github.com/shadcn.png"
+            footerTitle="Share this lizard"
             onClick={() => console.log("Card clicked")}
             onShare={() => console.log("Share clicked")}
           />
         </div>
       </div>
-    </BaseLayout>
+    </>
   );
 }

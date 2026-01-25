@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ROOT_NAVBAR } from "@/constants/dashboard";
+import { ROOT_NAVBAR } from "@/constants/routes";
 
 
 export function DynamicBreadcrumb() {
@@ -27,15 +27,6 @@ export function DynamicBreadcrumb() {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {/* {segments.length > 0 && (
-          <>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-          </>
-        )} */}
-
         {currentRoute && (
           <>
             <BreadcrumbItem className="">

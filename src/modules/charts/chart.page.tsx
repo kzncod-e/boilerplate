@@ -1,7 +1,5 @@
 "use client";
-import BaseLayout from "@/components/global/base-layout";
 import PageHeader from "@/components/global/page-header";
-import React from "react";
 import GlobalCard from "../dashboard/components/global-card";
 import SentimentAnalysisSection from "./components/sentiment-analysis";
 import { LineChart } from "./components/line-charts";
@@ -9,7 +7,6 @@ import { SocmedAreaChart } from "@/components/global/charts/socmed-area-chart";
 import { chartConfig, chartData } from "./constant/constant";
 
 import { ChartPie } from "@/components/global/charts/pie-chart";
-import { Dot } from "recharts";
 import DotChart from "@/components/global/charts/dot-chart";
 
 import {
@@ -20,7 +17,7 @@ import {
   dummyMultipleChartBar,
   dummyMultipleChartBarConfig,
   socmedAreaChartDummyData,
-} from "@/constants/chart-data";
+} from "@/mock/chart-data";
 import { ChartLine } from "@/components/global/charts/line-chart";
 import { TrendingUp } from "lucide-react";
 
@@ -34,7 +31,7 @@ const browserData = [
 ];
 const ChartPage = () => {
   return (
-    <BaseLayout>
+    <>
       <PageHeader
         title="Chart page"
         description="reusable chart components with dynamic props"
@@ -110,7 +107,7 @@ const ChartPage = () => {
           }
         />
       </div>
-    </BaseLayout>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { NavProjects } from "@/modules/dashboard/components/nav-projects";
-import { ROOT_NAVBAR } from "@/constants/dashboard";
+import { ROOT_NAVBAR } from "@/constants/routes";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/modules/auth/utils/auth-utils";
 import { AuthUser } from "@/modules/auth/models/user.model";
@@ -55,10 +55,10 @@ export function AppSidebar() {
 
           <div className="grid flex-1 text-left text-sm leading-tight text-primary dark:text-white">
             <span className="truncate text-[1.1rem] font-semibold">
-              Optimasi
+              Optimasi.ai
             </span>
-            <span className="truncate text-xs text-[1.1rem] opacity-90">
-              Dashboard
+            <span className="truncate text-xs opacity-90">
+              Starter Dashboard Boilerplate
             </span>
           </div>
         </Link>
