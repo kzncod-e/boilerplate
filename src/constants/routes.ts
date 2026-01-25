@@ -1,0 +1,161 @@
+import {
+  BarChart3,
+  User,
+  FileText,
+  FormInput,
+  IdCard,
+  ChartColumnDecreasing,
+  Users2,
+  Link,
+  Bell,
+  MapPin,
+  Cloudy,
+  Table,
+  LayoutDashboard,
+  File,
+  UserLockIcon,
+  History,
+} from "lucide-react";
+
+export const ROOT_NAVBAR = [
+  {
+    name: "Dashboard",
+    description: "Example Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    name: "Elements",
+    description: "Example reusable elements",
+    url: "/elements",
+    icon: BarChart3,
+    items: [
+      {
+        name: "Card",
+        description: "Description here...",
+        url: "/elements/card",
+        icon: IdCard,
+      },
+      {
+        name: "Tables",
+        description: "Description here...",
+        url: "/elements/tables",
+        icon: Table,
+      },
+      {
+        name: "Forms",
+        description: "Description here...",
+        url: "/elements/forms",
+        icon: FormInput,
+      },
+      {
+        name: "Charts",
+        description: "Description here...",
+        url: "/elements/charts",
+        icon: ChartColumnDecreasing,
+      },
+      {
+        name: "Modal & Alerts",
+        description: "Description here...",
+        url: "/elements/modal-alerts",
+        icon: Bell,
+      },
+    ],
+  },
+  {
+    name: "Example Pages",
+    description: "Example pages",
+    url: "/example-pages",
+    icon: FileText,
+    items: [
+      {
+        name: "Starter Blank Page",
+        description: "Description here...",
+        url: "/example-pages/starter-page",
+        icon: File,
+      },
+      {
+        name: "404 Not Found",
+        description: "Description here...",
+        url: "/example-pages/404",
+        icon: File,
+      },
+      {
+        name: "500 Server Error",
+        description: "Description here...",
+        url: "/example-pages/500",
+        icon: File,
+      },
+      {
+        name: "503 Service Unavailable",
+        description: "Description here...",
+        url: "/example-pages/503",
+        icon: File,
+      },
+      {
+        name: "Under Maintenance",
+        description: "Description here...",
+        url: "/example-pages/under-maintenance",
+        icon: File,
+      },
+    ],
+  },
+  {
+    name: "Widgets",
+    description: "Example widgets",
+    url: "/widget",
+    icon: FileText,
+    items: [
+      {
+        name: "Google Maps",
+        description: "Description here...",
+        url: "/widget/gmaps",
+        icon: MapPin,
+      },
+      {
+        name: "Wordcloud",
+        description: "Description here...",
+        url: "/widget/wordcloud",
+        icon: Cloudy,
+      },
+      {
+        name: "Novu Notification",
+        description: "Description here...",
+        url: "/widget/novu",
+        icon: Bell,
+      },
+      {
+        name: "SNA",
+        description: "Description here...",
+        url: "/widget/sna",
+        icon: Link,
+      },
+    ],
+  },
+  {
+    name: "Authorization",
+    description: "Example authorization",
+    url: "/authorization",
+    icon: FileText,
+    items: [
+      {
+        name: "Role & Permission",
+        description: "Description here...",
+        url: "/authorization/role-permission",
+        icon: UserLockIcon,
+      },
+      {
+        name: "User Management",
+        description: "Description here...",
+        url: "/user-management",
+        icon: Users2,
+      },
+      {
+        name: "Log Activity",
+        description: "Description here...",
+        url: "/log-activity",
+        icon: History,
+      },
+    ],
+  },
+];

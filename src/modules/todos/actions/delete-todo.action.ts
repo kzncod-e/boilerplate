@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
 import { requireAuth } from "@/modules/auth/utils/auth-utils";
 import { todos } from "@/modules/todos/schemas/todo.schema";
-import todosRoutes from "../todos.route";
+import todosRoutes from "../routes/todos.route";
 
 export async function deleteTodoAction(todoId: number) {
     try {

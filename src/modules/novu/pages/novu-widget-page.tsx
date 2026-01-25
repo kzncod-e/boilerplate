@@ -1,6 +1,6 @@
 "use client";
 
-import type { getNovuPublicConfig } from "@/modules/novu/novu.server";
+import type { getNovuPublicConfig } from "@/modules/novu/server/novu.server";
 import {
   Card,
   CardContent,
@@ -14,7 +14,6 @@ import { NovuInbox } from "@/modules/novu/components/novu-inbox";
 import { PushInitializer } from "@/modules/novu/components/push-initializer";
 import { HeadlessInboxWidget } from "@/modules/novu/components/headless-inbox-widget";
 import { HeadlessNotificationsCenter } from "@/modules/novu/components/headless-notifications-center";
-import BaseLayout from "@/components/global/base-layout";
 import PageHeader from "@/components/global/page-header";
 
 type NovuWidgetPageProps = {
@@ -24,7 +23,7 @@ type NovuWidgetPageProps = {
 
 export function NovuWidgetPage({ config, subscriberId }: NovuWidgetPageProps) {
   return (
-    <BaseLayout>
+    <>
       <PushInitializer vapidKey={config.fcmVapidKey} />
 
       <div className="space-y-2">
@@ -103,6 +102,6 @@ export function NovuWidgetPage({ config, subscriberId }: NovuWidgetPageProps) {
           />
         </TabsContent>
       </Tabs>
-    </BaseLayout>
+    </>
   );
 }

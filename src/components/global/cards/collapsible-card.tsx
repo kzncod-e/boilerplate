@@ -1,13 +1,9 @@
 "use client";
 
 import React from "react";
-
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
-import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ChevronDown } from "lucide-react";
-import { BaseCardWrapper } from "./basecard-wrapper";
 import GlobalCard from "./global-card";
 
 interface CollapsibleCardProps {

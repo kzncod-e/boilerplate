@@ -1,4 +1,4 @@
-import AuthLayout from "@/modules/auth/auth.layout";
+import AuthLayout from "@/modules/auth/pages/auth.layout";
 
 export const dynamic = "force-dynamic";
 

@@ -8,7 +8,7 @@ import {
     categories,
     insertCategorySchema,
 } from "@/modules/todos/schemas/category.schema";
-import todosRoutes from "../todos.route";
+import todosRoutes from "../routes/todos.route";
 
 export async function createCategory(data: unknown): Promise<Category> {
     try {

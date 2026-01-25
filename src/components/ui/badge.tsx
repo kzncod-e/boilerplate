@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { badgeVariants, BadgeVariants } from "@/modules/card/utils/utils";
+import { badgeVariants, BadgeVariants } from "@/modules/elements/card/utils/utils";
 
 
 export type BadgeProps = React.HTMLAttributes<HTMLDivElement> & {

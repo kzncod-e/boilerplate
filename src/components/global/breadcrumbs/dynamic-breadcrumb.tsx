@@ -1,0 +1,60 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { ROOT_NAVBAR } from "@/constants/routes";
+
+
+export function DynamicBreadcrumb() {
+  const pathname = usePathname();
+
+  // Remove leading slash and split path into segments
+  const segments = pathname.split("/").filter(Boolean);
+
+  // Find the matching route from ROOT_NAVBAR
+  const currentRoute = ROOT_NAVBAR.find(
+    (route) => route.url === `/${segments[0]}`
+  );
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList className="text-xs font-medium">
+        {currentRoute && (
+          <>
+            <BreadcrumbItem className="">
+              <BreadcrumbLink href={currentRoute.url}>
+                {currentRoute.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            {segments.length > 1 && <BreadcrumbSeparator className="" />}
+          </>
+        )}
+
+        {segments.length > 1 && (
+          <BreadcrumbItem>
+            <BreadcrumbPage className="text-xs font-medium">
+              {segments[segments.length - 1]
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        )}
+
+        {segments.length === 0 && (
+          <BreadcrumbItem>
+            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+          </BreadcrumbItem>
+        )}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}

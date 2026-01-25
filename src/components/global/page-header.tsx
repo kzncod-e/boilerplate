@@ -50,17 +50,17 @@ const PageHeader = ({
 
   return (
     <>
-      <div className="border-b py-4 pb-3 mb-3 flex flex-col sm:flex-row justify-between gap-4">
-        <div className="flex flex-col gap-2">
+      <div className="border-b pb-4 mb-3 flex flex-col sm:flex-row justify-between gap-4">
+        <div className="flex flex-col gap-1">
           <div className="flex flex-row justify-between w-full">
-            <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2 text-primary">
+            <h1 className="text-2xl sm:text-3xl font-extrabold flex items-center gap-2 text-primary">
               {icon}
               {title}
               {badge}
             </h1>
           </div>
           {description && (
-            <p className="text-base sm:text-lg text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {description}
             </p>
           )}

@@ -1,7 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/modules/auth/utils/auth-utils";
-import { getNovuSubscriberId } from "@/modules/novu/novu.server";
+import { getNovuSubscriberId } from "@/modules/novu/server/novu.server";
 
 export async function POST(request: Request) {
   const user = await requireAuth();
