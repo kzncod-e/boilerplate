@@ -22,7 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { NavProjects } from "@/components/nav-projects";
+import { NavItems } from "@/components/nav-items";
 import { ROOT_NAVBAR } from "@/constants/routes";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/modules/auth/utils/auth-utils";
@@ -60,7 +60,7 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={ROOT_NAVBAR} isLoading={false} />
+        <NavItems items={ROOT_NAVBAR} isLoading={false} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

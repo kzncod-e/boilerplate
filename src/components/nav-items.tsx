@@ -118,11 +118,11 @@ function NavItemComponent({
   );
 }
 
-export function NavProjects({
-  projects,
+export function NavItems({
+  items,
   isLoading,
 }: {
-  projects: any[];
+  items: any[];
   isLoading: boolean;
 }) {
   const { open, setOpenMobile } = useSidebar();
@@ -157,7 +157,7 @@ export function NavProjects({
     <SidebarGroup className="px-0">
       <SidebarGroupLabel className="text-sm font-bold text-primary">Menu</SidebarGroupLabel>
       <SidebarMenu className="gap-2">
-        {projects.map((item) => (
+        {items.map((item) => (
           <NavItemComponent
             renderIcon={false}
             key={item.name}
