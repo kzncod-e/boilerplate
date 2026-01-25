@@ -1,6 +1,6 @@
 "use client";
 
-import { type LucideIcon, ChevronDown } from "lucide-react";
+import { type LucideIcon, ChevronDown, List, User } from "lucide-react";
 import { useState } from "react";
 import {
   SidebarGroup,
@@ -48,6 +48,9 @@ function NavItemComponent({
     () => hasItems && Boolean(pathname?.startsWith(item.url))
   );
 
+  const shouldShowIcon = Boolean(item.icon) && (item.items?.length || renderIcon);
+
+
   if (hasItems) {
     return (
       <>
@@ -65,8 +68,8 @@ function NavItemComponent({
               (isExpanded || isActive) && "text-primary bg-transparent"
             )}
           >
-            {renderIcon && (
-              <item.icon stroke={1} className="!size-4.5 stroke-1!" />
+            {shouldShowIcon && (
+              <item.icon className="!size-4.5 stroke-1.5" />
             )}
             {renderName && (
               <span className="flex-1 text-start text-sm">{item.name}</span>
@@ -83,7 +86,7 @@ function NavItemComponent({
           <div className="ml-6 border-l pl-1 space-y-1">
             {item.items.map((subItem: any) => (
               <NavItemComponent
-                // renderIcon={false}
+                renderIcon={open}
                 renderName={open}
                 key={subItem.name}
                 item={subItem}
@@ -120,9 +123,11 @@ function NavItemComponent({
 
 export function NavItems({
   items,
+  showIconParentMenu,
   isLoading,
 }: {
   items: any[];
+  showIconParentMenu: boolean;
   isLoading: boolean;
 }) {
   const { open, setOpenMobile } = useSidebar();
@@ -155,11 +160,11 @@ export function NavItems({
 
   return (
     <SidebarGroup className="px-0">
-      <SidebarGroupLabel className="text-sm font-bold text-primary">Menu</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-xs text-slate-300">Menu</SidebarGroupLabel>
       <SidebarMenu className="gap-2">
         {items.map((item) => (
           <NavItemComponent
-            renderIcon={false}
+            renderIcon={showIconParentMenu}
             key={item.name}
             item={item}
             open={open}

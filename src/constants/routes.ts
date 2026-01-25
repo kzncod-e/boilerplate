@@ -1,6 +1,5 @@
 import {
   BarChart3,
-  User,
   FileText,
   FormInput,
   IdCard,
@@ -15,6 +14,8 @@ import {
   File,
   UserLockIcon,
   History,
+  ShieldUser,
+  Puzzle,
 } from "lucide-react";
 
 export const ROOT_NAVBAR = [
@@ -104,7 +105,7 @@ export const ROOT_NAVBAR = [
     name: "Widgets",
     description: "Example widgets",
     url: "/widget",
-    icon: FileText,
+    icon: Puzzle,
     items: [
       {
         name: "Google Maps",
@@ -136,7 +137,7 @@ export const ROOT_NAVBAR = [
     name: "Authorization",
     description: "Example authorization",
     url: "/authorization",
-    icon: FileText,
+    icon: ShieldUser,
     items: [
       {
         name: "Role & Permission",

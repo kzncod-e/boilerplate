@@ -60,7 +60,7 @@ export function AppSidebar() {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <NavItems items={ROOT_NAVBAR} isLoading={false} />
+        <NavItems showIconParentMenu={true} items={ROOT_NAVBAR} isLoading={false} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

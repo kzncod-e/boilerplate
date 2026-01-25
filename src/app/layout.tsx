@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/global.css";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/theme-provider";
+import { log } from "console";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +19,15 @@ export const metadata: Metadata = {
   title: "Boilerplate Next.js Cloudflare App",
   description:
     "Full-stack Next.js application with Cloudflare Workers, D1 db, R2 storage, and Drizzle ORM.",
+  icons: {
+    icon: [
+      { url: '/logo.png', sizes: '16x16' },
+      { url: '/logo.png', sizes: '32x32' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export const dynamic = "force-dynamic";
