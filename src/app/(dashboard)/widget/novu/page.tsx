@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import authRoutes from "@/modules/auth/auth.route";
+import authRoutes from "@/modules/auth/routes/auth.route";
 import { getCurrentUser, getSession } from "@/modules/auth/utils/auth-utils";
 import {
   ensureNovuSubscriber,
   getNovuPublicConfig,
   getNovuSubscriberId,
-} from "@/modules/novu/novu.server";
+} from "@/modules/novu/server/novu.server";
 import { NovuWidgetPage } from "@/modules/novu/pages/novu-widget-page";
 
 export default async function Page() {

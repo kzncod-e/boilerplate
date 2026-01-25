@@ -65,37 +65,37 @@ export const ROOT_NAVBAR = [
   {
     name: "Example Pages",
     description: "Example pages",
-    url: "/widget",
+    url: "/example-pages",
     icon: FileText,
     items: [
       {
         name: "Starter Blank Page",
         description: "Description here...",
-        url: "/example-page/starter-page",
+        url: "/example-pages/starter-page",
         icon: File,
       },
       {
         name: "404 Not Found",
         description: "Description here...",
-        url: "/example-page/404",
+        url: "/example-pages/404",
         icon: File,
       },
       {
         name: "500 Server Error",
         description: "Description here...",
-        url: "/example-page/500",
+        url: "/example-pages/500",
         icon: File,
       },
       {
         name: "503 Service Unavailable",
         description: "Description here...",
-        url: "/example-page/503",
+        url: "/example-pages/503",
         icon: File,
       },
       {
         name: "Under Maintenance",
         description: "Description here...",
-        url: "/example-page/under-maintenance",
+        url: "/example-pages/under-maintenance",
         icon: File,
       },
     ],

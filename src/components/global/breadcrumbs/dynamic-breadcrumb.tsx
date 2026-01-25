@@ -26,7 +26,7 @@ export function DynamicBreadcrumb() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="text-xs font-medium">
         {currentRoute && (
           <>
             <BreadcrumbItem className="">
@@ -40,7 +40,7 @@ export function DynamicBreadcrumb() {
 
         {segments.length > 1 && (
           <BreadcrumbItem>
-            <BreadcrumbPage>
+            <BreadcrumbPage className="text-xs font-medium">
               {segments[segments.length - 1]
                 .split("-")
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

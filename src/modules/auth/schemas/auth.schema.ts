@@ -1,13 +1,19 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+// import { boolean } from "drizzle-orm/pg-core";
+import { integer, sqliteTable, text ,} from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
     id: text("id").primaryKey(),
     name: text("name").notNull(),
+ role: text("role").notNull().default("user"),
     email: text("email").notNull().unique(),
     emailVerified: integer("email_verified", { mode: "boolean" })
         .default(false)
         .notNull(),
     image: text("image"),
+     banned: integer("banned", { mode: "boolean" }) // <-- pakai mode boolean
+    .default(false)
+    .notNull(),
+
     createdAt: integer("created_at", { mode: "timestamp" })
         .defaultNow()
         .notNull(),

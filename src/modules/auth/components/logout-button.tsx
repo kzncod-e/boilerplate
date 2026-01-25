@@ -4,7 +4,7 @@ import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/modules/auth/actions/auth.action";
-import authRoutes from "../auth.route";
+import authRoutes from "../routes/auth.route";
 import { clearStoredFcmToken } from "@/modules/novu/components/push-initializer";
 
 export default function LogoutButton() {
@@ -29,8 +29,8 @@ export default function LogoutButton() {
     };
 
     return (
-        <Button variant="ghost" onClick={handleLogout}>
-            Log Out <LogOut className="" />
+        <Button variant="ghost" className="text-red-400" onClick={handleLogout}>
+            <LogOut className="text-red-400" /> Log Out
         </Button>
     );
 }

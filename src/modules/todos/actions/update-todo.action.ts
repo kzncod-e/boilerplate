@@ -11,7 +11,7 @@ import {
     TodoStatus,
 } from "@/modules/todos/models/todo.enum";
 import { todos, updateTodoSchema } from "@/modules/todos/schemas/todo.schema";
-import todosRoutes from "../todos.route";
+import todosRoutes from "../routes/todos.route";
 
 export async function updateTodoAction(todoId: number, formData: FormData) {
     try {

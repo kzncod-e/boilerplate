@@ -7,7 +7,7 @@ import { type UploadResult, uploadToR2 } from "@/lib/r2";
 import { requireAuth } from "@/modules/auth/utils/auth-utils";
 import { TodoPriority, TodoStatus } from "@/modules/todos/models/todo.enum";
 import { insertTodoSchema, todos } from "@/modules/todos/schemas/todo.schema";
-import todosRoutes from "../todos.route";
+import todosRoutes from "../routes/todos.route";
 
 export async function createTodoAction(formData: FormData) {
     try {

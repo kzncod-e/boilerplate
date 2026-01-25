@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { badgeColorByValue } from "../../../modules/card/utils/utils";
+import { badgeColorByValue } from "../../../modules/elements/card/utils/utils";
 import Badge from "@/components/ui/badge";
 
 

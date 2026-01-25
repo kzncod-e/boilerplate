@@ -1,4 +1,4 @@
-import EditTodoPage from "@/modules/todos/edit-todo.page";
+import EditTodoPage from "@/modules/todos/pages/edit-todo.page";
 
 interface PageProps {
     params: Promise<{ id: string }>;

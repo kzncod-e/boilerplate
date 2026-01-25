@@ -2,19 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -30,9 +22,8 @@ import {
   signInSchema,
 } from "@/modules/auth/models/auth.model";
 import { authClient } from "@/modules/auth/utils/auth-client";
-import dashboardRoutes from "@/modules/dashboard/dashboard.route";
+import dashboardRoutes from "@/modules/dashboard/routes/dashboard.route";
 import { signIn } from "../actions/auth.action";
-import authRoutes from "../auth.route";
 
 export function LoginForm({
   className,

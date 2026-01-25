@@ -1,4 +1,4 @@
-import CardsPage from "@/modules/card/card.page";
+import CardsPage from "@/modules/elements/card/card.page";
 
 export default function Page() {
   return <CardsPage />;

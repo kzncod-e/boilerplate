@@ -1,6 +1,6 @@
 "use client";
 
-import type { getNovuPublicConfig } from "@/modules/novu/novu.server";
+import type { getNovuPublicConfig } from "@/modules/novu/server/novu.server";
 import {
   Card,
   CardContent,

@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import GlobalCard from "./global-card";
 import { SocmedAccountType } from "@/interfaces/sosmed";
-import { convertNumber } from "@/modules/card/utils/utils";
+import { convertNumber } from "@/modules/elements/card/utils/utils";
 import { PLATFORM_HEX_COLOR } from "@/interfaces/platform";
 
 type Props = {

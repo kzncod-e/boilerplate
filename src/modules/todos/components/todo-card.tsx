@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { TodoPriority, TodoStatus } from "@/modules/todos/models/todo.enum";
-import todosRoutes from "../todos.route";
+import todosRoutes from "../routes/todos.route";
 import { DeleteTodo } from "./delete-todo";
 import { ToggleComplete } from "./toggle-complete";
 import Badge from "@/components/ui/badge";

@@ -20,10 +20,7 @@ import {
 import { SocmedMentionDataType } from "@/interfaces";
 import GlobalCard from "@/components/global/cards/global-card";
 
-
- 
-
-const MentionsPercategory = ({
+const SocmedTable = ({
   className,
   data,
 }: {
@@ -107,4 +104,4 @@ const MentionsPercategory = ({
   );
 };
 
-export default MentionsPercategory;
+export default SocmedTable;

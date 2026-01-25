@@ -1,4 +1,4 @@
-import TablesPage from "@/modules/tables/tables.page";
+import TablesPage from "@/modules/elements/tables/tables.page";
 import React from "react";
 
 const page = () => {
