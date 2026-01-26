@@ -538,7 +538,7 @@ pnpm run dev:remote
 ### **Development Order**
 
 **First-time setup:**
-1. `pnpm run cf-typegen` - Generate types
+1. `  ` - Generate types
 2. `pnpm run db:migrate:local` - Setup database
 3. `pnpm run build:cf` - Build application
 
