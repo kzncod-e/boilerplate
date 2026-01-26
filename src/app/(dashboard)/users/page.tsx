@@ -25,7 +25,6 @@ import { getUsers, deleteUser } from "@/modules/auth/actions/auth.action";
 import { user as userTable } from "@/modules/auth/schemas/auth.schema";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
-import BaseLayout from "@/components/global/base-layout";
 import PageHeader from "@/components/global/page-header";
 
 type User = typeof userTable.$inferSelect;
@@ -95,7 +94,7 @@ export default function UserManagementPage() {
   };
 
   return (
-    <BaseLayout>
+    <>
       <div className="flex justify-between items-center">
         <PageHeader
           title="users page"
@@ -232,6 +231,6 @@ export default function UserManagementPage() {
           />
         </CardContent>
       </Card>
-    </BaseLayout>
+    </>
   );
 }
