@@ -1,1 +1,1 @@
-This folder contains the built output assets for the worker "next-cf-app" generated at 2026-01-26T06:46:12.078Z.
+This folder contains the built output assets for the worker "next-cf-app" generated at 2026-01-26T07:05:55.137Z.
