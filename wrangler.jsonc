@@ -42,13 +42,13 @@
 			"binding": "next_boilerplate_bucket"
 		},
 	],
-	"vectorize": [
+	// "vectorize": [
 		
-		{
-			"binding": "VECTORIZE",
-			"index_name": "next-cf-app-index"
-		},
-	],
+	// 	{
+	// 		"binding": "VECTORIZE",
+	// 		"index_name": "next-cf-app-index"
+	// 	},
+	// ],
 	"ai": {
 		"binding": "AI"
 	}
