@@ -41,7 +41,7 @@ function paginate<T>(data: T[], page: number, size: number) {
   };
 }
 
-export default function UserManagementPage() {
+export default function UsersManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -97,41 +97,45 @@ export default function UserManagementPage() {
     <>
       <div className="flex justify-between items-center">
         <PageHeader
-          title="users page"
-          description="manage all users on the system"
-        />
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Create User
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="p-0! border-0!">
-            <DialogHeader className="hidden!">
-              <DialogTitle>Create New User</DialogTitle>
-            </DialogHeader>
-            <CreateUserForm onSuccess={handleUserCreated} />
-          </DialogContent>
-        </Dialog>
+          title="Users Management"
+          description="Manage all users on the system"
+          rightSectionCustomNode={
+            <>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create New User
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="p-0! border-0!">
+                  <DialogHeader className="hidden!">
+                    <DialogTitle>Create New User</DialogTitle>
+                  </DialogHeader>
+                  <CreateUserForm onSuccess={handleUserCreated} />
+                </DialogContent>
+              </Dialog>
 
-        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="p-0! border-0! ">
-            <DialogHeader className="hidden!">
-              <DialogTitle>update user</DialogTitle>
-            </DialogHeader>
-            {selectedUser && (
-              <UpdateUserForm
-                userId={selectedUser.id}
-                initialData={{
-                  name: selectedUser.name,
-                  email: selectedUser.email,
-                }}
-                onSuccess={handleUserUpdated}
-              />
-            )}
-          </DialogContent>
-        </Dialog>
+              <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <DialogContent className="p-0! border-0! ">
+                  <DialogHeader className="hidden!">
+                    <DialogTitle>Update User</DialogTitle>
+                  </DialogHeader>
+                  {selectedUser && (
+                    <UpdateUserForm
+                      userId={selectedUser.id}
+                      initialData={{
+                        name: selectedUser.name,
+                        email: selectedUser.email,
+                      }}
+                      onSuccess={handleUserUpdated}
+                    />
+                  )}
+                </DialogContent>
+              </Dialog>
+            </>
+          }
+        />
       </div>
 
       <Card className="border-0 shadow-xl shadow-black/5 h-auto">
