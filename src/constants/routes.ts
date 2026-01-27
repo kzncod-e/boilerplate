@@ -58,7 +58,7 @@ export const ROOT_NAVBAR = [
       {
         name: "Modal & Alerts",
         description: "Description here...",
-        url: "/elements/modal-alerts",
+        url: "/elements/modals",
         icon: Bell,
       },
     ],
