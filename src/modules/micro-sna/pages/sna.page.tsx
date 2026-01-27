@@ -71,8 +71,9 @@ export default function MicroSNA() {
   return (
     <>
       <PageHeader
-        title="Sna page"
-        description="reusable card components with dynamic props"
+        title="SNA (Social Network Analysis) "
+        description="Visual network of key actors and connections.
+"
       />
       <div
         id="container"
