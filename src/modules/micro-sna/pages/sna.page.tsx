@@ -71,6 +71,6 @@ export default function MicroSNA() {
     <div
       id="container"
       style={{ width: "70%", margin: "auto", zIndex: "1000", height: "90vh" }}
-    />
+    ></div>
   );
 }
