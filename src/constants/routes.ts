@@ -16,6 +16,7 @@ import {
   History,
   ShieldUser,
   Puzzle,
+  Touchpad,
 } from "lucide-react";
 
 export const ROOT_NAVBAR = [
@@ -48,6 +49,12 @@ export const ROOT_NAVBAR = [
         description: "Description here...",
         url: "/elements/forms",
         icon: FormInput,
+      },
+      {
+        name: "Buttons",
+        description: "Description here...",
+        url: "/elements/buttons",
+        icon: Touchpad,
       },
       {
         name: "Charts",
