@@ -1,9 +1,5 @@
-import React from 'react'
+import FormPage from "@/modules/elements/forms/form.page";
 
-const page = () => {
-  return (
-    <div>page</div>
-  )
+export default function FormsRoute() {
+  return <FormPage />;
 }
-
-export default page
