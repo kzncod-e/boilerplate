@@ -1,5 +1,6 @@
 "use client";
 
+import PageHeader from "@/components/global/page-header";
 import { useEffect } from "react";
 
 export default function MicroSNA() {
@@ -68,9 +69,20 @@ export default function MicroSNA() {
   }, []);
 
   return (
-    <div
-      id="container"
-      style={{ width: "70%", margin: "auto", zIndex: "1000", height: "90vh" }}
-    ></div>
+    <>
+      <PageHeader
+        title="Sna page"
+        description="reusable card components with dynamic props"
+      />
+      <div
+        id="container"
+        style={{
+          width: "100%",
+          margin: "auto",
+          zIndex: "1000",
+          height: "90vh",
+        }}
+      ></div>
+    </>
   );
 }

@@ -57,9 +57,7 @@ const PageHeader = ({
             </h1>
           </div>
           {description && (
-            <p className="text-sm text-muted-foreground mb-2">
-              {description}
-            </p>
+            <p className="text-sm text-muted-foreground mb-2">{description}</p>
           )}
 
           {leftSectionCustomNode}
@@ -67,7 +65,6 @@ const PageHeader = ({
 
         {rightSectionCustomNode}
       </div>
-
     </>
   );
 };
