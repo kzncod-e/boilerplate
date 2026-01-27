@@ -16,6 +16,7 @@ import {
   History,
   ShieldUser,
   Puzzle,
+  Touchpad,
 } from "lucide-react";
 
 export const ROOT_NAVBAR = [
@@ -50,6 +51,12 @@ export const ROOT_NAVBAR = [
         icon: FormInput,
       },
       {
+        name: "Buttons",
+        description: "Description here...",
+        url: "/elements/buttons",
+        icon: Touchpad,
+      },
+      {
         name: "Charts",
         description: "Description here...",
         url: "/elements/charts",
@@ -58,7 +65,7 @@ export const ROOT_NAVBAR = [
       {
         name: "Modal & Alerts",
         description: "Description here...",
-        url: "/elements/modal-alerts",
+        url: "/elements/modals",
         icon: Bell,
       },
     ],
