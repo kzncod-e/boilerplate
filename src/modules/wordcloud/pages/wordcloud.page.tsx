@@ -11,9 +11,6 @@ import {
   WordCloudProps,
 } from "@isoterik/react-word-cloud";
 
-/* ===============================
-   🎨 Gradient Definition
-================================ */
 const gradients: Gradient[] = [
   {
     id: "blue",
@@ -48,23 +45,33 @@ const renderAnimatedWord: WordCloudProps["renderWord"] = (data, ref) => (
   />
 );
 
-const renderTooltip: WordCloudProps["renderTooltip"] = (data) => {
+import { useTooltip, TooltipRendererData } from "@isoterik/react-word-cloud";
+// custom tooltip
+const MyTooltip = ({ data }: { data: TooltipRendererData }) => {
+  const { refs, floatingStyles } = useTooltip({
+    data,
+    placement: "top",
+    transform: false,
+  });
+
   if (!data.word) return null;
 
   return (
     <div
+      ref={refs.setFloating}
       style={{
-        background: "rgba(15,15,15,0.9)",
+        ...floatingStyles,
+        background: "#111",
         color: "#fff",
-        padding: "10px 14px",
-        borderRadius: 8,
+        padding: "8px 12px",
+        borderRadius: 6,
         fontSize: 12,
         pointerEvents: "none",
-        boxShadow: "0 8px 20px rgba(0,0,0,0.35)",
+        zIndex: 9999,
       }}
     >
-      <strong style={{ fontSize: 14 }}>{data.word.text}</strong>
-      <div style={{ opacity: 0.8 }}>Value: {data.word.value}</div>
+      <strong>{data.word.text}</strong>
+      <div>Frequency: {data.word.value}</div>
     </div>
   );
 };
@@ -77,7 +84,7 @@ export default function FullWordCloud() {
         description="Custom dynamic wordcloud Visualizes keyword frequency based on their appearance in the dataset."
       />
       <GlobalCard title="wordcloud">
-        <div className="border-2 rounded-xl p-2 h-[30rem ]w-[30rem]">
+        <div className="border-2  rounded-xl p-2 h-[30rem ]w-[30rem]">
           <WordCloud
             /* ===============================
            📊 Data
@@ -94,7 +101,7 @@ export default function FullWordCloud() {
             fontWeight="bold"
             padding={2}
             rotate={() => 0}
-            spiral="archimedean"
+            spiral="rectangular"
             transition="all 0.3s ease"
             /* ===============================
            🎥 Animation
@@ -104,7 +111,7 @@ export default function FullWordCloud() {
            🧠 Tooltip
         ================================ */
             enableTooltip
-            //   renderTooltip={renderTooltip}
+            renderTooltip={(data) => <MyTooltip data={data} />}
             /* ===============================
            🖱️ Events
         ================================ */
