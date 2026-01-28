@@ -67,6 +67,9 @@ const LeafletMap = ({ locations }: LeafletMapProps) => {
       iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
       shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     });
+    
+    // If you have a Leaflet API key for additional services, you can use it here
+    // For example: console.log('Leaflet API Key:', process.env.LEAFLET_API_KEY);
   }, []);
 
   // Use external mock dataset when locations are not provided

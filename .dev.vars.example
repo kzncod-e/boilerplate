@@ -1,28 +1,36 @@
 # Load .env.development* files when running `wrangler dev`
 NEXTJS_ENV=development
+PORT=3010
+HOST=0.0.0.0
 
+# Novu
+NOVU_APP_IDENTIFIER=73hxjJzNOMwP
+NOVU_BACKEND_URL=https://novu-api.optimasi.ai
+NOVU_SOCKET_URL=https://novu-ws.optimasi.ai
+NOVU_API_KEY=35ce827613c8da7554281bf4e58c8c00
+NEXT_PUBLIC_NOVU_USERID_PREFIX=boilerplate-nextjs-user
+# Firebase Cloud Messaging (Web Push)
+FCM_VAPID_KEY=BFTRuVJpEUEeeCD6Q1MCdERan5QoiCGdjdcj_0gZtz8t_tXtgP5EnMqEfg4ZEPOlo-c7NcDbcZRxUT16AvB4NuM
 # Drizzle Kit credentials for D1
 # Get your Account ID from: https://dash.cloudflare.com/ (right sidebar)
 # Get your API Token from: https://dash.cloudflare.com/profile/api-tokens
-CLOUDFLARE_ACCOUNT_ID=your-account-id-here
-CLOUDFLARE_D1_TOKEN=your-api-token-here
-CLOUDFLARE_R2_URL=your-r2-url-here
-CLOUDFLARE_API_TOKEN=your-api-token-here
-
+CLOUDFLARE_ACCOUNT_ID=41e004025c422bac5cd52ec4e67fc397
+CLOUDFLARE_D1_TOKEN=Bq0olHNO8NKXkwhY_8lHg5usHGhFjnbeAKWudUzX
+CLOUDFLARE_R2_URL=https://pub-9881549d69d3450ba943b10e3b0e8aaf.r2.dev
+CLOUDFLARE_API_TOKEN=zWhH29yTaUKUfze1XF4CP9ffUQaqac2kteixrEHn
+ 
 # Authentication
-BETTER_AUTH_SECRET=your-better-auth-secret # see https://www.better-auth.com/docs/installation
-BETTER_AUTH_URL=http://localhost:3000 # Base URL of your app - should use the deployed URL in Workers for prod
-
+BETTER_AUTH_SECRET=53c827e0d8b14896996e19a5273c511b541bb851138f611edd8d3a21f5577338 # see https://www.better-auth.com/docs/installation
+BETTER_AUTH_URL=http://localhost:8787 # Base URL of your app - should use the deployed URL in Workers for prod
+ 
+# Comma-separated list of trusted origins for Better Auth (used for OAuth callbacks)
+# Include your Next.js origin and the wrangler dev origin used by Cloudflare (8787)
+BETTER_AUTH_TRUSTED_ORIGINS=http://localhost:3000
 # Google Auth : see https://www.better-auth.com/docs/authentication/google
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+ 
+GOOGLE_CLIENT_ID=146020661318-a92b8qu3g0tv8kshshmtptham933ti5f.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
 
-# Novu
-NOVU_APP_IDENTIFIER=your-novu-app-identifier
-NOVU_BACKEND_URL=https://novu-api.optimasi.ai
-NOVU_SOCKET_URL=https://novu-ws.optimasi.ai
-NOVU_API_KEY=your-novu-api-key
-NEXT_PUBLIC_NOVU_USERID_PREFIX=boilerplate-nextjs-user
-
-# Firebase Cloud Messaging (Web Push)
-FCM_VAPID_KEY=your-fcm-vapid-key
+# Maps
+LEAFLET_API_KEY=your-api-key
+GMAPS_API_KEY=your-api-key

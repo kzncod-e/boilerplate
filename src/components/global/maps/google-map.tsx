@@ -110,7 +110,7 @@ const CustomMarker = ({ location }: { location: any }) => {
 
 const GoogleMap = ({ locations }: GoogleMapProps) => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    googleMapsApiKey: process.env.GMAPS_API_KEY!,
     language: "id",
   });
 
@@ -121,7 +121,7 @@ const GoogleMap = ({ locations }: GoogleMapProps) => {
 
   // Handle loading errors
   if (loadError) {
-    const isMissingApiKey = !process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const isMissingApiKey = !process.env.GMAPS_API_KEY;
     
     return (
       <div className="flex flex-col items-center justify-center h-full bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 p-8">
@@ -137,7 +137,7 @@ const GoogleMap = ({ locations }: GoogleMapProps) => {
             </h3>
             <p className="text-gray-600 mb-4">
               {isMissingApiKey 
-                ? "Google Maps API key is missing. Please add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to your environment variables."
+                ? "Google Maps API key is missing. Please add GMAPS_API_KEY to your environment variables."
                 : "Failed to load Google Maps. Please check your internet connection and API key configuration."
               }
             </p>
@@ -147,7 +147,7 @@ const GoogleMap = ({ locations }: GoogleMapProps) => {
                 <ol className="text-blue-700 text-left space-y-1">
                   <li>1. Get a Google Maps API key from Google Cloud Console</li>
                   <li>2. Add it to your .env.local file:</li>
-                  <li><code className="bg-blue-100 px-2 py-1 rounded">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here</code></li>
+                  <li><code className="bg-blue-100 px-2 py-1 rounded">GMAPS_API_KEY=your_api_key_here</code></li>
                 </ol>
               </div>
             )}
