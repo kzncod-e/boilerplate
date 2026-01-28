@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Micro SNA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+      }
+
+      #container {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script>
+      (async function () {
+        const microSnaUrl = "https://sna.optimasi.ai";
+
+        const res = await fetch(
+          `${microSnaUrl}/manifest.json?t=${Math.floor(Date.now() / 21600000)}`
+        );
+        const manifest = await res.json();
+
+        window.SNA_MODE = "production";
+
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = `${microSnaUrl}/${manifest["style.css"].file}`;
+        document.head.appendChild(style);
+
+        const script = document.createElement("script");
+        script.src = `${microSnaUrl}/${manifest["src/micro-sna.ts"].file}`;
+        document.body.appendChild(script);
+
+        script.onload = function () {
+          window.MicroSna.mount("container", {
+            theme: "light",
+            showMenu: {
+              fullscreen: true,
+              themeSwitcher: false,
+              filter: true,
+              savedData: true,
+            },
+            keepDragPosition: false,
+            showGraphInfo: true,
+            pointerInteraction: true,
+          });
+
+          window.MicroSna.submitFilter({
+            topic: "Pemilu",
+            platforms: ["twitter"],
+            sentiment: ["negative"],
+          });
+        };
+      })();
+    </script>
+  </body>
+</html>
