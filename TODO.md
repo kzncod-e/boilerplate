@@ -1,6 +1,12 @@
-# TODO: Change Create User Form Style
+# TODO: Create Advanced Filtered Table Component
 
 ## Tasks
-- [x] Create CreateUserForm component in src/modules/auth/components/create-user-form.tsx
-- [x] Update src/app/dashboard/users/page.tsx to use CreateUserForm instead of SignupForm
-- [x] Test the new form functionality (code review confirms correct implementation)
+- [x] Create advanced-filtered-table.tsx component with filtering, actions, and pagination
+- [ ] Add the new component to tables.page.tsx
+- [ ] Test the component functionality
+
+## Details
+- Component: src/components/global/tables/advanced-filtered-table.tsx
+- Features: Search form, select dropdown, data table with edit/delete/show actions, pagination
+- Base style: Follow new-domain-distribution-table.tsx
+- Data: Use invoiceDummyData from mock/table-data.ts

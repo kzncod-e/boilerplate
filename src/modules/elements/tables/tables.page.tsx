@@ -6,6 +6,7 @@ import SocmedTable from "../../dashboard/components/table-card";
 import { dummySocmedMentionData } from "@/mock/dashboard-data";
 import InfluentialAccountsTable from "@/components/global/tables/account-tabble";
 import NewsDomainDistributionTable from "@/components/global/tables/new-domain-distribution-table";
+import AdvancedFilteredTable from "@/components/global/tables/advanced-filtered-table";
 const columns = ["invoice", "paymentStatus", "paymentMethod", "totalAmount"];
 
 const data = [
@@ -54,6 +55,7 @@ const TablesPage = () => {
           data={influencerDummyData}
         />
         <NewsDomainDistributionTable />
+        <AdvancedFilteredTable />
       </div>
     </>
   );

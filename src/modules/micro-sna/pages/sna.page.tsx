@@ -1,6 +1,7 @@
 import PageHeader from "@/components/global/page-header";
+import React from "react";
 
-export default function MicroSNA() {
+const MicroSNA = () => {
   return (
     <>
       <PageHeader
@@ -10,9 +11,11 @@ export default function MicroSNA() {
 
       <iframe
         src="/sna.html"
-        className="w-full h-[90vh] border-none"
+        className="w-full h-[90vh]  border-none"
         loading="lazy"
       />
     </>
   );
-}
+};
+
+export default MicroSNA;
