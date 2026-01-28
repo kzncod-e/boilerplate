@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Search, X, Loader2 } from "lucide-react";
 
@@ -188,7 +188,7 @@ export const QuickSearch = forwardRef<HTMLDivElement, QuickSearchProps>(
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>([]);
 
-    const handleInputChange = (value: string) => {
+    const handleInputChange = useCallback((value: string) => {
       if (value.trim().length > 0) {
         const filtered = suggestions
           .filter(suggestion => 
@@ -202,23 +202,25 @@ export const QuickSearch = forwardRef<HTMLDivElement, QuickSearchProps>(
         setFilteredSuggestions([]);
         setShowSuggestions(false);
       }
-    };
+    }, [suggestions, maxSuggestions]);
 
-    const handleSuggestionClick = (suggestion: string) => {
+    const handleSuggestionClick = useCallback((suggestion: string) => {
       if (onSuggestionClick) {
         onSuggestionClick(suggestion);
       }
       setShowSuggestions(false);
-    };
+    }, [onSuggestionClick]);
+
+    const memoizedOnChange = useCallback((value: string) => {
+      props.onChange?.(value);
+      handleInputChange(value);
+    }, [props.onChange, handleInputChange]);
 
     return (
       <div ref={ref} className={cn("relative", className)}>
         <SearchForm
           {...props}
-          onChange={(value) => {
-            props.onChange?.(value);
-            handleInputChange(value);
-          }}
+          onChange={memoizedOnChange}
           showSearchButton={false}
         />
         
