@@ -1,6 +1,24 @@
 
-import {  Word } from "@isoterik/react-word-cloud";
-
+import {  Gradient, Word } from "@isoterik/react-word-cloud";
+export const gradients: Gradient[] = [
+  {
+    id: "blue",
+    type: "linear",
+    angle: 45,
+    stops: [
+      { offset: "0%", color: "#3b82f6" },
+      { offset: "100%", color: "#06b6d4" },
+    ],
+  },
+  {
+    id: "pink",
+    type: "radial",
+    stops: [
+      { offset: "0%", color: "#ec4899" },
+      { offset: "100%", color: "#f43f5e" },
+    ],
+  },
+];
 export const words: Word[] = [
   { text: "Next.js", value: 1200 },
   { text: "React", value: 1000 },
