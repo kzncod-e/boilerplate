@@ -115,9 +115,9 @@ export const ROOT_NAVBAR = [
     icon: Puzzle,
     items: [
       {
-        name: "Google Maps",
+        name: "Maps",
         description: "Description here...",
-        url: "/widget/gmaps",
+        url: "/widget/maps",
         icon: MapPin,
       },
       {
