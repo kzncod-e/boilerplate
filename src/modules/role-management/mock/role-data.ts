@@ -184,48 +184,4 @@ export const mockAuditLogs: AuditLog[] = [
     oldValue: JSON.stringify({ description: "Can edit content" }),
     newValue: JSON.stringify({ description: "Can edit content and manage users" }),
     createdAt: new Date("2024-01-11T11:00:00"),
-  },
-];
-
-export const mockUsers: User[] = [
-  {
-    id: "user-1",
-    name: "John Doe",
-    email: "john@example.com",
-    role: "Super Admin",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    createdAt: new Date("2024-01-01"),
-  },
-  {
-    id: "user-2",
-    name: "Jane Smith",
-    email: "jane@example.com",
-    role: "Admin",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-    createdAt: new Date("2024-01-02"),
-  },
-  {
-    id: "user-3",
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    role: "Editor",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bob",
-    createdAt: new Date("2024-01-03"),
-  },
-  {
-    id: "user-4",
-    name: "Alice Brown",
-    email: "alice@example.com",
-    role: "Viewer",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
-    createdAt: new Date("2024-01-04"),
-  },
-  {
-    id: "user-5",
-    name: "Charlie Wilson",
-    email: "charlie@example.com",
-    role: "Viewer",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Charlie",
-    createdAt: new Date("2024-01-05"),
-  },
-];
+  }]

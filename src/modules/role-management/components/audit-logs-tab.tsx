@@ -37,7 +37,7 @@ export default function AuditLogsTab() {
   // Filters
   const [actorFilter, setActorFilter] = useState("");
   const [actionFilter, setActionFilter] = useState("");
-  const [targetFilter, setTargetFilter] = useState("");
+  const [targetTypeFilter, setTargetTypeFilter] = useState("");
   const [dateFrom, setDateFrom] = useState<Date>();
   const [dateTo, setDateTo] = useState<Date>();
 
@@ -68,20 +68,20 @@ export default function AuditLogsTab() {
       filtered = filtered.filter((log) => log.action === actionFilter);
     }
 
-    if (targetFilter) {
-      filtered = filtered.filter((log) => log.target === targetFilter);
+    if (targetTypeFilter) {
+      filtered = filtered.filter((log) => log.target === targetTypeFilter);
     }
 
     if (dateFrom) {
-      filtered = filtered.filter((log) => log.createdAt >= dateFrom);
+      filtered = filtered.filter((log) => new Date(log.createdAt) >= dateFrom);
     }
 
     if (dateTo) {
-      filtered = filtered.filter((log) => log.createdAt <= dateTo);
+      filtered = filtered.filter((log) => new Date(log.createdAt) <= dateTo);
     }
 
     setFilteredLogs(filtered);
-  }, [logs, actorFilter, actionFilter, targetFilter, dateFrom, dateTo]);
+  }, [logs, actorFilter, actionFilter, targetTypeFilter, dateFrom, dateTo]);
 
   const getActionBadgeColor = (action: string) => {
     const colors: Record<string, string> = {
@@ -96,13 +96,58 @@ export default function AuditLogsTab() {
   const clearFilters = () => {
     setActorFilter("");
     setActionFilter("");
-    setTargetFilter("");
+    setTargetTypeFilter("");
     setDateFrom(undefined);
     setDateTo(undefined);
   };
 
   const uniqueActions = Array.from(new Set(logs.map((log) => log.action)));
-  const uniqueTargets = Array.from(new Set(logs.map((log) => log.target)));
+  const uniqueTargetTypes = Array.from(new Set(logs.map((log) => log.target)));
+
+  const exportToCSV = () => {
+    const headers = [
+      "Actor",
+      "Action",
+      "Target Type",
+      "Target Name",
+      "Detail",
+      "Timestamp",
+    ];
+    const csvContent = [
+      headers.join(","),
+      ...filteredLogs.map((log) =>
+        [
+          log.actor,
+          log.action,
+          log.target,
+
+          log.oldValue && log.newValue
+            ? `${JSON.stringify(log.oldValue)} → ${JSON.stringify(log.newValue)}`
+            : log.newValue
+              ? JSON.stringify(log.newValue)
+              : log.oldValue
+                ? `${JSON.stringify(log.oldValue)} (deleted)`
+                : "-",
+          format(new Date(log.createdAt), "yyyy-MM-dd HH:mm:ss"),
+        ]
+          .map((field) => `"${field}"`)
+          .join(","),
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `audit-logs-${format(new Date(), "yyyy-MM-dd")}.csv`,
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="space-y-4">
@@ -113,6 +158,9 @@ export default function AuditLogsTab() {
             Track all role and permission changes
           </p>
         </div>
+        <Button onClick={exportToCSV} variant="outline">
+          Export CSV
+        </Button>
       </div>
 
       {/* Filters */}
@@ -129,12 +177,17 @@ export default function AuditLogsTab() {
           className="w-48"
         />
 
-        <Select value={actionFilter} onValueChange={setActionFilter}>
+        <Select
+          value={actionFilter}
+          onValueChange={(value) =>
+            setActionFilter(value === "all" ? "" : value)
+          }
+        >
           <SelectTrigger className="w-32">
             <SelectValue placeholder="Action" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Actions</SelectItem>
+            <SelectItem value="all">All Actions</SelectItem>
             {uniqueActions.map((action) => (
               <SelectItem key={action} value={action}>
                 {action}
@@ -143,20 +196,24 @@ export default function AuditLogsTab() {
           </SelectContent>
         </Select>
 
-        <Select value={targetFilter} onValueChange={setTargetFilter}>
+        <Select
+          value={targetTypeFilter || "all"}
+          onValueChange={(value) =>
+            setTargetTypeFilter(value === "all" ? "" : value)
+          }
+        >
           <SelectTrigger className="w-32">
-            <SelectValue placeholder="Target" />
+            <SelectValue placeholder="Target Type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Targets</SelectItem>
-            {uniqueTargets.map((target) => (
-              <SelectItem key={target} value={target}>
-                {target}
+            <SelectItem value="all">All Types</SelectItem>
+            {uniqueTargetTypes.map((targetType) => (
+              <SelectItem key={targetType} value={targetType}>
+                {targetType}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -208,16 +265,16 @@ export default function AuditLogsTab() {
         </Button>
       </div>
 
-      {/* Table */}
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Actor</TableHead>
               <TableHead>Action</TableHead>
-              <TableHead>Target</TableHead>
-              <TableHead>Changes</TableHead>
-              <TableHead>Date & Time</TableHead>
+              <TableHead>Target Type</TableHead>
+              <TableHead>Target Name</TableHead>
+              <TableHead>Detail</TableHead>
+              <TableHead>Timestamp</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -244,7 +301,7 @@ export default function AuditLogsTab() {
             ) : filteredLogs.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={6}
                   className="text-center py-6 text-muted-foreground"
                 >
                   No audit logs found
@@ -262,29 +319,34 @@ export default function AuditLogsTab() {
                     </span>
                   </TableCell>
                   <TableCell>{log.target}</TableCell>
+
                   <TableCell className="max-w-xs">
                     <div className="text-sm">
                       {log.oldValue && log.newValue ? (
                         <div>
                           <span className="text-red-600 line-through">
-                            {JSON.parse(log.oldValue)?.name || log.oldValue}
+                            {JSON.stringify(log.oldValue)}
                           </span>
                           {" → "}
                           <span className="text-green-600">
-                            {JSON.parse(log.newValue)?.name || log.newValue}
+                            {JSON.stringify(log.newValue)}
                           </span>
                         </div>
                       ) : log.newValue ? (
                         <span className="text-green-600">
-                          {JSON.parse(log.newValue)?.name || log.newValue}
+                          {JSON.stringify(log.newValue)}
+                        </span>
+                      ) : log.oldValue ? (
+                        <span className="text-red-600">
+                          {JSON.stringify(log.oldValue)} (deleted)
                         </span>
                       ) : (
-                        <span className="text-red-600">Deleted</span>
+                        <span className="text-gray-500">-</span>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
-                    {format(log.createdAt, "MMM dd, yyyy HH:mm")}
+                    {/* {format(new Date(log.created_at), "MMM dd, yyyy HH:mm")} */}
                   </TableCell>
                 </TableRow>
               ))

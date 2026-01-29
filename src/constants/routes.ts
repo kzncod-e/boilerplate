@@ -161,7 +161,7 @@ export const ROOT_NAVBAR = [
       {
         name: "Log Activity",
         description: "Description here...",
-        url: "/log-activity",
+        url: "/authorization/log-activity",
         icon: History,
       },
     ],

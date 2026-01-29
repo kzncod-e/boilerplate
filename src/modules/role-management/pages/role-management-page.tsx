@@ -19,11 +19,10 @@ export default function RoleManagementPage() {
 
       <div className="mt-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full justify-center grid-cols-3 ">
+          <TabsList className="grid w-full justify-center grid-cols-2 ">
             <TabsTrigger value="roles">Roles</TabsTrigger>
             <TabsTrigger value="permissions">Permissions</TabsTrigger>
             {/* <TabsTrigger value="users">Users</TabsTrigger> */}
-            <TabsTrigger value="audit">Audit Logs</TabsTrigger>
           </TabsList>
 
           <TabsContent value="roles" className="mt-6">
@@ -32,10 +31,6 @@ export default function RoleManagementPage() {
 
           <TabsContent value="permissions" className="mt-6">
             <PermissionsTab />
-          </TabsContent>
-
-          <TabsContent value="audit" className="mt-6">
-            <AuditLogsTab />
           </TabsContent>
         </Tabs>
       </div>
