@@ -29,10 +29,22 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { AuditLog, mockAuditLogs } from "../mock/role-data";
 
+interface AuditLog {
+  id: string;
+  actor: string;
+  action: string;
+  target_type: string;
+  target_name: string;
+  metadata: string | null;
+  created_at: Date;
+}
+
 export default function AuditLogsTab() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
-  const [filteredLogs, setFilteredLogs] = useState<AuditLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
 
   // Filters
   const [actorFilter, setActorFilter] = useState("");
@@ -42,46 +54,34 @@ export default function AuditLogsTab() {
   const [dateTo, setDateTo] = useState<Date>();
 
   useEffect(() => {
-    // Simulate API call
     const loadLogs = async () => {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setLogs(mockAuditLogs);
-      setFilteredLogs(mockAuditLogs);
+      const filters = {
+        actor: actorFilter || undefined,
+        action: actionFilter || undefined,
+        targetType: targetTypeFilter || undefined,
+        dateFrom,
+        dateTo,
+      };
+
+      const result = await getAuditLogs(filters, currentPage, 50);
+      if (result.success) {
+        setLogs(result.data.logs);
+        setTotalPages(result.data.pagination.totalPages);
+        setTotalCount(result.data.pagination.totalCount);
+      }
       setIsLoading(false);
     };
 
     loadLogs();
-  }, []);
-
-  useEffect(() => {
-    // Apply filters
-    let filtered = logs;
-
-    if (actorFilter) {
-      filtered = filtered.filter((log) =>
-        log.actor.toLowerCase().includes(actorFilter.toLowerCase()),
-      );
-    }
-
-    if (actionFilter) {
-      filtered = filtered.filter((log) => log.action === actionFilter);
-    }
-
-    if (targetTypeFilter) {
-      filtered = filtered.filter((log) => log.target === targetTypeFilter);
-    }
-
-    if (dateFrom) {
-      filtered = filtered.filter((log) => new Date(log.createdAt) >= dateFrom);
-    }
-
-    if (dateTo) {
-      filtered = filtered.filter((log) => new Date(log.createdAt) <= dateTo);
-    }
-
-    setFilteredLogs(filtered);
-  }, [logs, actorFilter, actionFilter, targetTypeFilter, dateFrom, dateTo]);
+  }, [
+    actorFilter,
+    actionFilter,
+    targetTypeFilter,
+    dateFrom,
+    dateTo,
+    currentPage,
+  ]);
 
   const getActionBadgeColor = (action: string) => {
     const colors: Record<string, string> = {
@@ -99,10 +99,8 @@ export default function AuditLogsTab() {
     setTargetTypeFilter("");
     setDateFrom(undefined);
     setDateTo(undefined);
+    setCurrentPage(1);
   };
-
-  const uniqueActions = Array.from(new Set(logs.map((log) => log.action)));
-  const uniqueTargetTypes = Array.from(new Set(logs.map((log) => log.target)));
 
   const exportToCSV = () => {
     const headers = [
@@ -110,25 +108,19 @@ export default function AuditLogsTab() {
       "Action",
       "Target Type",
       "Target Name",
-      "Detail",
+      "Details",
       "Timestamp",
     ];
     const csvContent = [
       headers.join(","),
-      ...filteredLogs.map((log) =>
+      ...logs.map((log) =>
         [
           log.actor,
           log.action,
-          log.target,
-
-          log.oldValue && log.newValue
-            ? `${JSON.stringify(log.oldValue)} → ${JSON.stringify(log.newValue)}`
-            : log.newValue
-              ? JSON.stringify(log.newValue)
-              : log.oldValue
-                ? `${JSON.stringify(log.oldValue)} (deleted)`
-                : "-",
-          format(new Date(log.createdAt), "yyyy-MM-dd HH:mm:ss"),
+          log.target_type,
+          log.target_name,
+          log.metadata ? JSON.stringify(JSON.parse(log.metadata)) : "",
+          format(log.created_at, "yyyy-MM-dd HH:mm:ss"),
         ]
           .map((field) => `"${field}"`)
           .join(","),
@@ -148,6 +140,11 @@ export default function AuditLogsTab() {
     link.click();
     document.body.removeChild(link);
   };
+
+  const uniqueActions = Array.from(new Set(logs.map((log) => log.action)));
+  const uniqueTargetTypes = Array.from(
+    new Set(logs.map((log) => log.target_type)),
+  );
 
   return (
     <div className="space-y-4">
@@ -298,7 +295,7 @@ export default function AuditLogsTab() {
                   </TableCell>
                 </TableRow>
               ))
-            ) : filteredLogs.length === 0 ? (
+            ) : logs.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={6}
@@ -308,7 +305,7 @@ export default function AuditLogsTab() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredLogs.map((log) => (
+              logs.map((log) => (
                 <TableRow key={log.id}>
                   <TableCell className="font-medium">{log.actor}</TableCell>
                   <TableCell>
@@ -318,41 +315,93 @@ export default function AuditLogsTab() {
                       {log.action}
                     </span>
                   </TableCell>
-                  <TableCell>{log.target}</TableCell>
-
+                  <TableCell>{log.target_type}</TableCell>
+                  <TableCell>{log.target_name}</TableCell>
                   <TableCell className="max-w-xs">
                     <div className="text-sm">
-                      {log.oldValue && log.newValue ? (
-                        <div>
-                          <span className="text-red-600 line-through">
-                            {JSON.stringify(log.oldValue)}
-                          </span>
-                          {" → "}
-                          <span className="text-green-600">
-                            {JSON.stringify(log.newValue)}
-                          </span>
-                        </div>
-                      ) : log.newValue ? (
-                        <span className="text-green-600">
-                          {JSON.stringify(log.newValue)}
-                        </span>
-                      ) : log.oldValue ? (
-                        <span className="text-red-600">
-                          {JSON.stringify(log.oldValue)} (deleted)
-                        </span>
+                      {log.metadata ? (
+                        (() => {
+                          try {
+                            const parsed = JSON.parse(log.metadata);
+                            if (parsed.old && parsed.new) {
+                              return (
+                                <div>
+                                  <span className="text-red-600 line-through">
+                                    {JSON.stringify(parsed.old)}
+                                  </span>
+                                  {" → "}
+                                  <span className="text-green-600">
+                                    {JSON.stringify(parsed.new)}
+                                  </span>
+                                </div>
+                              );
+                            } else if (parsed.new) {
+                              return (
+                                <span className="text-green-600">
+                                  {JSON.stringify(parsed.new)}
+                                </span>
+                              );
+                            } else if (parsed.old) {
+                              return (
+                                <span className="text-red-600">
+                                  {JSON.stringify(parsed.old)} (deleted)
+                                </span>
+                              );
+                            }
+                          } catch {
+                            return (
+                              <span className="text-gray-500">
+                                {log.metadata}
+                              </span>
+                            );
+                          }
+                        })()
                       ) : (
                         <span className="text-gray-500">-</span>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
-                    {/* {format(new Date(log.created_at), "MMM dd, yyyy HH:mm")} */}
+                    {format(log.created_at, "MMM dd, yyyy HH:mm")}
                   </TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              Showing {(currentPage - 1) * 50 + 1} to{" "}
+              {Math.min(currentPage * 50, totalCount)} of {totalCount} entries
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                }
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

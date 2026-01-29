@@ -1,22 +1,62 @@
-import { integer, sqliteTable, text ,} from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
 export const role = sqliteTable("role", {
     id: text("id").primaryKey(),
-    name: text("name").notNull(),
- role: text("role").notNull().default("user"),
-    email: text("email").notNull().unique(),
-    emailVerified: integer("email_verified", { mode: "boolean" })
-        .default(false)
-        .notNull(),
-    image: text("image"),
-     banned: integer("banned", { mode: "boolean" }) // <-- pakai mode boolean
-    .default(false)
-    .notNull(),
-
+    name: text("name").notNull().unique(),
+    description: text("description"),
+    status: text("status").notNull().default("active"), // active, inactive
     createdAt: integer("created_at", { mode: "timestamp" })
         .defaultNow()
         .notNull(),
     updatedAt: integer("updated_at", { mode: "timestamp" })
         .defaultNow()
         .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
+});
+
+export const permission = sqliteTable("permission", {
+    id: text("id").primaryKey(),
+    name: text("name").notNull().unique(),
+    action: text("action").notNull(), // e.g., "create", "read", "update", "delete"
+    module: text("module").notNull(), // e.g., "users", "roles", "permissions"
+    description: text("description"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+        .defaultNow()
+        .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
+});
+
+export const rolePermission = sqliteTable("role_permission", {
+    id: text("id").primaryKey(),
+    roleId: text("role_id")
+        .notNull()
+        .references(() => role.id, { onDelete: "cascade" }),
+    permissionId: text("permission_id")
+        .notNull()
+        .references(() => permission.id, { onDelete: "cascade" }),
+    createdAt: integer("created_at", { mode: "timestamp" })
+        .defaultNow()
+        .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+        .defaultNow()
+        .$onUpdate(() => /* @__PURE__ */ new Date())
+        .notNull(),
+}, (table) => ({
+    // Ensure unique combination of role and permission
+    uniqueRolePermission: [table.roleId, table.permissionId],
+}));
+
+export const auditLog = sqliteTable("audit_log", {
+    id: text("id").primaryKey(),
+    actor: text("actor").notNull(), // user who performed the action
+    action: text("action").notNull(), // create, update, delete, assign, revoke
+    targetType: text("target_type").notNull(), // role, permission, user
+    targetName: text("target_name").notNull(), // name of the target
+    metadata: text("metadata"), // JSON string with old/new values
+    createdAt: integer("created_at", { mode: "timestamp" })
+        .defaultNow()
         .notNull(),
 });

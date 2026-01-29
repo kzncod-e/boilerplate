@@ -83,7 +83,7 @@ export const dummyLineChart = [
 export const dummyLineChatConfig = {
   users: {
     label: "Users",
-    color: "var(--chart-1)",
+    color: "oklch(0.63 0.23 259)",
   },
 } satisfies ChartConfig;
 
