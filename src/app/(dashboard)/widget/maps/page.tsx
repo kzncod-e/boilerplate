@@ -1,7 +1,7 @@
-import FullGMaps from "@/modules/maps/maps.page";
+import MapsPage from "@/modules/maps/maps.page";
 
 const page = () => {
-  return <FullGMaps />;
+  return <MapsPage />;
 };
 
 export default page;

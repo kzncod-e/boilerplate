@@ -11,12 +11,12 @@ const LeafletMap = dynamic(() => import("@/components/global/maps/leaflet-map"),
   loading: () => <div className="w-full h-full flex items-center justify-center">Loading map...</div>
 });
 
-export default function GMaps() {
+export default function MapsPage() {
   return (
     <>
         <PageHeader
-            title="Google Maps"
-            description="Example of Google Maps and Leaflet Maps"
+            title="Example Maps"
+            description="Example of Google Maps, Leaflet Maps, and any other maps.."
         /> 
         <div className="space-y-6">
             <GlobalCard title="Google Maps">
