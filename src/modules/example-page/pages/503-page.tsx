@@ -1,4 +1,4 @@
-import { Error503 } from "@/components/global/system/503";
+import { Error503 } from "@/components/global/system/error-503";
 
 export default function Error503Page() {
   return (
