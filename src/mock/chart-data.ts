@@ -11,7 +11,7 @@ export const dummyBarChartData = [
 export const dummyBarChartConfig = {
   value: {
     label: "Visitors",
-    color: "var(--chart-1)",
+    color: "oklch(0.646 0.222 41.116)",
   },
 } satisfies ChartConfig;
 
@@ -96,14 +96,18 @@ export const dummyMultipleChartBar = [
   { month: "May", desktop: 240, mobile: 150 },
   { month: "June", desktop: 300, mobile: 180 },
 ];
-
+//  oklch(0.646 0.222 41.116);
+//  oklch(0.6 0.118 184.704);
+//  oklch(0.398 0.07 227.392);
+//  oklch(0.828 0.189 84.429);
+//  oklch(0.769 0.188 70.08);
 export const dummyMultipleChartBarConfig = {
   desktop: {
     label: "Desktop",
-    color: "var(--chart-1)",
+    color: "oklch(0.646 0.222 41.116)",
   },
   mobile: {
     label: "Mobile",
-    color: "var(--chart-2)",
+    color: "oklch(0.6 0.118 184.704)",
   },
 } satisfies ChartConfig;

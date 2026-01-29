@@ -155,7 +155,7 @@ export const ROOT_NAVBAR = [
       {
         name: "User Management",
         description: "Description here...",
-        url: "/users-management",
+        url: "/authorization/users-management",
         icon: Users2,
       },
       {

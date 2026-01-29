@@ -23,11 +23,15 @@ import { TrendingUp } from "lucide-react";
 
 import { BasicBarChart } from "@/components/global/charts/basic-chartbar";
 import { ChartBarMulti } from "@/components/global/charts/multiple-barchart";
-
+//  oklch(0.646 0.222 41.116);
+//  oklch(0.6 0.118 184.704);
+//  oklch(0.398 0.07 227.392);
+//  oklch(0.828 0.189 84.429);
+//  oklch(0.769 0.188 70.08);
 const browserData = [
-  { browser: "Chrome", users: 275, color: "var(--chart-1)" },
-  { browser: "Safari", users: 200, color: "var(--chart-2)" },
-  { browser: "Firefox", users: 187, color: "var(--chart-3)" },
+  { browser: "Chrome", users: 275, color: "oklch(0.646 0.222 41.116)" },
+  { browser: "Safari", users: 200, color: "oklch(0.6 0.118 184.704)" },
+  { browser: "Firefox", users: 187, color: "oklch(0.769 0.188 70.08);" },
 ];
 const ChartPage = () => {
   return (

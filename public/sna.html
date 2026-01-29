@@ -5,6 +5,8 @@
     <title>Micro SNA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="stylesheet" href="/src/styles/colors.css">
+ 
     <style>
       html,
       body {
@@ -14,7 +16,30 @@
         height: 100%;
         background: white;
       }
+ 
 
+ .sna-popover-form-container {
+ background-color:  oklch(1 0 0);
+  
+ 
+  border-radius: var(--radius);
+}
+.sna-popover-title{
+  color:#0759a3;
+}
+.sna-btn-action{
+  background-color:#0759a3;
+color: oklch(1 0 0) ;
+}
+#micro-sna-wrapper {
+  all: initial;
+  display: block;
+}
+
+#micro-sna-wrapper * {
+  box-sizing: border-box;
+  background-color: var(--color-background);
+}
       #container {
         width: 100%;
         height: 100vh;
