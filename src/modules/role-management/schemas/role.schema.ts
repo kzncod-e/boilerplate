@@ -1,7 +1,13 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { user } from "@/db";
+import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import z from "zod";
 
 export const role = sqliteTable("role", {
     id: text("id").primaryKey(),
+    userId:integer("userId").references(()=>user.id,{
+        onDelete:"cascade",
+        onUpdate:"cascade"
+    }),
     name: text("name").notNull().unique(),
     description: text("description"),
     status: text("status").notNull().default("active"), // active, inactive
@@ -29,25 +35,46 @@ export const permission = sqliteTable("permission", {
         .notNull(),
 });
 
-export const rolePermission = sqliteTable("role_permission", {
+
+
+export const rolePermission = sqliteTable(
+  "role_permission",
+  {
     id: text("id").primaryKey(),
+
     roleId: text("role_id")
-        .notNull()
-        .references(() => role.id, { onDelete: "cascade" }),
+      .notNull()
+      .references(() => role.id, { onDelete: "cascade" }),
+
     permissionId: text("permission_id")
-        .notNull()
-        .references(() => permission.id, { onDelete: "cascade" }),
+      .notNull()
+      .references(() => permission.id, { onDelete: "cascade" }),
+
     createdAt: integer("created_at", { mode: "timestamp" })
-        .defaultNow()
-        .notNull(),
+      .defaultNow()
+      .notNull(),
+
     updatedAt: integer("updated_at", { mode: "timestamp" })
-        .defaultNow()
-        .$onUpdate(() => /* @__PURE__ */ new Date())
-        .notNull(),
-}, (table) => ({
-    // Ensure unique combination of role and permission
-    uniqueRolePermission: [table.roleId, table.permissionId],
-}));
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => ({
+    uniqueRolePermission: uniqueIndex("unique_role_permission")
+      .on(table.roleId, table.permissionId),
+  })
+);
+export const roleSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Role name is required")
+    .max(50, "Role name too long"),
+  description: z.string().max(200, "Description too long").optional(),
+  status: z.enum(["active", "inactive"]),
+  user:z.string()
+});
+
+export type RoleFormData = z.infer<typeof roleSchema>;
 
 export const auditLog = sqliteTable("audit_log", {
     id: text("id").primaryKey(),

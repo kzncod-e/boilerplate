@@ -51,14 +51,14 @@ export const signUp = async ({
                 name: username,
             },
         });
-    //  const newUser =   await authdah.api.createUser({
-    //         body: {
-    //             email,
-    //             password,
-    //             name: username,
-    //             role:"admin"
-    //         },
-    //     });
+     const newUser =   await authdah.api.c({
+            body: {
+                email,
+                password,
+                name: username,
+                role:"admin"
+            },
+        });
 
         return {
             success: true,

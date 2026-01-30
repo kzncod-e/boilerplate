@@ -10,28 +10,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-
+import { Pencil, Copy } from "lucide-react";
+import { type Role } from "../actions/role.actions";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Copy } from "lucide-react";
-import { mockRoles, type Role } from "../mock/role-data";
-import RoleForm from "./role-form";
+  getRoles,
+  createRole,
+  updateRole,
+  deleteRole,
+  duplicateRole,
+} from "../actions/role.actions";
+import CreateRoleDialog from "./create-role-dialog";
+import EditRoleDialog from "./edit-role-dialog";
+import DeleteRoleDialog from "./delete-role-dialog";
 import toast from "react-hot-toast";
 import Badge from "@/components/ui/badge";
 
@@ -43,49 +33,84 @@ export default function RolesTab() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
   useEffect(() => {
-    // Simulate API call
     const loadRoles = async () => {
       setIsLoading(true);
-      // In real app, this would be an API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setRoles(mockRoles);
+      const result = await getRoles();
+      if (result.success && result.data) {
+        setRoles(result?.data);
+      } else {
+        toast.error("Failed to load roles");
+        console.error("Error loading roles:", result.message);
+      }
       setIsLoading(false);
     };
 
     loadRoles();
   }, []);
 
-  const handleCreateRole = () => {
+  const handleCreateRole = async (formData: any) => {
     setIsCreateDialogOpen(false);
-    // Refresh roles
-    setRoles([...mockRoles]); // In real app, refetch from API
-    toast.success("Role created successfully");
+    const result = await createRole(formData);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success && refreshResult.data) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role created successfully");
+    } else {
+      toast.error("Failed to create role");
+      console.error("Error creating role:", result.message);
+    }
   };
 
-  const handleUpdateRole = () => {
+  const handleUpdateRole = async (formData: any) => {
     setIsEditDialogOpen(false);
     setSelectedRole(null);
-    // Refresh roles
-    setRoles([...mockRoles]); // In real app, refetch from API
-    toast.success("Role updated successfully");
+    if (selectedRole) {
+      const result = await updateRole(selectedRole.id, formData);
+      if (result.success) {
+        // Refresh roles from database
+        const refreshResult = await getRoles();
+        if (refreshResult.success && refreshResult.data) {
+          setRoles(refreshResult.data);
+        }
+        toast.success("Role updated successfully");
+      } else {
+        toast.error("Failed to update role");
+        console.error("Error updating role:", result.message);
+      }
+    }
   };
 
   const handleDeleteRole = async (roleId: string) => {
-    // In real app, this would be an API call
-    setRoles(roles.filter((role) => role.id !== roleId));
-    toast.success("Role deleted successfully");
+    const result = await deleteRole(roleId);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success && refreshResult.data) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role deleted successfully");
+    } else {
+      toast.error("Failed to delete role");
+      console.error("Error deleting role:", result.message);
+    }
   };
 
-  const handleDuplicateRole = (role: Role) => {
-    const duplicatedRole: Role = {
-      ...role,
-      id: `role-${Date.now()}`,
-      name: `${role.name} (Copy)`,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setRoles([...roles, duplicatedRole]);
-    toast.success("Role duplicated successfully");
+  const handleDuplicateRole = async (role: Role) => {
+    const result = await duplicateRole(role.id);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success && refreshResult.data) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role duplicated successfully");
+    } else {
+      toast.error("Failed to duplicate role");
+      console.error("Error duplicating role:", result.message);
+    }
   };
 
   const handleEditRole = (role: Role) => {
@@ -117,29 +142,17 @@ export default function RolesTab() {
         <div className="flex gap-2">
           <Button
             variant="outline"
-            onClick={() => handleDuplicateRole(roles[0] || mockRoles[0])}
+            onClick={() => handleDuplicateRole(roles[0])}
             disabled={roles.length === 0}
           >
             <Copy className="mr-2 h-4 w-4" />
             Duplicate Role
           </Button>
-          <Dialog
-            open={isCreateDialogOpen}
+          <CreateRoleDialog
+            isOpen={isCreateDialogOpen}
             onOpenChange={setIsCreateDialogOpen}
-          >
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Create Role
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Create New Role</DialogTitle>
-              </DialogHeader>
-              <RoleForm onSuccess={handleCreateRole} />
-            </DialogContent>
-          </Dialog>
+            onSuccess={handleCreateRole}
+          />
         </div>
       </div>
 
@@ -215,31 +228,10 @@ export default function RolesTab() {
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Role</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete the role "
-                              {role.name}"? This action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDeleteRole(role.id)}
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                      <DeleteRoleDialog
+                        role={role}
+                        onConfirm={handleDeleteRole}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -250,16 +242,12 @@ export default function RolesTab() {
       </div>
 
       {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit Role</DialogTitle>
-          </DialogHeader>
-          {selectedRole && (
-            <RoleForm role={selectedRole} onSuccess={handleUpdateRole} />
-          )}
-        </DialogContent>
-      </Dialog>
+      <EditRoleDialog
+        isOpen={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        role={selectedRole}
+        onSuccess={handleUpdateRole}
+      />
     </div>
   );
 }

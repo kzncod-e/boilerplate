@@ -23,27 +23,17 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { type Role } from "../mock/role-data";
-
-const roleSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Role name is required")
-    .max(50, "Role name too long"),
-  description: z.string().max(200, "Description too long").optional(),
-  status: z.enum(["active", "inactive"]),
-});
-
-type RoleFormData = z.infer<typeof roleSchema>;
+import { RoleFormData, roleSchema } from "../schemas/role.schema";
 
 interface RoleFormProps {
   role?: Role;
-  onSuccess: () => void;
+  onSuccess: (data: RoleFormData) => void;
 }
 
 export default function RoleForm({ role, onSuccess }: RoleFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<RoleFormData>({
+  const form = useForm({
     resolver: zodResolver(roleSchema),
     defaultValues: {
       name: role?.name || "",
@@ -55,13 +45,9 @@ export default function RoleForm({ role, onSuccess }: RoleFormProps) {
   const onSubmit = async (data: RoleFormData) => {
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("Submitting role:", data);
+    onSuccess(data);
 
     setIsSubmitting(false);
-    onSuccess();
   };
 
   return (

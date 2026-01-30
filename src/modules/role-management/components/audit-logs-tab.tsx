@@ -27,16 +27,18 @@ import {
 import { CalendarIcon, Filter } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { AuditLog, mockAuditLogs } from "../mock/role-data";
+
+import { mockAuditLogs } from "../mock/role-data";
+import { getAuditLogs } from "../actions/audit.actions";
 
 interface AuditLog {
   id: string;
   actor: string;
   action: string;
-  target_type: string;
-  target_name: string;
+  targetType: string;
+  targetName: string;
   metadata: string | null;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export default function AuditLogsTab() {
@@ -53,27 +55,26 @@ export default function AuditLogsTab() {
   const [dateFrom, setDateFrom] = useState<Date>();
   const [dateTo, setDateTo] = useState<Date>();
 
-  useEffect(() => {
-    const loadLogs = async () => {
-      setIsLoading(true);
-      const filters = {
-        actor: actorFilter || undefined,
-        action: actionFilter || undefined,
-        targetType: targetTypeFilter || undefined,
-        dateFrom,
-        dateTo,
-      };
-
-      const result = await getAuditLogs(filters, currentPage, 50);
-      if (result.success) {
-        setLogs(result.data.logs);
-        setTotalPages(result.data.pagination.totalPages);
-        setTotalCount(result.data.pagination.totalCount);
-      }
-      setIsLoading(false);
+  const fetchLogs = async () => {
+    const filters = {
+      actor: actorFilter || undefined,
+      action: actionFilter || undefined,
+      targetType: targetTypeFilter || undefined,
+      dateFrom,
+      dateTo,
     };
+    setIsLoading(true);
+    const result = await getAuditLogs(filters, currentPage, 50);
+    if (result.success && result.data) {
+      setLogs(result.data?.logs || []);
+      setTotalPages(result.data.pagination.totalPages);
+      setTotalCount(result.data.pagination.totalCount);
+    }
+    setIsLoading(false);
+  };
 
-    loadLogs();
+  useEffect(() => {
+    fetchLogs();
   }, [
     actorFilter,
     actionFilter,
@@ -117,10 +118,10 @@ export default function AuditLogsTab() {
         [
           log.actor,
           log.action,
-          log.target_type,
-          log.target_name,
+          log.targetType,
+          log.targetName,
           log.metadata ? JSON.stringify(JSON.parse(log.metadata)) : "",
-          format(log.created_at, "yyyy-MM-dd HH:mm:ss"),
+          format(log.createdAt, "yyyy-MM-dd HH:mm:ss"),
         ]
           .map((field) => `"${field}"`)
           .join(","),
@@ -143,7 +144,7 @@ export default function AuditLogsTab() {
 
   const uniqueActions = Array.from(new Set(logs.map((log) => log.action)));
   const uniqueTargetTypes = Array.from(
-    new Set(logs.map((log) => log.target_type)),
+    new Set(logs.map((log) => log.targetType)),
   );
 
   return (
@@ -315,8 +316,8 @@ export default function AuditLogsTab() {
                       {log.action}
                     </span>
                   </TableCell>
-                  <TableCell>{log.target_type}</TableCell>
-                  <TableCell>{log.target_name}</TableCell>
+                  <TableCell>{log.targetType}</TableCell>
+                  <TableCell>{log.targetName}</TableCell>
                   <TableCell className="max-w-xs">
                     <div className="text-sm">
                       {log.metadata ? (
@@ -362,7 +363,7 @@ export default function AuditLogsTab() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    {format(log.created_at, "MMM dd, yyyy HH:mm")}
+                    {format(log.createdAt, "MMM dd, yyyy HH:mm")}
                   </TableCell>
                 </TableRow>
               ))

@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  mockPermissions,
-  mockRolePermissions,
+  getPermissions,
+  getRolePermissions,
+  updateRolePermissions,
   type Permission,
   type RolePermission,
-} from "../mock/role-data";
+} from "../actions/permission.actions";
+import { getRoles, type Role } from "../actions/role.actions";
 import toast from "react-hot-toast";
 
 interface PermissionMatrix {
@@ -20,6 +22,7 @@ interface PermissionMatrix {
 
 export default function PermissionsTab() {
   const [permissions, setPermissions] = useState<Permission[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [rolePermissions, setRolePermissions] = useState<RolePermission[]>([]);
   const [permissionMatrix, setPermissionMatrix] = useState<PermissionMatrix>(
     {},
@@ -42,29 +45,55 @@ export default function PermissionsTab() {
   // Get unique modules
   const modules = Object.keys(permissionsByModule);
 
-  // Mock roles for the matrix
-  const roles = [
-    { id: "role-1", name: "Super Admin" },
-    { id: "role-2", name: "Admin" },
-    { id: "role-3", name: "Editor" },
-    { id: "role-4", name: "Viewer" },
-  ];
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+
+      // Fetch permissions
+      const permResult = await getPermissions();
+      if (permResult.success && permResult.data) {
+        setPermissions(permResult.data);
+      } else {
+        toast.error("Failed to load permissions");
+        console.error("Error loading permissions:", permResult.error);
+      }
+
+      // Fetch roles
+      const roleResult = await getRoles();
+      if (roleResult.success && roleResult.data) {
+        setRoles(roleResult.data);
+      } else {
+        toast.error("Failed to load roles");
+        console.error("Error loading roles:", roleResult.message);
+      }
+
+      // Fetch role permissions
+      const rpResult = await getRolePermissions();
+      if (rpResult.success && rpResult.data) {
+        setRolePermissions(rpResult.data);
+      } else {
+        toast.error("Failed to load role permissions");
+        console.error("Error loading role permissions:", rpResult.error);
+      }
+
+      setIsLoading(false);
+    };
+
+    loadData();
+  }, []);
 
   useEffect(() => {
-    // Simulate API call
-    const loadPermissions = async () => {
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setPermissions(mockPermissions);
-      setRolePermissions(mockRolePermissions);
-
+    if (
+      permissions.length > 0 &&
+      roles.length > 0 &&
+      rolePermissions.length >= 0
+    ) {
       // Build permission matrix
       const matrix: PermissionMatrix = {};
       roles.forEach((role) => {
         matrix[role.id] = {};
-        mockPermissions.forEach((perm) => {
-          const hasPermission = mockRolePermissions.some(
+        permissions.forEach((perm) => {
+          const hasPermission = rolePermissions.some(
             (rp) => rp.roleId === role.id && rp.permissionId === perm.id,
           );
           matrix[role.id][perm.id] = hasPermission;
@@ -72,11 +101,8 @@ export default function PermissionsTab() {
       });
 
       setPermissionMatrix(matrix);
-      setIsLoading(false);
-    };
-
-    loadPermissions();
-  }, []);
+    }
+  }, [permissions, roles, rolePermissions]);
 
   const handlePermissionChange = (
     roleId: string,
@@ -126,14 +152,37 @@ export default function PermissionsTab() {
   };
 
   const handleSave = async () => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      // Update permissions for each role
+      for (const role of roles) {
+        const rolePermIds = permissions
+          .filter((perm) => permissionMatrix[role.id]?.[perm.id])
+          .map((perm) => perm.id);
 
-    // In real app, this would save to API
-    console.log("Saving permissions:", permissionMatrix);
+        const result = await updateRolePermissions(
+          role.id,
+          role.name,
+          rolePermIds,
+        );
+        if (!result.success) {
+          toast.error(`Failed to update permissions for ${role.name}`);
+          console.error("Error updating permissions:", result.error);
+          return;
+        }
+      }
 
-    setHasUnsavedChanges(false);
-    toast.success("Permissions saved successfully");
+      setHasUnsavedChanges(false);
+      toast.success("Permissions saved successfully");
+
+      // Refresh role permissions
+      const rpResult = await getRolePermissions();
+      if (rpResult.success && rpResult.data) {
+        setRolePermissions(rpResult.data);
+      }
+    } catch (error) {
+      toast.error("Failed to save permissions");
+      console.error("Error saving permissions:", error);
+    }
   };
 
   const isRowFullySelected = (module: string, roleId: string) => {
