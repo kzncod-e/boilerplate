@@ -3,6 +3,11 @@
 import React, { useState, forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { BasicButton } from "@/components/global/buttons/basic-button";
 
 export type DatePickerMode = "single" | "range";
 export type CalendarView = "month" | "year";
@@ -179,23 +184,23 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         const isRangeEnd = isDateRangeEnd(date);
         
         days.push(
-          <button
+          <Button
             key={day}
             type="button"
+            variant="ghost"
+            size="sm"
             disabled={disabled}
             onClick={() => handleDateClick(date)}
             className={cn(
-              "h-8 w-8 rounded-md text-sm font-medium transition-colors",
-              "hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500",
-              disabled && "opacity-50 cursor-not-allowed hover:bg-transparent",
-              selected && !isRangeStart && !isRangeEnd && "bg-blue-500 text-white hover:bg-blue-600",
-              isRangeStart && "bg-blue-500 text-white rounded-r-md",
-              isRangeEnd && "bg-blue-500 text-white rounded-l-md",
-              !selected && !disabled && "text-gray-900"
+              "h-8 w-8 p-0 font-normal",
+              selected && !isRangeStart && !isRangeEnd && "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
+              isRangeStart && "bg-primary text-primary-foreground rounded-r-md hover:bg-primary hover:text-primary-foreground",
+              isRangeEnd && "bg-primary text-primary-foreground rounded-l-md hover:bg-primary hover:text-primary-foreground",
+              !selected && !disabled && "hover:bg-accent hover:text-accent-foreground"
             )}
           >
             {day}
-          </button>
+          </Button>
         );
       }
       
@@ -203,34 +208,38 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         <div className="p-3">
           {/* Calendar Header */}
           <div className="flex items-center justify-between mb-4">
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => navigateMonth(-1, calendarIndex)}
-              className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+              className="h-8 w-8 p-0"
             >
               <ChevronLeft className="h-4 w-4" />
-            </button>
+            </Button>
             
-            <div className="text-sm font-medium text-gray-900">
+            <div className="text-sm font-medium">
               {new Intl.DateTimeFormat("en-US", {
                 month: "long",
                 year: "numeric",
               }).format(month)}
             </div>
             
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => navigateMonth(1, calendarIndex)}
-              className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+              className="h-8 w-8 p-0"
             >
               <ChevronRight className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
           
           {/* Day Headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {dayHeaders.map((day) => (
-              <div key={day} className="h-8 text-xs font-medium text-gray-500 text-center">
+              <div key={day} className="h-8 text-xs font-medium text-muted-foreground text-center">
                 {day}
               </div>
             ))}
@@ -247,29 +256,24 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     return (
       <div ref={ref} className={cn("relative", className)}>
         {/* Input Field */}
-        <button
+        <Button
           type="button"
+          variant="outline"
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !value && "text-muted-foreground"
+          )}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
-          className={cn(
-            "flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-left",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
-            "disabled:cursor-not-allowed disabled:opacity-50",
-            "hover:border-gray-400 transition-colors",
-            className
-          )}
         >
-          <span className={cn(!value && "text-gray-500")}>
-            {formatDisplayValue()}
-          </span>
-          <Calendar className="h-4 w-4 text-gray-400" />
-        </button>
+          <span className="flex-1">{formatDisplayValue()}</span>
+          <Calendar className="h-4 w-4 opacity-50" />
+        </Button>
         
         {/* Calendar Dropdown */}
         {isOpen && (
-          <div className="absolute top-full left-0 z-50 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+          <div className="absolute top-full left-0 z-50 mt-1 bg-popover border rounded-md shadow-lg p-2">
             <div className={cn(
-              "p-2",
               showTwoCalendars && "flex gap-2"
             )}>
               {renderCalendar(currentMonth, 0)}
