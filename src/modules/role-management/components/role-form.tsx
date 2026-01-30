@@ -23,17 +23,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { type Role } from "../mock/role-data";
-
-const roleSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Role name is required")
-    .max(50, "Role name too long"),
-  description: z.string().max(200, "Description too long").optional(),
-  status: z.enum(["active", "inactive"]),
-});
-
-type RoleFormData = z.infer<typeof roleSchema>;
+import { RoleFormData, roleSchema } from "../schemas/role.schema";
 
 interface RoleFormProps {
   role?: Role;

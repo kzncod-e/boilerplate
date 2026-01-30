@@ -10,27 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Copy } from "lucide-react";
-import { type Role } from "../mock/role-data";
+import { Pencil, Copy } from "lucide-react";
+import { type Role } from "../actions/role.actions";
 import {
   getRoles,
   createRole,
@@ -38,7 +19,9 @@ import {
   deleteRole,
   duplicateRole,
 } from "../actions/role.actions";
-import RoleForm from "./role-form";
+import CreateRoleDialog from "./create-role-dialog";
+import EditRoleDialog from "./edit-role-dialog";
+import DeleteRoleDialog from "./delete-role-dialog";
 import toast from "react-hot-toast";
 import Badge from "@/components/ui/badge";
 
@@ -165,23 +148,11 @@ export default function RolesTab() {
             <Copy className="mr-2 h-4 w-4" />
             Duplicate Role
           </Button>
-          <Dialog
-            open={isCreateDialogOpen}
+          <CreateRoleDialog
+            isOpen={isCreateDialogOpen}
             onOpenChange={setIsCreateDialogOpen}
-          >
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Create Role
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Create New Role</DialogTitle>
-              </DialogHeader>
-              <RoleForm onSuccess={handleCreateRole} />
-            </DialogContent>
-          </Dialog>
+            onSuccess={handleCreateRole}
+          />
         </div>
       </div>
 
@@ -257,31 +228,10 @@ export default function RolesTab() {
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Role</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete the role "
-                              {role.name}"? This action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDeleteRole(role.id)}
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                      <DeleteRoleDialog
+                        role={role}
+                        onConfirm={handleDeleteRole}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -292,16 +242,12 @@ export default function RolesTab() {
       </div>
 
       {/* Edit Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit Role</DialogTitle>
-          </DialogHeader>
-          {selectedRole && (
-            <RoleForm role={selectedRole} onSuccess={handleUpdateRole} />
-          )}
-        </DialogContent>
-      </Dialog>
+      <EditRoleDialog
+        isOpen={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        role={selectedRole}
+        onSuccess={handleUpdateRole}
+      />
     </div>
   );
 }

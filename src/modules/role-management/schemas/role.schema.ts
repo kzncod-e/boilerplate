@@ -1,5 +1,6 @@
 import { user } from "@/db";
 import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import z from "zod";
 
 export const role = sqliteTable("role", {
     id: text("id").primaryKey(),
@@ -63,7 +64,17 @@ export const rolePermission = sqliteTable(
       .on(table.roleId, table.permissionId),
   })
 );
+export const roleSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Role name is required")
+    .max(50, "Role name too long"),
+  description: z.string().max(200, "Description too long").optional(),
+  status: z.enum(["active", "inactive"]),
+  user:z.string()
+});
 
+export type RoleFormData = z.infer<typeof roleSchema>;
 
 export const auditLog = sqliteTable("audit_log", {
     id: text("id").primaryKey(),

@@ -5,6 +5,8 @@ import { role, auditLog } from "../schemas/role.schema";
 import { getDb } from "@/db";
 import { type Role } from "../mock/role-data";
 
+export type { Role };
+
 export const getRoles = async () => {
     try {
         const db = await getDb();
@@ -22,7 +24,7 @@ export const getRoles = async () => {
     }
 };
 
-export const createRole = async (data: { name: string; description?: string; status: "active" | "inactive" }) => {
+export const createRole = async (data: { name: string; description?: string; status: "active" | "inactive",user:string }) => {
     try {
         const db = await getDb();
         const newRole = {
@@ -38,7 +40,7 @@ export const createRole = async (data: { name: string; description?: string; sta
         // Optional: Add audit log
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: "system", // In real app, get from auth
+            actor: data.user?data.user:"system", 
             action: "create",
             targetType: "role",
             targetName: data.name,
@@ -169,5 +171,5 @@ export const duplicateRole = async (id: string) => {
             success: false,
             message: err.message || "An unknown error occurred.",
         };
-    }
+        }
 };
