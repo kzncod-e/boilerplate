@@ -3,6 +3,10 @@
 import React, { useState, forwardRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Search, X, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { BasicButton } from "@/components/global/buttons/basic-button";
 
 export interface SearchFormProps {
   value?: string;
@@ -102,14 +106,14 @@ export const SearchForm = forwardRef<HTMLDivElement, SearchFormProps>(
             {/* Search Icon */}
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
               {loading ? (
-                <Loader2 className="h-4 w-4 text-gray-400 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               ) : (
-                <Search className="h-4 w-4 text-gray-400" />
+                <Search className="h-4 w-4 text-muted-foreground" />
               )}
             </div>
 
             {/* Input Field */}
-            <input
+            <Input
               type="text"
               value={searchValue}
               onChange={handleInputChange}
@@ -118,47 +122,38 @@ export const SearchForm = forwardRef<HTMLDivElement, SearchFormProps>(
               disabled={disabled || loading}
               autoFocus={autoFocus}
               className={cn(
-                "w-full h-10 pl-10 pr-10 rounded-md border border-gray-300 bg-white",
-                "text-sm placeholder:text-gray-500",
-                "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
-                "disabled:cursor-not-allowed disabled:opacity-50",
-                "hover:border-gray-400 transition-colors",
+                "pl-10 pr-10",
                 inputClassName
               )}
             />
 
             {/* Clear Button */}
             {showClearButton && hasValue && !loading && (
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={handleClear}
                 disabled={disabled}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
             )}
           </div>
 
           {/* Search Button */}
           {showSearchButton && (
-            <button
+            <BasicButton
               type="submit"
+              variant="primary"
+              size="md"
               disabled={disabled || loading || !hasValue}
-              className={cn(
-                "ml-2 h-10 px-4 rounded-md bg-blue-600 text-white text-sm font-medium",
-                "hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                "disabled:cursor-not-allowed disabled:opacity-50",
-                "transition-colors",
-                buttonClassName
-              )}
+              loading={loading}
+              className={cn("ml-2", buttonClassName)}
             >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Search className="h-4 w-4" />
-              )}
-            </button>
+              <Search className="h-4 w-4" />
+            </BasicButton>
           )}
         </form>
       </div>
@@ -226,20 +221,20 @@ export const QuickSearch = forwardRef<HTMLDivElement, QuickSearchProps>(
         
         {/* Suggestions Dropdown */}
         {showSuggestions && filteredSuggestions.length > 0 && (
-          <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
-            <ul className="py-1 max-h-60 overflow-auto">
+          <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-lg p-1">
+            <div className="max-h-60 overflow-auto">
               {filteredSuggestions.map((suggestion, index) => (
-                <li key={index}>
-                  <button
-                    type="button"
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
-                  >
-                    {suggestion}
-                  </button>
-                </li>
+                <Button
+                  key={index}
+                  type="button"
+                  variant="ghost"
+                  className="w-full justify-start h-auto py-2 px-3"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion}
+                </Button>
               ))}
-            </ul>
+            </div>
           </div>
         )}
         

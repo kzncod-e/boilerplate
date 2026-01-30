@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import { 
-  Form, 
   FormField, 
-  Input, 
-  Textarea, 
-  Select, 
+  CustomInput as Input, 
+  CustomTextarea as Textarea, 
+  CustomSelect as Select, 
   RadioGroup, 
   CheckboxGroup 
 } from "@/components/global/forms/basic-form";
+import { MultipleSelect, MultipleSelectField } from "@/components/global/forms/multiple-select-form";
 import { DatePicker } from "@/components/global/forms/date-picker-form";
 import { SearchForm, QuickSearch } from "@/components/global/forms/search-form";
 import { StepperForm } from "@/components/global/forms/stepper-form";
@@ -21,20 +21,14 @@ import {
   User, 
   Mail, 
   Phone, 
-  Calendar,
-  Search,
   MapPin,
   Briefcase,
-  Check,
-  X,
-  Upload,
-  Download,
   Settings,
   Save
 } from "lucide-react";
 
 export default function FormPage() {
-  const [basicFormData, setBasicFormData] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -50,29 +44,11 @@ export default function FormPage() {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null] | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [editorContent, setEditorContent] = useState("");
-  const [markdownContent] = useState(`# Welcome to Markdown Editor
-
-This is a **bold** text and this is *italic*.
-
-## Features
-
-- **Bold text** using \`**text**\`
-- *Italic text* using \`*text*\`
-- \`Code\` using backticks
-- ## Headers using #
-
-### Code Example
-
-\`\`\`javascript
-const greeting = "Hello, World!";
-console.log(greeting);
-\`\`\`
-
-> This is a blockquote
-
----
-
-Visit [GitHub](https://github.com) for more information!`);
+  const [markdownContent] = useState(`# Welcome to Markdown EditorVisit [GitHub](https://github.com) for more information!`);
+  
+  // Multiple select states
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
 
   // Search suggestions
   const suggestions = [
@@ -110,6 +86,40 @@ Visit [GitHub](https://github.com) for more information!`);
     { value: "sports", label: "Sports" },
     { value: "music", label: "Music" },
     { value: "travel", label: "Travel" },
+  ];
+
+  // Multiple select options
+  const skillOptions = [
+    { value: "javascript", label: "JavaScript" },
+    { value: "typescript", label: "TypeScript" },
+    { value: "react", label: "React" },
+    { value: "vue", label: "Vue.js" },
+    { value: "angular", label: "Angular" },
+    { value: "nodejs", label: "Node.js" },
+    { value: "python", label: "Python" },
+    { value: "java", label: "Java" },
+    { value: "csharp", label: "C#" },
+    { value: "php", label: "PHP" },
+    { value: "ruby", label: "Ruby" },
+    { value: "go", label: "Go" },
+    { value: "rust", label: "Rust" },
+    { value: "swift", label: "Swift" },
+    { value: "kotlin", label: "Kotlin" }
+  ];
+
+  const languageOptions = [
+    { value: "english", label: "English" },
+    { value: "spanish", label: "Spanish" },
+    { value: "french", label: "French" },
+    { value: "german", label: "German" },
+    { value: "chinese", label: "Chinese" },
+    { value: "japanese", label: "Japanese" },
+    { value: "korean", label: "Korean" },
+    { value: "portuguese", label: "Portuguese" },
+    { value: "russian", label: "Russian" },
+    { value: "arabic", label: "Arabic" },
+    { value: "hindi", label: "Hindi" },
+    { value: "italian", label: "Italian" }
   ];
 
   // Stepper form steps
@@ -203,7 +213,7 @@ Visit [GitHub](https://github.com) for more information!`);
           <FormField label="Interests">
             <CheckboxGroup
               options={interestOptions}
-              selectedValues={["technology", "travel"]}
+              selectedValues={["sports", "travel"]}
               onChange={(values) => console.log("Interests:", values)}
               orientation="horizontal"
             />
@@ -219,7 +229,7 @@ Visit [GitHub](https://github.com) for more information!`);
 
   const handleBasicFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Basic form data:", basicFormData);
+    console.log("Basic form data:", formData);
   };
 
   const handleSearch = (value: string) => {
@@ -243,18 +253,18 @@ Visit [GitHub](https://github.com) for more information!`);
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField label="Full Name" required helper="Enter your complete name">
               <Input
-                value={basicFormData.name}
-                onChange={(e) => setBasicFormData(prev => ({ ...prev, name: e.target.value }))}
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="John Doe"
                 leftIcon={<User className="h-4 w-4" />}
               />
             </FormField>
 
-            <FormField label="Email Address" required error={!basicFormData.email.includes("@") && basicFormData.email ? "Invalid email format" : ""}>
+            <FormField label="Email Address" required error={!formData.email.includes("@") && formData.email ? "Invalid email format" : ""}>
               <Input
                 type="email"
-                value={basicFormData.email}
-                onChange={(e) => setBasicFormData(prev => ({ ...prev, email: e.target.value }))}
+                value={formData.email}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="john.doe@example.com"
                 leftIcon={<Mail className="h-4 w-4" />}
               />
@@ -263,8 +273,8 @@ Visit [GitHub](https://github.com) for more information!`);
             <FormField label="Phone Number">
               <Input
                 type="tel"
-                value={basicFormData.phone}
-                onChange={(e) => setBasicFormData(prev => ({ ...prev, phone: e.target.value }))}
+                value={formData.phone}
+                onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                 placeholder="+1 (555) 123-4567"
                 leftIcon={<Phone className="h-4 w-4" />}
               />
@@ -272,8 +282,8 @@ Visit [GitHub](https://github.com) for more information!`);
 
             <FormField label="Country">
               <Select
-                value={basicFormData.country}
-                onChange={(e) => setBasicFormData(prev => ({ ...prev, country: e.target.value }))}
+                value={formData.country}
+                onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
                 options={countries}
                 placeholder="Select your country"
               />
@@ -282,8 +292,8 @@ Visit [GitHub](https://github.com) for more information!`);
 
           <FormField label="Message">
             <Textarea
-              value={basicFormData.message}
-              onChange={(e) => setBasicFormData(prev => ({ ...prev, message: e.target.value }))}
+              value={formData.message}
+              onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
               placeholder="Tell us more about yourself..."
               rows={4}
             />
@@ -293,8 +303,8 @@ Visit [GitHub](https://github.com) for more information!`);
             <FormField label="Gender">
               <RadioGroup
                 options={genderOptions}
-                value={basicFormData.gender}
-                onChange={(value) => setBasicFormData(prev => ({ ...prev, gender: value }))}
+                value={formData.gender}
+                onChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}
                 orientation="horizontal"
               />
             </FormField>
@@ -302,8 +312,8 @@ Visit [GitHub](https://github.com) for more information!`);
             <FormField label="Interests">
               <CheckboxGroup
                 options={interestOptions}
-                selectedValues={basicFormData.interests}
-                onChange={(values) => setBasicFormData(prev => ({ ...prev, interests: values }))}
+                selectedValues={formData.interests}
+                onChange={(values) => setFormData(prev => ({ ...prev, interests: values }))}
                 orientation="horizontal"
               />
             </FormField>
@@ -313,7 +323,7 @@ Visit [GitHub](https://github.com) for more information!`);
             <BasicButton type="submit" leftIcon={<Save className="h-4 w-4" />}>
               Save Form
             </BasicButton>
-            <BasicButton variant="outline" onClick={() => setBasicFormData({
+            <BasicButton variant="outline" onClick={() => setFormData({
               name: "",
               email: "",
               phone: "",
@@ -431,6 +441,91 @@ Visit [GitHub](https://github.com) for more information!`);
           <div className="text-sm text-gray-600">
             <p>Current search value: "{searchValue}"</p>
             <p>Try typing "John" to see suggestions.</p>
+          </div>
+        </div>
+      </GlobalCard>
+
+      {/* Multiple Select Form */}
+      <GlobalCard title="Multiple Select Form" description="Advanced multi-select with search and dark mode support">
+        <div className="space-y-6">
+          <MultipleSelectField
+            label="Technical Skills"
+            helper="Select your technical skills (max 5 visible)"
+            required
+            options={skillOptions}
+            selectedValues={selectedSkills}
+            onChange={setSelectedSkills}
+            placeholder="Search and select skills..."
+            searchable={true}
+            clearable={true}
+            maxVisibleItems={5}
+          />
+
+          <MultipleSelectField
+            label="Languages"
+            helper="Select languages you speak"
+            options={languageOptions}
+            selectedValues={selectedLanguages}
+            onChange={setSelectedLanguages}
+            placeholder="Choose languages..."
+            searchable={true}
+            clearable={false}
+            maxVisibleItems={3}
+          />
+
+          <MultipleSelectField
+            label="Disabled Multiple Select"
+            helper="This is a disabled example"
+            options={skillOptions.slice(0, 5)}
+            selectedValues={["javascript", "react"]}
+            onChange={() => {}}
+            placeholder="Cannot select..."
+            disabled={false}
+            searchable={false}
+            clearable={false}
+          />
+
+          <MultipleSelectField
+            label="Non-Searchable Multiple Select"
+            helper="Click the dropdown to select options"
+            options={skillOptions.slice(0, 8)}
+            selectedValues={[]}
+            onChange={(values) => console.log("Non-searchable selection:", values)}
+            placeholder="Select from dropdown..."
+            searchable={false}
+            clearable={true}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="text-sm">
+              <p className="font-medium mb-2">Selected Skills:</p>
+              <div className="space-y-1">
+                {selectedSkills.length > 0 ? (
+                  selectedSkills.map(skill => (
+                    <div key={skill} className="text-muted-foreground">
+                      • {skillOptions.find(opt => opt.value === skill)?.label || skill}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-muted-foreground">No skills selected</div>
+                )}
+              </div>
+            </div>
+
+            <div className="text-sm">
+              <p className="font-medium mb-2">Selected Languages:</p>
+              <div className="space-y-1">
+                {selectedLanguages.length > 0 ? (
+                  selectedLanguages.map(lang => (
+                    <div key={lang} className="text-muted-foreground">
+                      • {languageOptions.find(opt => opt.value === lang)?.label || lang}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-muted-foreground">No languages selected</div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </GlobalCard>
