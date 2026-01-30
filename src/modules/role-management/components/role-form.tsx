@@ -37,13 +37,13 @@ type RoleFormData = z.infer<typeof roleSchema>;
 
 interface RoleFormProps {
   role?: Role;
-  onSuccess: () => void;
+  onSuccess: (data: RoleFormData) => void;
 }
 
 export default function RoleForm({ role, onSuccess }: RoleFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<RoleFormData>({
+  const form = useForm({
     resolver: zodResolver(roleSchema),
     defaultValues: {
       name: role?.name || "",
@@ -55,13 +55,9 @@ export default function RoleForm({ role, onSuccess }: RoleFormProps) {
   const onSubmit = async (data: RoleFormData) => {
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("Submitting role:", data);
+    onSuccess(data);
 
     setIsSubmitting(false);
-    onSuccess();
   };
 
   return (

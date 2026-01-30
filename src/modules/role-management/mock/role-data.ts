@@ -2,7 +2,7 @@ export interface Role {
  id: string;
         name: string;
         description: string | null;
-        status: string;
+        status: "active" | "inactive";
         createdAt: Date;
         updatedAt: Date;
 }

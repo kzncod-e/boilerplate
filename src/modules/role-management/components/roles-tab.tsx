@@ -33,10 +33,10 @@ import { Plus, Pencil, Trash2, Copy } from "lucide-react";
 import { type Role } from "../mock/role-data";
 import {
   getRoles,
-  // createRole,
-  // updateRole,
-  // deleteRole,
-  // duplicateRole,
+  createRole,
+  updateRole,
+  deleteRole,
+  duplicateRole,
 } from "../actions/role.actions";
 import RoleForm from "./role-form";
 import toast from "react-hot-toast";
@@ -57,7 +57,7 @@ export default function RolesTab() {
         setRoles(result?.data);
       } else {
         toast.error("Failed to load roles");
-        console.error("Error loading roles:", result.error);
+        console.error("Error loading roles:", result.message);
       }
       setIsLoading(false);
     };
@@ -65,36 +65,38 @@ export default function RolesTab() {
     loadRoles();
   }, []);
 
-  const handleCreateRole = async (roleId: string, formData: any) => {
+  const handleCreateRole = async (formData: any) => {
     setIsCreateDialogOpen(false);
     const result = await createRole(formData);
     if (result.success) {
       // Refresh roles from database
       const refreshResult = await getRoles();
-      if (refreshResult.success) {
+      if (refreshResult.success && refreshResult.data) {
         setRoles(refreshResult.data);
       }
       toast.success("Role created successfully");
     } else {
       toast.error("Failed to create role");
-      console.error("Error creating role:", result.error);
+      console.error("Error creating role:", result.message);
     }
   };
 
-  const handleUpdateRole = async (roleId: string, formData: any) => {
+  const handleUpdateRole = async (formData: any) => {
     setIsEditDialogOpen(false);
     setSelectedRole(null);
-    const result = await updateRole(roleId, formData);
-    if (result.success) {
-      // Refresh roles from database
-      const refreshResult = await getRoles();
-      if (refreshResult.success) {
-        setRoles(refreshResult.data);
+    if (selectedRole) {
+      const result = await updateRole(selectedRole.id, formData);
+      if (result.success) {
+        // Refresh roles from database
+        const refreshResult = await getRoles();
+        if (refreshResult.success && refreshResult.data) {
+          setRoles(refreshResult.data);
+        }
+        toast.success("Role updated successfully");
+      } else {
+        toast.error("Failed to update role");
+        console.error("Error updating role:", result.message);
       }
-      toast.success("Role updated successfully");
-    } else {
-      toast.error("Failed to update role");
-      console.error("Error updating role:", result.error);
     }
   };
 
@@ -103,13 +105,13 @@ export default function RolesTab() {
     if (result.success) {
       // Refresh roles from database
       const refreshResult = await getRoles();
-      if (refreshResult.success) {
+      if (refreshResult.success && refreshResult.data) {
         setRoles(refreshResult.data);
       }
       toast.success("Role deleted successfully");
     } else {
       toast.error("Failed to delete role");
-      console.error("Error deleting role:", result.error);
+      console.error("Error deleting role:", result.message);
     }
   };
 
@@ -118,13 +120,13 @@ export default function RolesTab() {
     if (result.success) {
       // Refresh roles from database
       const refreshResult = await getRoles();
-      if (refreshResult.success) {
+      if (refreshResult.success && refreshResult.data) {
         setRoles(refreshResult.data);
       }
       toast.success("Role duplicated successfully");
     } else {
       toast.error("Failed to duplicate role");
-      console.error("Error duplicating role:", result.error);
+      console.error("Error duplicating role:", result.message);
     }
   };
 

@@ -65,6 +65,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
             id: session.user.id,
             name: session.user.name,
             email: session.user.email,
+            
         };
     } catch (error) {
         console.error("Error getting current user:", error);

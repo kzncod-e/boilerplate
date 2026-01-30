@@ -22,6 +22,20 @@
       "when": 1769154223905,
       "tag": "0002_add_the_banned_column_to_user",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1769672487206,
+      "tag": "0003_add_role_and_log_Schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1769742832988,
+      "tag": "0004_add-relation-user-on-role-table",
+      "breakpoints": true
     }
   ]
 }
