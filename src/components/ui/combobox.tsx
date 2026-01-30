@@ -38,9 +38,10 @@ Combobox.displayName = "Combobox"
 const ComboboxChips = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onClick, ...props }, ref) => (
   <div
     ref={ref}
+    onClick={onClick}
     className={cn(
       "flex flex-wrap gap-1 items-center min-h-[20px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
       className
@@ -197,7 +198,7 @@ const ComboboxList = React.forwardRef<
 >(({ className, children, items = [], multiple = false, value, onValueChange, ...props }, ref) => {
   return (
     <div ref={ref} className={cn("py-1", className)} {...props}>
-      {typeof children === "function" ? children(items) : children}
+      {typeof children === "function" ? (children as (items: string[]) => React.ReactNode)(items) : children}
     </div>
   )
 })
