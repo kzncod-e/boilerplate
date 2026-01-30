@@ -30,7 +30,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Plus, Pencil, Trash2, Copy } from "lucide-react";
-import { mockRoles, type Role } from "../mock/role-data";
+import { type Role } from "../mock/role-data";
+import {
+  getRoles,
+  // createRole,
+  // updateRole,
+  // deleteRole,
+  // duplicateRole,
+} from "../actions/role.actions";
 import RoleForm from "./role-form";
 import toast from "react-hot-toast";
 import Badge from "@/components/ui/badge";
@@ -43,49 +50,82 @@ export default function RolesTab() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
   useEffect(() => {
-    // Simulate API call
     const loadRoles = async () => {
       setIsLoading(true);
-      // In real app, this would be an API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setRoles(mockRoles);
+      const result = await getRoles();
+      if (result.success && result.data) {
+        setRoles(result?.data);
+      } else {
+        toast.error("Failed to load roles");
+        console.error("Error loading roles:", result.error);
+      }
       setIsLoading(false);
     };
 
     loadRoles();
   }, []);
 
-  const handleCreateRole = () => {
+  const handleCreateRole = async (roleId: string, formData: any) => {
     setIsCreateDialogOpen(false);
-    // Refresh roles
-    setRoles([...mockRoles]); // In real app, refetch from API
-    toast.success("Role created successfully");
+    const result = await createRole(formData);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role created successfully");
+    } else {
+      toast.error("Failed to create role");
+      console.error("Error creating role:", result.error);
+    }
   };
 
-  const handleUpdateRole = () => {
+  const handleUpdateRole = async (roleId: string, formData: any) => {
     setIsEditDialogOpen(false);
     setSelectedRole(null);
-    // Refresh roles
-    setRoles([...mockRoles]); // In real app, refetch from API
-    toast.success("Role updated successfully");
+    const result = await updateRole(roleId, formData);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role updated successfully");
+    } else {
+      toast.error("Failed to update role");
+      console.error("Error updating role:", result.error);
+    }
   };
 
   const handleDeleteRole = async (roleId: string) => {
-    // In real app, this would be an API call
-    setRoles(roles.filter((role) => role.id !== roleId));
-    toast.success("Role deleted successfully");
+    const result = await deleteRole(roleId);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role deleted successfully");
+    } else {
+      toast.error("Failed to delete role");
+      console.error("Error deleting role:", result.error);
+    }
   };
 
-  const handleDuplicateRole = (role: Role) => {
-    const duplicatedRole: Role = {
-      ...role,
-      id: `role-${Date.now()}`,
-      name: `${role.name} (Copy)`,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setRoles([...roles, duplicatedRole]);
-    toast.success("Role duplicated successfully");
+  const handleDuplicateRole = async (role: Role) => {
+    const result = await duplicateRole(role.id);
+    if (result.success) {
+      // Refresh roles from database
+      const refreshResult = await getRoles();
+      if (refreshResult.success) {
+        setRoles(refreshResult.data);
+      }
+      toast.success("Role duplicated successfully");
+    } else {
+      toast.error("Failed to duplicate role");
+      console.error("Error duplicating role:", result.error);
+    }
   };
 
   const handleEditRole = (role: Role) => {
@@ -117,7 +157,7 @@ export default function RolesTab() {
         <div className="flex gap-2">
           <Button
             variant="outline"
-            onClick={() => handleDuplicateRole(roles[0] || mockRoles[0])}
+            onClick={() => handleDuplicateRole(roles[0])}
             disabled={roles.length === 0}
           >
             <Copy className="mr-2 h-4 w-4" />

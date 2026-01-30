@@ -1,10 +1,10 @@
 export interface Role {
-  id: string;
-  name: string;
-  description: string;
-  status: "active" | "inactive";
-  createdAt: Date;
-  updatedAt: Date;
+ id: string;
+        name: string;
+        description: string | null;
+        status: string;
+        createdAt: Date;
+        updatedAt: Date;
 }
 
 export interface Permission {
