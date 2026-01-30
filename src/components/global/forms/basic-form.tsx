@@ -2,6 +2,11 @@
 
 import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { BasicButton } from "@/components/global/buttons/basic-button";
 
 export interface FormFieldProps {
   label?: string;
@@ -18,23 +23,20 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
     return (
       <div ref={ref} className={cn("space-y-2", className)}>
         {label && (
-          <label className={cn(
-            "text-sm font-medium text-gray-700",
-            disabled && "opacity-50"
-          )}>
+          <Label className={cn(disabled && "opacity-50")}>
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
-          </label>
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
         )}
         
         {children}
         
         {error && (
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-destructive">{error}</p>
         )}
         
         {helper && !error && (
-          <p className="text-sm text-gray-500">{helper}</p>
+          <p className="text-sm text-muted-foreground">{helper}</p>
         )}
       </div>
     );
@@ -43,26 +45,25 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
 
 FormField.displayName = "FormField";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   leftIcon?: React.ReactNode;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   ({ className, error, leftIcon, ...props }, ref) => {
     return (
       <div className="relative">
         {leftIcon && (
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
             {leftIcon}
           </div>
         )}
-        <input
+        <Input
           ref={ref}
           className={cn(
-            "flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50",
             leftIcon && "pl-10",
-            error && "border-red-500 focus:ring-red-500",
+            error && "border-destructive focus-visible:ring-destructive/20",
             className
           )}
           {...props}
@@ -72,20 +73,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-Input.displayName = "Input";
+CustomInput.displayName = "CustomInput";
 
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface CustomTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
 }
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+export const CustomTextarea = forwardRef<HTMLTextAreaElement, CustomTextareaProps>(
   ({ className, error, ...props }, ref) => {
     return (
-      <textarea
+      <Textarea
         ref={ref}
         className={cn(
-          "flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 resize-vertical",
-          error && "border-red-500 focus:ring-red-500",
+          "min-h-[80px] resize-vertical",
+          error && "border-destructive focus-visible:ring-destructive/20",
           className
         )}
         {...props}
@@ -94,22 +95,22 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   }
 );
 
-Textarea.displayName = "Textarea";
+CustomTextarea.displayName = "CustomTextarea";
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export interface CustomSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
   options?: { value: string; label: string }[];
   placeholder?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+export const CustomSelect = forwardRef<HTMLSelectElement, CustomSelectProps>(
   ({ className, error, options = [], placeholder, children, ...props }, ref) => {
     return (
       <select
         ref={ref}
         className={cn(
-          "flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50",
-          error && "border-red-500 focus:ring-red-500",
+          "flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30 dark:text-foreground",
+          error && "border-destructive focus-visible:ring-destructive/20",
           className
         )}
         {...props}
@@ -130,7 +131,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   }
 );
 
-Select.displayName = "Select";
+CustomSelect.displayName = "CustomSelect";
 
 export interface RadioGroupProps {
   options: { value: string; label: string }[];
@@ -157,7 +158,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
           <label
             key={option.value}
             className={cn(
-              "flex items-center space-x-2 text-sm text-gray-700 cursor-pointer",
+              "flex items-center space-x-2 text-sm font-medium cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50 text-foreground",
               disabled && "opacity-50 cursor-not-allowed"
             )}
           >
@@ -168,7 +169,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
               checked={value === option.value}
               onChange={() => onChange?.(option.value)}
               disabled={disabled}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+              className="h-4 w-4 text-primary focus-visible:ring-ring/50 border-input"
             />
             <span>{option.label}</span>
           </label>
@@ -212,7 +213,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
           <label
             key={option.value}
             className={cn(
-              "flex items-center space-x-2 text-sm text-gray-700 cursor-pointer",
+              "flex items-center space-x-2 text-sm font-medium cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50 text-foreground",
               disabled && "opacity-50 cursor-not-allowed"
             )}
           >
@@ -223,7 +224,7 @@ export const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
               checked={selectedValues.includes(option.value)}
               onChange={(e) => handleChange(option.value, e.target.checked)}
               disabled={disabled}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="h-4 w-4 text-primary focus-visible:ring-ring/50 border-input rounded"
             />
             <span>{option.label}</span>
           </label>
@@ -254,3 +255,6 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(
 );
 
 Form.displayName = "Form";
+
+// Re-export shadcn components for convenience
+export { Button, Input, Textarea, Label };

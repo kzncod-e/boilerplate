@@ -3,6 +3,9 @@
 import React, { useState, forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { Check, ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { BasicButton } from "@/components/global/buttons/basic-button";
 
 export interface Step {
   id: string;
@@ -139,13 +142,15 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
       const isCompleted = status === "completed";
 
       return (
-        <button
+        <Button
           key={step.id}
+          variant="ghost"
           onClick={() => handleStepClick(stepIndex)}
           disabled={!allowSkip && status === "pending"}
           className={cn(
             "flex items-center",
             orientation === "horizontal" ? "flex-row" : "flex-col",
+            "h-auto p-0",
             stepClassName
           )}
         >
@@ -153,11 +158,11 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
           <div
             className={cn(
               "flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-medium transition-colors",
-              isActive && "border-blue-500 bg-blue-500 text-white",
-              isCompleted && "border-green-500 bg-green-500 text-white",
-              status === "pending" && "border-gray-300 bg-white text-gray-500",
+              isActive && "border-primary bg-primary text-primary-foreground",
+              isCompleted && "border-success bg-success text-success-foreground",
+              status === "pending" && "border-input bg-background text-muted-foreground",
               !allowSkip && status === "pending" && "cursor-not-allowed opacity-50",
-              allowSkip && status === "pending" && "hover:border-gray-400 cursor-pointer"
+              allowSkip && status === "pending" && "hover:border-muted-foreground cursor-pointer"
             )}
           >
             {getStepIcon(stepIndex)}
@@ -170,27 +175,27 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
           )}>
             <div className={cn(
               "text-sm font-medium",
-              isActive && "text-blue-600",
-              isCompleted && "text-green-600",
-              status === "pending" && "text-gray-500"
+              isActive && "text-primary",
+              isCompleted && "text-success",
+              status === "pending" && "text-muted-foreground"
             )}>
               {step.title}
               {step.optional && (
-                <span className="ml-1 text-xs text-gray-400">(optional)</span>
+                <span className="ml-1 text-xs text-muted-foreground">(optional)</span>
               )}
             </div>
             {step.description && (
               <div className={cn(
                 "text-xs",
-                isActive && "text-blue-500",
-                isCompleted && "text-green-500",
-                status === "pending" && "text-gray-400"
+                isActive && "text-primary/70",
+                isCompleted && "text-success/70",
+                status === "pending" && "text-muted-foreground/70"
               )}>
                 {step.description}
               </div>
             )}
           </div>
-        </button>
+        </Button>
       );
     };
 
@@ -200,16 +205,16 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
       return (
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium">
               Step {currentStep + 1} of {steps.length}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-muted-foreground">
               {Math.round(((currentStep + 1) / steps.length) * 100)}% Complete
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-secondary rounded-full h-2">
             <div
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
             />
           </div>
@@ -235,7 +240,7 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
               {orientation === "horizontal" && index < steps.length - 1 && (
                 <div className={cn(
                   "flex-1 h-px mx-4",
-                  index < currentStep ? "bg-green-500" : "bg-gray-300"
+                  index < currentStep ? "bg-success" : "bg-input"
                 )} />
               )}
             </div>
@@ -257,60 +262,40 @@ export const StepperForm = forwardRef<HTMLDivElement, StepperFormProps>(
         )}>
           <div>
             {!isFirstStep && (
-              <button
-                type="button"
+              <BasicButton
+                variant="outline"
+                size="md"
                 onClick={handlePrevious}
                 disabled={loading}
-                className={cn(
-                  "flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md",
-                  "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                  "disabled:opacity-50 disabled:cursor-not-allowed",
-                  "transition-colors"
-                )}
+                leftIcon={<ChevronLeft className="h-4 w-4" />}
               >
-                <ChevronLeft className="h-4 w-4 mr-2" />
                 {prevButtonText}
-              </button>
+              </BasicButton>
             )}
           </div>
 
           <div className="flex gap-2">
             {allowSkip && !isLastStep && (
-              <button
-                type="button"
+              <BasicButton
+                variant="outline"
+                size="md"
                 onClick={() => handleStepChange(currentStep + 1)}
                 disabled={loading}
-                className={cn(
-                  "px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md",
-                  "hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                  "disabled:opacity-50 disabled:cursor-not-allowed",
-                  "transition-colors"
-                )}
               >
                 Skip
-              </button>
+              </BasicButton>
             )}
 
-            <button
-              type="button"
+            <BasicButton
+              variant="primary"
+              size="md"
               onClick={handleNext}
               disabled={loading || validating}
-              className={cn(
-                "flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md",
-                "hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                "disabled:opacity-50 disabled:cursor-not-allowed",
-                "transition-colors"
-              )}
+              loading={loading || validating}
+              rightIcon={isLastStep ? <Check className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
             >
-              {loading || validating ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : isLastStep ? (
-                <Check className="h-4 w-4 mr-2" />
-              ) : (
-                <ChevronRight className="h-4 w-4 mr-2" />
-              )}
               {isLastStep ? completeButtonText : nextButtonText}
-            </button>
+            </BasicButton>
           </div>
         </div>
       </div>
@@ -338,8 +323,8 @@ export const StepperStep: React.FC<StepperStepProps> = ({
   className,
 }) => {
   return (
-    <div className={cn("space-y-4", className)}>
+    <FormItem className={cn("space-y-4", className)}>
       {children}
-    </div>
+    </FormItem>
   );
 };

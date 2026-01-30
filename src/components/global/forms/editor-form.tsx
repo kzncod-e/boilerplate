@@ -2,6 +2,11 @@
 
 import React, { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { BasicButton } from "@/components/global/buttons/basic-button";
 
 declare global {
   interface Window {
@@ -34,8 +39,7 @@ export interface EditorFormProps {
 const defaultPlugins = [
   "advlist autolink lists link image charmap print preview anchor",
   "searchreplace visualblocks code fullscreen",
-  "insertdatetime media table paste code help wordcount",
-  "markdown"
+  "insertdatetime media table paste code help wordcount"
 ];
 
 const defaultToolbar = `
@@ -117,16 +121,65 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
       const initializeEditor = async () => {
         try {
           if (window.tinymce) {
+            // Check if dark mode is active
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            
+            // Enhanced content style with dark mode support
+            const enhancedContentStyle = contentStyle || `
+              body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                font-size: 14px; 
+                line-height: 1.6; 
+                color: ${isDarkMode ? '#e5e7eb' : '#323233ff'};
+                background-color: ${isDarkMode ? '#1f2937' : '#ffffff'};
+              }
+              h1, h2, h3, h4, h5, h6 { color: ${isDarkMode ? '#f3f4f6' : '#111827'}; }
+              p { color: ${isDarkMode ? '#d1d5db' : '#374151'}; }
+              code { 
+                background-color: ${isDarkMode ? '#374151' : '#f3f4f6'}; 
+                color: ${isDarkMode ? '#f9fafb' : '#111827'};
+                padding: 2px 4px; 
+                border-radius: 3px; 
+              }
+              pre { 
+                background-color: ${isDarkMode ? '#374151' : '#f3f4f6'}; 
+                color: ${isDarkMode ? '#f9fafb' : '#111827'};
+                padding: 16px; 
+                border-radius: 6px; 
+                overflow-x: auto; 
+              }
+              pre code { background: none; padding: 0; }
+              blockquote { 
+                border-left: 4px solid ${isDarkMode ? '#6b7280' : '#d1d5db'}; 
+                margin-left: 0; 
+                padding-left: 16px; 
+                color: ${isDarkMode ? '#9ca3af' : '#6b7280'}; 
+              }
+              a { color: ${isDarkMode ? '#60a5fa' : '#2563eb'}; }
+              table { border-collapse: collapse; width: 100%; }
+              th, td { 
+                border: 1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}; 
+                padding: 8px; 
+                text-align: left; 
+              }
+              th { 
+                background-color: ${isDarkMode ? '#374151' : '#f9fafb'}; 
+                font-weight: bold; 
+              }
+            `;
+            
             const editor = await window.tinymce.init({
               target: containerRef.current,
               height,
               menubar,
               toolbar,
               plugins,
-              content_style: contentStyle,
+              content_style: enhancedContentStyle,
               placeholder,
               readonly: readonly || disabled,
               max_chars: maxLength,
+              skin: isDarkMode ? 'oxide-dark' : 'oxide',
+              content_css: isDarkMode ? 'dark' : 'default',
               setup: (editor: any) => {
                 editorRef.current = editor;
                 
@@ -171,6 +224,73 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
                 
                 // Call onInit callback
                 onInit?.(editor);
+                
+                // Listen for dark mode changes
+                const observer = new MutationObserver((mutations) => {
+                  mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                      const isDarkMode = document.documentElement.classList.contains('dark');
+                      const newContentStyle = contentStyle || `
+                        body { 
+                          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                          font-size: 14px; 
+                          line-height: 1.6; 
+                          color: ${isDarkMode ? '#e5e7eb' : '#1f2937'};
+                          background-color: ${isDarkMode ? '#1f2937' : '#ffffff'};
+                        }
+                        h1, h2, h3, h4, h5, h6 { color: ${isDarkMode ? '#f3f4f6' : '#111827'}; }
+                        p { color: ${isDarkMode ? '#d1d5db' : '#374151'}; }
+                        code { 
+                          background-color: ${isDarkMode ? '#374151' : '#f3f4f6'}; 
+                          color: ${isDarkMode ? '#f9fafb' : '#111827'};
+                          padding: 2px 4px; 
+                          border-radius: 3px; 
+                        }
+                        pre { 
+                          background-color: ${isDarkMode ? '#374151' : '#f3f4f6'}; 
+                          color: ${isDarkMode ? '#f9fafb' : '#111827'};
+                          padding: 16px; 
+                          border-radius: 6px; 
+                          overflow-x: auto; 
+                        }
+                        pre code { background: none; padding: 0; }
+                        blockquote { 
+                          border-left: 4px solid ${isDarkMode ? '#6b7280' : '#d1d5db'}; 
+                          margin-left: 0; 
+                          padding-left: 16px; 
+                          color: ${isDarkMode ? '#9ca3af' : '#6b7280'}; 
+                        }
+                        a { color: ${isDarkMode ? '#60a5fa' : '#2563eb'}; }
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { 
+                          border: 1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}; 
+                          padding: 8px; 
+                          text-align: left; 
+                        }
+                        th { 
+                          background-color: ${isDarkMode ? '#374151' : '#f9fafb'}; 
+                          font-weight: bold; 
+                        }
+                      `;
+                      
+                      // Update editor content style
+                      editor.dom.addStyle(newContentStyle);
+                      
+                      // Update editor skin if needed
+                      if (editor.editorManager && editor.editorManager.theme) {
+                        editor.editorManager.theme.switchSkin(isDarkMode ? 'oxide-dark' : 'oxide');
+                      }
+                    }
+                  });
+                });
+                
+                observer.observe(document.documentElement, {
+                  attributes: true,
+                  attributeFilter: ['class']
+                });
+                
+                // Store observer for cleanup
+                (editor as any).darkModeObserver = observer;
               }
             });
           }
@@ -184,6 +304,10 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
 
       return () => {
         if (editorRef.current) {
+          // Clean up dark mode observer
+          if ((editorRef.current as any).darkModeObserver) {
+            (editorRef.current as any).darkModeObserver.disconnect();
+          }
           editorRef.current.destroy();
           editorRef.current = null;
         }
@@ -207,12 +331,12 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
     const renderFallback = () => (
       <div className="space-y-2">
         {label && (
-          <label className="text-sm font-medium text-gray-700">
+          <Label>
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
-          </label>
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
         )}
-        <textarea
+        <Textarea
           ref={ref as any}
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
@@ -221,18 +345,15 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
           readOnly={readonly}
           maxLength={maxLength}
           className={cn(
-            "w-full min-h-[200px] rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-500",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
-            "disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-red-500 focus:ring-red-500",
-            className
+            "min-h-[200px]",
+            error && "border-destructive focus-visible:ring-destructive/20"
           )}
         />
         {helper && !error && (
-          <p className="text-sm text-gray-500">{helper}</p>
+          <p className="text-sm text-muted-foreground">{helper}</p>
         )}
         {error && (
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-destructive">{error}</p>
         )}
       </div>
     );
@@ -241,20 +362,19 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
       return (
         <div className="space-y-2">
           {label && (
-            <label className="text-sm font-medium text-gray-700">
+            <Label>
               {label}
-              {required && <span className="text-red-500 ml-1">*</span>}
-            </label>
+              {required && <span className="text-destructive ml-1">*</span>}
+            </Label>
           )}
           <div className={cn(
-            "w-full rounded-md border border-gray-300 bg-gray-50",
+            "w-full rounded-md border border-input bg-muted/50",
             "flex items-center justify-center",
-            "min-h-[200px]",
-            className
+            "min-h-[200px]"
           )}>
             <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-              <p className="text-sm text-gray-500">Loading editor...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+              <p className="text-sm text-muted-foreground">Loading editor...</p>
             </div>
           </div>
         </div>
@@ -268,32 +388,32 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
     return (
       <div className={cn("space-y-2", className)}>
         {label && (
-          <label className="text-sm font-medium text-gray-700">
+          <Label>
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
-          </label>
+            {required && <span className="text-destructive ml-1">*</span>}
+          </Label>
         )}
         
         <div
           ref={containerRef}
           className={cn(
             "border rounded-md",
-            error && "border-red-500",
-            isFocused && "ring-2 ring-blue-500 ring-offset-2",
+            error && "border-destructive",
+            isFocused && "ring-2 ring-ring/20 ring-offset-2",
             disabled && "opacity-50 cursor-not-allowed"
           )}
         />
         
         {helper && !error && (
-          <p className="text-sm text-gray-500">{helper}</p>
+          <p className="text-sm text-muted-foreground">{helper}</p>
         )}
         
         {error && (
-          <p className="text-sm text-red-600">{error}</p>
+          <p className="text-sm text-destructive">{error}</p>
         )}
         
         {maxLength && (
-          <p className="text-xs text-gray-400 text-right">
+          <p className="text-sm text-muted-foreground text-right">
             {value?.length || 0} / {maxLength} characters
           </p>
         )}
@@ -315,8 +435,7 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
     const markdownPlugins = [
       "advlist autolink lists link image charmap print preview anchor",
       "searchreplace visualblocks code fullscreen",
-      "insertdatetime media table paste code help wordcount",
-      "markdown"
+      "insertdatetime media table paste code help wordcount"
     ];
 
     const markdownToolbar = `
@@ -331,7 +450,7 @@ export const MarkdownEditor = forwardRef<HTMLDivElement, MarkdownEditorProps>(
         {...props}
         plugins={markdownPlugins}
         toolbar={markdownToolbar}
-        contentStyle={`
+        contentStyle={props.contentStyle || `
           body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
             font-size: 14px; 
