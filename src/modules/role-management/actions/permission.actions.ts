@@ -280,7 +280,7 @@ export async function assignDefaultPermissionsToRoles() {
       }
 
       // Update permissions for this role
-      await updateRolePermissions(r.id, assignedPerms);
+      await updateRolePermissions(r.id,"", assignedPerms);
     }
 
     return { success: true, message: "Default permissions assigned to roles successfully" };

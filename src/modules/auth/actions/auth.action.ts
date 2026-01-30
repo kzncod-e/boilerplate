@@ -47,7 +47,7 @@ export const signUp = async ({
         await authdah.api.signUpEmail({
             body: {
                 email,
-                password,
+                password,   
                 name: username,
             },
         });
