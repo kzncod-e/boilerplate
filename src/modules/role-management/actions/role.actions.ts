@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { role, auditLog } from "../schemas/role.schema";
 import { getDb } from "@/db";
 import { type Role } from "../mock/role-data";
+import { requireAuth } from "@/modules/auth/utils/auth-utils";
 
 export type { Role };
 
@@ -24,11 +25,13 @@ export const getRoles = async () => {
     }
 };
 
-export const createRole = async (data: { name: string; description?: string; status: "active" | "inactive",user:string }) => {
+export const createRole = async (data: { name: string; description?: string; status: "active" | "inactive" }) => {
     try {
         const db = await getDb();
+        const currentUser = await requireAuth();
         const newRole = {
             id: crypto.randomUUID(),
+            userId: currentUser.id,
             name: data.name,
             description: data.description || null,
             status: data.status,
@@ -40,7 +43,7 @@ export const createRole = async (data: { name: string; description?: string; sta
         // Optional: Add audit log
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: data.user?data.user:"system", 
+            actor: currentUser.name,
             action: "create",
             targetType: "role",
             targetName: data.name,

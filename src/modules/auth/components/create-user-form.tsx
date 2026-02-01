@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { signUp } from "../actions/auth.action";
+import { createUser, signUp } from "../actions/auth.action";
 
 const createUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -45,7 +45,7 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
 
   async function onSubmit(values: CreateUserSchema) {
     setIsLoading(true);
-    const { success, message } = await signUp({
+    const { success, message } = await createUser({
       username: values.name,
       email: values.email,
       password: values.password,

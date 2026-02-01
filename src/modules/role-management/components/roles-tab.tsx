@@ -24,6 +24,7 @@ import EditRoleDialog from "./edit-role-dialog";
 import DeleteRoleDialog from "./delete-role-dialog";
 import toast from "react-hot-toast";
 import Badge from "@/components/ui/badge";
+import GlobalCard from "@/components/global/cards/global-card";
 
 export default function RolesTab() {
   const [roles, setRoles] = useState<Role[]>([]);
@@ -131,14 +132,12 @@ export default function RolesTab() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold">Roles</h3>
-          <p className="text-sm text-muted-foreground">
-            Manage user roles and their permissions
-          </p>
-        </div>
+    <GlobalCard
+      title="Roles"
+      description=" Manage user roles and their permissions"
+      className="space-y-4"
+    >
+      <div className="flex justify-end items-center">
         <div className="flex gap-2">
           <Button
             variant="outline"
@@ -248,6 +247,6 @@ export default function RolesTab() {
         role={selectedRole}
         onSuccess={handleUpdateRole}
       />
-    </div>
+    </GlobalCard>
   );
 }

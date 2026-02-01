@@ -244,7 +244,7 @@ export async function seedPermissions() {
   }
 }
 
-// Assign default permissions to roles
+// Assign default permissions to roles for seeding
 export async function assignDefaultPermissionsToRoles() {
   try {
     const db = await getDb();

@@ -13,6 +13,7 @@ import {
 } from "../actions/permission.actions";
 import { getRoles, type Role } from "../actions/role.actions";
 import toast from "react-hot-toast";
+import GlobalCard from "@/components/global/cards/global-card";
 
 interface PermissionMatrix {
   [roleId: string]: {
@@ -206,14 +207,11 @@ export default function PermissionsTab() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold">Permissions</h3>
-          <p className="text-sm text-muted-foreground">
-            Manage permissions for each role
-          </p>
-        </div>
+    <GlobalCard
+      title="Permissions"
+      description="            Manage permissions for each role"
+    >
+      <div className="flex justify-end items-center">
         <div className="flex gap-2">
           {hasUnsavedChanges && (
             <span className="text-sm text-orange-600 flex items-center">
@@ -314,6 +312,6 @@ export default function PermissionsTab() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </GlobalCard>
   );
 }

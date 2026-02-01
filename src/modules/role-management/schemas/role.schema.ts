@@ -4,9 +4,9 @@ import z from "zod";
 
 export const role = sqliteTable("role", {
     id: text("id").primaryKey(),
-    userId:integer("userId").references(()=>user.id,{
-        onDelete:"cascade",
-        onUpdate:"cascade"
+    userId: text("userId").references(() => user.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade"
     }),
     name: text("name").notNull().unique(),
     description: text("description"),
@@ -71,7 +71,6 @@ export const roleSchema = z.object({
     .max(50, "Role name too long"),
   description: z.string().max(200, "Description too long").optional(),
   status: z.enum(["active", "inactive"]),
-  user:z.string()
 });
 
 export type RoleFormData = z.infer<typeof roleSchema>;

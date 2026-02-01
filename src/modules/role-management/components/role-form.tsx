@@ -43,9 +43,11 @@ export default function RoleForm({ role, onSuccess }: RoleFormProps) {
   });
 
   const onSubmit = async (data: RoleFormData) => {
-    setIsSubmitting(true);
-
-    onSuccess(data);
+    try {
+      console.log(data, "ini data");
+      setIsSubmitting(true);
+      onSuccess(data);
+    } catch (error) {}
 
     setIsSubmitting(false);
   };

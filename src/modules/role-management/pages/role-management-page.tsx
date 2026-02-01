@@ -22,7 +22,6 @@ export default function RoleManagementPage() {
           <TabsList className="grid w-full justify-center grid-cols-2 ">
             <TabsTrigger value="roles">Roles</TabsTrigger>
             <TabsTrigger value="permissions">Permissions</TabsTrigger>
-            {/* <TabsTrigger value="users">Users</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="roles" className="mt-6">

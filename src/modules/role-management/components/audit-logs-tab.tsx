@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 
 import { mockAuditLogs } from "../mock/role-data";
 import { getAuditLogs } from "../actions/audit.actions";
+import GlobalCard from "@/components/global/cards/global-card";
 
 interface AuditLog {
   id: string;
@@ -148,14 +149,11 @@ export default function AuditLogsTab() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div>
-          <h3 className="text-lg font-semibold">Audit Logs</h3>
-          <p className="text-sm text-muted-foreground">
-            Track all role and permission changes
-          </p>
-        </div>
+    <GlobalCard
+      title="Audit Logs"
+      description="Track all role and permission changes"
+    >
+      <div className="flex justify-end items-center">
         <Button onClick={exportToCSV} variant="outline">
           Export CSV
         </Button>
@@ -404,6 +402,6 @@ export default function AuditLogsTab() {
           </div>
         )}
       </div>
-    </div>
+    </GlobalCard>
   );
 }
