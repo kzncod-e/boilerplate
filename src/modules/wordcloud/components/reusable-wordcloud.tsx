@@ -75,10 +75,16 @@ const MyTooltip = ({ data }: { data: TooltipRendererData }) => {
     </div>
   );
 };
-const ReusableWordcloud = () => {
+const ReusableWordcloud = ({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) => {
   return (
     <>
-      <GlobalCard title="wordcloud">
+      <GlobalCard title={title} description={description}>
         <div className="border-2  rounded-xl p-2 h-[30rem ]w-[30rem]">
           <WordCloud
             /* ===============================
