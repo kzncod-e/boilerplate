@@ -15,14 +15,18 @@ import GlobalCard from "../cards/global-card";
 type Props = {
   data?: TrendDataType[];
 };
-
+// --chart-1: oklch(0.646 0.222 41.116);
+// --chart-2: oklch(0.6 0.118 184.704);
+// --chart-3: oklch(0.398 0.07 227.392);
+// --chart-4: oklch(0.828 0.189 84.429);
+// --chart-5: oklch(0.769 0.188 70.08);
 const COLORS = [
-  "var(--chart-1)",
-  "var(--chart-2)",
-  "var(--chart-3)",
-  "var(--chart-4)",
-  "var(--chart-5)",
-  "var(--chart-6)",
+  "oklch(0.646 0.222 41.116)",
+  "oklch(0.6 0.118 184.704)",
+  "oklch(0.398 0.07 227.392)",
+  "oklch(0.828 0.189 84.429)",
+  "oklch(0.769 0.188 70.08)",
+  "oklch(0.769 0.188 70.08)",
 ];
 
 function formatDateLabel(iso: string) {
