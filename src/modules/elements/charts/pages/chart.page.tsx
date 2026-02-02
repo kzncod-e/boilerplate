@@ -23,6 +23,8 @@ import { TrendingUp } from "lucide-react";
 
 import { BasicBarChart } from "@/components/global/charts/basic-chartbar";
 import { ChartBarMulti } from "@/components/global/charts/multiple-barchart";
+import TreeMapChart from "@/components/global/charts/treemap-chart";
+import { CardContent } from "@/components/ui/card";
 //  oklch(0.646 0.222 41.116);
 //  oklch(0.6 0.118 184.704);
 //  oklch(0.398 0.07 227.392);
@@ -110,6 +112,28 @@ const ChartPage = () => {
             </>
           }
         />
+
+        <GlobalCard title="Treemap Chart Example">
+          <CardContent>
+            <TreeMapChart 
+              data={[
+                { title: "React Development", probability: 35 },
+                { title: "TypeScript", probability: 28 },
+                { title: "Node.js", probability: 22 },
+                { title: "Next.js", probability: 18 },
+                { title: "Tailwind CSS", probability: 15 },
+                { title: "GraphQL", probability: 12 },
+                { title: "Docker", probability: 10 },
+                { title: "AWS", probability: 8 },
+                { title: "MongoDB", probability: 7 },
+                { title: "PostgreSQL", probability: 6 },
+                { title: "Redis", probability: 5 },
+                { title: "Kubernetes", probability: 4 },
+              ]} 
+              isLoading={false} 
+            />
+          </CardContent>
+        </GlobalCard>
       </div>
     </>
   );
