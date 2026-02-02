@@ -38,7 +38,7 @@ export default function RoleForm({ role, onSuccess }: RoleFormProps) {
     defaultValues: {
       name: role?.name || "",
       description: role?.description || "",
-      status: role?.status || "active",
+      status: (role?.status as "active" | "inactive" | undefined) ?? "active",
     },
   });
 

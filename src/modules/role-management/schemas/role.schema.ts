@@ -70,7 +70,7 @@ export const roleSchema = z.object({
     .min(1, "Role name is required")
     .max(50, "Role name too long"),
   description: z.string().max(200, "Description too long").optional(),
-  status: z.enum(["active", "inactive"]),
+  status: z.enum(["active", "inactive"]).optional(),
 });
 
 export type RoleFormData = z.infer<typeof roleSchema>;
