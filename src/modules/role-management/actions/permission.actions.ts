@@ -3,6 +3,7 @@
 import { eq, and, inArray } from "drizzle-orm";
 import { permission, role, rolePermission, auditLog } from "../schemas/role.schema";
 import { getDb } from "@/db";
+import { requireAuth } from "@/modules/auth/utils/auth-utils";
 
 export interface Permission {
   id: string;
@@ -75,7 +76,7 @@ export async function getRolePermissions(roleId?: string) {
 export async function assignPermissionToRole(roleId: string, permissionId: string, actor: string = "system") {
   try {
     const db = await getDb();
-
+ const currentUser = await requireAuth();
     // Check if already exists
     const existing = await db
       .select()
@@ -100,7 +101,7 @@ export async function assignPermissionToRole(roleId: string, permissionId: strin
     // Audit log
     await db.insert(auditLog).values({
       id: crypto.randomUUID(),
-      actor,
+      actor: currentUser.name,
       action: "assign",
       targetType: "permission",
       targetName: permissionId,
@@ -119,7 +120,7 @@ export async function assignPermissionToRole(roleId: string, permissionId: strin
 export async function revokePermissionFromRole(roleId: string, permissionId: string, actor: string = "system") {
   try {
     const db = await getDb();
-
+    const currentUser = await requireAuth();
     await db
       .delete(rolePermission)
       .where(and(eq(rolePermission.roleId, roleId), eq(rolePermission.permissionId, permissionId)));
@@ -127,7 +128,7 @@ export async function revokePermissionFromRole(roleId: string, permissionId: str
     // Audit log
     await db.insert(auditLog).values({
       id: crypto.randomUUID(),
-      actor,
+      actor: currentUser.name,
       action: "revoke",
       targetType: "permission",
       targetName: permissionId,
@@ -146,7 +147,7 @@ export async function revokePermissionFromRole(roleId: string, permissionId: str
 export async function updateRolePermissions(roleId: string,roleName:string, permissionIds: string[], actor: string = "system") {
   try {
     const db = await getDb();
-
+    const currentUser = await requireAuth();
     // Get current permissions
     const currentPerms = await db
       .select()
@@ -182,7 +183,7 @@ export async function updateRolePermissions(roleId: string,roleName:string, perm
     // Audit log
     await db.insert(auditLog).values({
       id: crypto.randomUUID(),
-      actor,
+        actor: currentUser.name,
       action: "update",
       targetType: "role_permissions",
       targetName: roleName,

@@ -18,11 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { createUser, signUp } from "../actions/auth.action";
+import useRoleStore from "@/store/useRoleStore";
 
 const createUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  role: z.string().min(1, "Role is required"),
 });
 
 type CreateUserSchema = z.infer<typeof createUserSchema>;
@@ -40,8 +42,11 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
       name: "",
       email: "",
       password: "",
+      role: "",
     },
   });
+
+  const roles = useRoleStore((s) => s.roles);
 
   async function onSubmit(values: CreateUserSchema) {
     setIsLoading(true);
@@ -49,7 +54,8 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
       username: values.name,
       email: values.email,
       password: values.password,
-    });
+      role: values.role,
+    } as any);
     if (success) {
       toast.success(message.toString());
       onSuccess?.();
@@ -98,6 +104,29 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input placeholder="*********" {...field} type="password" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="w-full rounded-md border bg-transparent px-3 py-2 text-sm"
+                    >
+                      <option value="">Select role</option>
+                      {roles?.map((r) => (
+                        <option key={r.id} value={r.name}>
+                          {r.name}
+                        </option>
+                      ))}
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

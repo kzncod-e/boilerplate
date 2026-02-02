@@ -25,6 +25,7 @@ import DeleteRoleDialog from "./delete-role-dialog";
 import toast from "react-hot-toast";
 import Badge from "@/components/ui/badge";
 import GlobalCard from "@/components/global/cards/global-card";
+import { getUserByRole } from "@/modules/auth/actions/auth.action";
 
 export default function RolesTab() {
   const [roles, setRoles] = useState<Role[]>([]);
@@ -119,16 +120,13 @@ export default function RolesTab() {
     setIsEditDialogOpen(true);
   };
 
-  const getTotalUsersForRole = (roleName: string) => {
+  const getTotalUsersForRole = async (roleName: string) => {
     // Mock data - in real app, this would come from API
-    const userCounts: Record<string, number> = {
-      "Super Admin": 1,
-      Admin: 2,
-      Editor: 5,
-      Viewer: 10,
-      Guest: 0,
-    };
-    return userCounts[roleName] || 0;
+    const userByRole = await getUserByRole(roleName);
+    if (userByRole.success && userByRole.data) {
+      return userByRole.data.length;
+    }
+    return 0;
   };
 
   return (
@@ -201,7 +199,7 @@ export default function RolesTab() {
                 <TableRow key={role.id}>
                   <TableCell className="font-medium">{role.name}</TableCell>
                   <TableCell>{role.description}</TableCell>
-                  <TableCell>{getTotalUsersForRole(role.name)}</TableCell>
+                  <TableCell>{role.totalUsers}</TableCell>
                   <TableCell>
                     <Badge
                       variant={

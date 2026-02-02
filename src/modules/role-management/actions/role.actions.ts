@@ -8,22 +8,39 @@ import { requireAuth } from "@/modules/auth/utils/auth-utils";
 
 export type { Role };
 
+import { sql } from "drizzle-orm";
+import {  user } from "@/db/schema";
+
 export const getRoles = async () => {
-    try {
-        const db = await getDb();
-        const roles = await db.select().from(role);
-        return {
-            success: true,
-            data: roles as Role[],
-        };
-    } catch (error) {
-        const err = error as Error;
-        return {
-            success: false,
-            message: err.message || "An unknown error occurred.",
-        };
-    }
+  try {
+    const db = await getDb();
+
+    const roles = await db
+      .select({
+        id: role.id,
+        name: role.name,
+        description: role.description,
+        status: role.status,
+        createdAt: role.createdAt,
+        updatedAt: role.updatedAt,
+        totalUsers: sql<number>`COUNT(${user.id})`,
+      })
+      .from(role)
+      .leftJoin(user, eq(user.role, role.name))
+      .groupBy(role.id, role.name, role.description);
+
+    return {
+      success: true,
+      data: roles,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: (error as Error).message,
+    };
+  }
 };
+
 
 export const createRole = async (data: { name: string; description?: string; status: "active" | "inactive" }) => {
     try {
@@ -67,6 +84,8 @@ export const createRole = async (data: { name: string; description?: string; sta
 
 export const updateRole = async (id: string, data: { name?: string; description?: string; status?: string }) => {
     try {
+         const currentUser = await requireAuth();
+
         const db = await getDb();
         const updateData = {
             ...data,
@@ -77,7 +96,7 @@ export const updateRole = async (id: string, data: { name?: string; description?
         // Optional: Add audit log
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: "system",
+            actor: currentUser.name,
             action: "update",
             targetType: "role",
             targetName: data.name || "unknown",
@@ -101,6 +120,8 @@ export const updateRole = async (id: string, data: { name?: string; description?
 export const deleteRole = async (id: string) => {
     try {
         const db = await getDb();
+             const currentUser = await requireAuth();
+
         // Get role name for audit
         const roleToDelete = await db.select().from(role).where(eq(role.id, id)).limit(1);
         const roleName = roleToDelete[0]?.name || "unknown";
@@ -110,7 +131,7 @@ export const deleteRole = async (id: string) => {
         // Optional: Add audit log
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: "system",
+            actor: currentUser.name,
             action: "delete",
             targetType: "role",
             targetName: roleName,
@@ -134,6 +155,7 @@ export const deleteRole = async (id: string) => {
 export const duplicateRole = async (id: string) => {
     try {
         const db = await getDb();
+         const currentUser = await requireAuth();   
         const existingRole = await db.select().from(role).where(eq(role.id, id)).limit(1);
         if (!existingRole[0]) {
             return {
@@ -155,7 +177,7 @@ export const duplicateRole = async (id: string) => {
         // Optional: Add audit log
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: "system",
+            actor: currentUser.name,
             action: "create",
             targetType: "role",
             targetName: newRole.name,

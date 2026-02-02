@@ -52,26 +52,51 @@ export const createUser = async ({
     email,
     password,
     username,
-}: SignUpSchema): Promise<AuthResponse> => {
+    role,
+}: SignUpSchema & { role?: string }): Promise<AuthResponse> => {
     try {
         const authdah = await getAuthInstance();
         const db = await getDb();
         const currentUser = await requireAuth();
+
+        // Check if email already exists in local DB to avoid unique constraint errors
+        const existing = await db.select().from(user).where(eq(user.email, email)).limit(1);
+        if (existing.length > 0) {
+            return {
+                success: false,
+                message: "Email already exists",
+            };
+        }
+
+        // create user on auth provider
         // @ts-ignore
-        await authdah.api.createUser({
-            body: {
-                email,
-                password,   
-                name: username,
-            },
-        });
-    await db.insert(auditLog).values({
+       
+
+        // insert into local user table so role and metadata are stored
+   const now = new Date();
+
+const newUser = {
+  id: crypto.randomUUID(),
+  name: username,
+  role: role || "user",
+  email,
+  image: null,
+  emailVerified: false,
+  banned: false,
+  createdAt: now,
+  updatedAt: now,
+};
+
+
+        await db.insert(user).values(newUser);
+
+        await db.insert(auditLog).values({
             id: crypto.randomUUID(),
             actor: currentUser.name,
             action: "create",
             targetType: "user",
-            targetName:"User Creation",
-            metadata: JSON.stringify({ email }),
+            targetName: "User Creation",
+            metadata: JSON.stringify({ email, role }),
             createdAt: new Date(),
         });
 
@@ -127,6 +152,22 @@ await db.insert(auditLog).values({
         return {
             success: false,
             message: err.message || "An unknown error occured.",
+        };
+    }
+};
+export const getUserByRole = async (role: string) => {
+    try {
+        const db = await getDb();
+        const users = await db.select().from(user).where(eq(user.role, role));
+        return {
+            success: true,
+            data: users,
+        };
+    } catch (error) {
+        const err = error as Error;
+        return {
+            success: false,
+            message: err.message || "An unknown error occurred.",
         };
     }
 };

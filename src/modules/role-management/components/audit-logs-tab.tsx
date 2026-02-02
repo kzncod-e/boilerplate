@@ -304,7 +304,7 @@ export default function AuditLogsTab() {
                 </TableCell>
               </TableRow>
             ) : (
-              logs.map((log) => (
+              logs.slice(0, 20).map((log) => (
                 <TableRow key={log.id}>
                   <TableCell className="font-medium">{log.actor}</TableCell>
                   <TableCell>

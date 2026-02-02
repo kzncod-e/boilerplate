@@ -18,24 +18,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { updateUser } from "../actions/auth.action";
+import { Role } from "@/modules/role-management/mock/role-data";
 
 const updateUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
+  role: z.string().min(1, "Role is required"),
 });
 
 type UpdateUserSchema = z.infer<typeof updateUserSchema>;
 
 interface UpdateUserFormProps {
   userId: string;
-  initialData: { name: string; email: string };
+  initialData: { name: string; email: string; role: string };
   onSuccess?: () => void;
+  roles?: Role[];
 }
 
 export function UpdateUserForm({
   userId,
   initialData,
   onSuccess,
+  roles,
 }: UpdateUserFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,6 +86,29 @@ export function UpdateUserForm({
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="mail@mail.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <select
+                      {...field}
+                      className="w-full rounded-md border bg-transparent px-3 py-2 text-sm"
+                    >
+                      <option value="">Select role</option>
+                      {roles?.map((role) => (
+                        <option key={role.name} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

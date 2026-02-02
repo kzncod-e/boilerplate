@@ -2,9 +2,10 @@ export interface Role {
  id: string;
         name: string;
         description: string | null;
-        status: "active" | "inactive";
+        status: string;
         createdAt: Date;
         updatedAt: Date;
+        totalUsers?: number;
 }
 
 export interface Permission {

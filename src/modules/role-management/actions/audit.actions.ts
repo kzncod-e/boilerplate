@@ -78,6 +78,16 @@ export async function getAuditLogs(filters: AuditLogFilters = {}, page = 1, limi
   }
 }
 
+export async function deleteAuditLogById(id: string) {
+  const db = await import("@/db").then((m) => m.getDb());
+  try {
+    await db.delete(auditLog).where(eq(auditLog.id, id));
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting audit log:", error);
+    return { success: false, error: "Failed to delete audit log" };
+  }
+}
 export async function getAuditLogById(id: string) {
   const db = await import("@/db").then((m) => m.getDb());
   try {

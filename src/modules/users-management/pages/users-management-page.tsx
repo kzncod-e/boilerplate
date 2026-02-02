@@ -26,6 +26,8 @@ import { user as userTable } from "@/modules/auth/schemas/auth.schema";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import PageHeader from "@/components/global/page-header";
+import { getRoles, Role } from "@/modules/role-management/actions/role.actions";
+import useRoleStore from "@/store/useRoleStore";
 
 type User = typeof userTable.$inferSelect;
 
@@ -43,12 +45,17 @@ function paginate<T>(data: T[], page: number, size: number) {
 
 export default function UsersManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
+  // roles are stored globally in zustand so other components can consume them
+  const roles = useRoleStore((s) => s.roles);
+  const setRoles = useRoleStore((s) => s.setRoles);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const size = 10;
+
+  // (we only persist roles list globally; selected user role is kept in local state via selectedUser)
 
   const { rows, totalItems, totalPages } = paginate(users, page, size);
 
@@ -60,10 +67,22 @@ export default function UsersManagementPage() {
     }
     setIsLoading(false);
   };
-
+  const fetchRoles = async () => {
+    const roleResult = await getRoles();
+    if (roleResult.success && roleResult.data) {
+      // save fetched roles to the global store
+      setRoles(roleResult.data);
+    } else {
+      toast.error("Failed to load roles");
+      console.error("Error loading roles:", roleResult.message);
+    }
+  };
   useEffect(() => {
     fetchUsers();
+    fetchRoles();
   }, []);
+
+  // roles are persisted globally; no per-dialog clearing required
 
   const handleUserCreated = () => {
     setIsCreateDialogOpen(false);
@@ -101,7 +120,10 @@ export default function UsersManagementPage() {
           description="Manage all users on the system"
           rightSectionCustomNode={
             <>
-              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+              <Dialog
+                open={isCreateDialogOpen}
+                onOpenChange={setIsCreateDialogOpen}
+              >
                 <DialogTrigger asChild>
                   <Button>
                     <Plus className="mr-2 h-4 w-4" />
@@ -116,7 +138,10 @@ export default function UsersManagementPage() {
                 </DialogContent>
               </Dialog>
 
-              <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+              <Dialog
+                open={isEditDialogOpen}
+                onOpenChange={setIsEditDialogOpen}
+              >
                 <DialogContent className="p-0! border-0! ">
                   <DialogHeader className="hidden!">
                     <DialogTitle>Update User</DialogTitle>
@@ -127,7 +152,9 @@ export default function UsersManagementPage() {
                       initialData={{
                         name: selectedUser.name,
                         email: selectedUser.email,
+                        role: selectedUser.role,
                       }}
+                      roles={roles}
                       onSuccess={handleUserUpdated}
                     />
                   )}
