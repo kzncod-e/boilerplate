@@ -104,7 +104,7 @@ export function UpdateUserForm({
                     >
                       <option value="">Select role</option>
                       {roles?.map((role) => (
-                        <option key={role.name} value={role.id}>
+                        <option key={role.name} value={role.name}>
                           {role.name}
                         </option>
                       ))}
