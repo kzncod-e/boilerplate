@@ -53,6 +53,12 @@ color: oklch(1 0 0) ;
 
     <script>
       (async function () {
+          window.addEventListener("message", (event) => {
+    const { type, theme } = event.data || {};
+    if (type === "SET_THEME" && window.MicroSna) {
+      window.MicroSna.setTheme(theme === "dark" ? "dark" : "light");
+    }
+  });
         const microSnaUrl = "https://sna.optimasi.ai";
 
         const res = await fetch(
