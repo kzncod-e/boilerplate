@@ -54,6 +54,7 @@ export default function PermissionsTab() {
       const permResult = await getPermissions();
       if (permResult.success && permResult.data) {
         setPermissions(permResult.data);
+        console.log(permResult.data, "ini data permision");
       } else {
         toast.error("Failed to load permissions");
         console.error("Error loading permissions:", permResult.error);
@@ -218,6 +219,11 @@ export default function PermissionsTab() {
               You have unsaved changes
             </span>
           )}
+          <Button
+            onClick={() => console.log({ permissions, roles, rolePermissions })}
+          >
+            Debug: Log Data
+          </Button>
           <Button onClick={handleSave} disabled={!hasUnsavedChanges}>
             Save Changes
           </Button>
@@ -266,7 +272,9 @@ export default function PermissionsTab() {
                           {module}
                         </td>
                       )}
-                      <td className="p-2">{permission.action}</td>
+                      <td className="p-2">
+                        {permission.action || permission.name}
+                      </td>
                       {roles.map((role) => (
                         <td key={role.id} className="p-2 text-center">
                           <Checkbox
