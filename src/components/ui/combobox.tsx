@@ -37,8 +37,13 @@ Combobox.displayName = "Combobox"
 
 const ComboboxChips = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, onClick, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & {
+    items?: string[]
+    multiple?: boolean
+    value?: string | string[]
+    onValueChange?: (value: string | string[]) => void
+  }
+>(({ className, children, onClick, items, multiple, value, onValueChange, ...props }, ref) => (
   <div
     ref={ref}
     onClick={onClick}
@@ -89,7 +94,7 @@ const ComboboxChipsInput = React.forwardRef<
     value?: string | string[]
     onValueChange?: (value: string | string[]) => void
   }
->(({ className, placeholder, items = [], multiple = false, value, onValueChange, ...props }, ref) => {
+>(({ className, placeholder, items = [], multiple = false, value, onValueChange, onChange, ...props }, ref) => {
   const [inputValue, setInputValue] = React.useState("")
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -117,7 +122,10 @@ const ComboboxChipsInput = React.forwardRef<
         ref={ref}
         type="text"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          setInputValue(e.target.value)
+          onChange?.(e)
+        }}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
         placeholder={placeholder}
@@ -175,8 +183,13 @@ ComboboxContent.displayName = "ComboboxContent"
 
 const ComboboxEmpty = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & {
+    items?: string[]
+    multiple?: boolean
+    value?: string | string[]
+    onValueChange?: (value: string | string[]) => void
+  }
+>(({ className, children, items, multiple, value, onValueChange, ...props }, ref) => (
   <div
     ref={ref}
     className={cn("px-3 py-2 text-sm text-muted-foreground", className)}

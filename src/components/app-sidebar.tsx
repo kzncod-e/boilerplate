@@ -50,7 +50,7 @@ export function AppSidebar({ collapsible = "offcanvas", isHidden = false }: AppS
       {!isHidden && (
         <Sidebar 
           collapsible={collapsible}
-          className="border-r-[1px]! border-border"
+          className="border-r-[1px]! border-border group"
         >
           <SidebarHeader>
             <Link
