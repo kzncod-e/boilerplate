@@ -18,7 +18,7 @@ export const signIn = async ({
 }: SignInSchema): Promise<AuthResponse> => {
     try {
     const db = await getDb();
-        const currentUser = await requireAuth();
+  
 
         const auth = await getAuthInstance();
         await auth.api.signInEmail({
@@ -29,7 +29,7 @@ export const signIn = async ({
         });
  await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: currentUser.name,
+            actor: email,
             action: "sign-in",
             targetType: "authentication",
             targetName:"User SignIn",
@@ -57,7 +57,7 @@ export const createUser = async ({
     try {
         const authdah = await getAuthInstance();
         const db = await getDb();
-        const currentUser = await requireAuth();
+      
 
         // Check if email already exists in local DB to avoid unique constraint errors
         const existing = await db.select().from(user).where(eq(user.email, email)).limit(1);
@@ -92,7 +92,7 @@ const newUser = {
 
         await db.insert(auditLog).values({
             id: crypto.randomUUID(),
-            actor: currentUser.name,
+            actor: newUser.name,
             action: "create",
             targetType: "user",
             targetName: "User Creation",
