@@ -27,17 +27,7 @@ DELETE FROM role_permission;
 -- =========================
 -- SUPER ADMIN = ALL
 -- =========================
-INSERT INTO role_permission
-(id, role_id, permission_id, created_at, updated_at)
-SELECT
-  lower(hex(randomblob(16))),
-  r.id,
-  p.id,
-  unixepoch(),
-  unixepoch()
-FROM role r
-JOIN permission p
-WHERE lower(r.name) LIKE '%super%';
+
 
 -- =========================
 -- ADMIN = ALL EXCEPT ROLES
@@ -68,5 +58,5 @@ SELECT
   unixepoch()
 FROM role r
 JOIN permission p
-WHERE lower(r.name) LIKE '%viewer%'
+WHERE lower(r.name) LIKE '%user%'
 AND p.action = 'read';
