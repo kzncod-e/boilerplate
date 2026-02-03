@@ -16,7 +16,7 @@
     
     return (
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar collapsible="icon" />
         <SidebarInset className="bg-background w-full">
           <header className="flex h-auto items-center gap-3 py-3 px-4  backdrop-blur-xl sticky top-0 z-40">
             <SidebarTrigger className="cursor-pointer" />
