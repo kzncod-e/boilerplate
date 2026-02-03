@@ -282,8 +282,9 @@ export default function FormPage() {
 
             <FormField label="Country">
               <Select
+                className="w-full"
                 value={formData.country}
-                onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, country: value }))}
                 options={countries}
                 placeholder="Select your country"
               />
@@ -386,8 +387,9 @@ export default function FormPage() {
 
           <div className="flex gap-3">
             <BasicButton onClick={() => {
-              setSingleDate(new Date());
-              setDateRange([new Date(), new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)]);
+              const now = new Date();
+              setSingleDate(now);
+              setDateRange([now, new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)]);
             }}>
               Set Today
             </BasicButton>
@@ -562,7 +564,7 @@ export default function FormPage() {
 
           <FormField label="Custom Select">
             <Select
-              className="bg-gray-900 text-white border-gray-700 focus:border-blue-500"
+              className="bg-gray-900 text-white border-gray-700 focus:border-blue-500 w-ful"
               options={countries}
               placeholder="Dark theme select"
             />
