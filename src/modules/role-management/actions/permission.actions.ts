@@ -143,6 +143,37 @@ export async function revokePermissionFromRole(roleId: string, permissionId: str
   }
 }
 
+async function updateRolePermissionsSystem(roleId: string, permissionIds: string[]) {
+  const db = await getDb();
+
+  const currentPerms = await db
+    .select()
+    .from(rolePermission)
+    .where(eq(rolePermission.roleId, roleId));
+
+  const currentIds = currentPerms.map(p => p.permissionId);
+
+  const toAdd = permissionIds.filter(id => !currentIds.includes(id));
+  const toRemove = currentIds.filter(id => !permissionIds.includes(id));
+
+  if (toAdd.length > 0) {
+    const newRolePerms = toAdd.map(permId => ({
+      id: crypto.randomUUID(),
+      roleId,
+      permissionId: permId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+    await db.insert(rolePermission).values(newRolePerms);
+  }
+
+  if (toRemove.length > 0) {
+    await db
+      .delete(rolePermission)
+      .where(and(eq(rolePermission.roleId, roleId), inArray(rolePermission.permissionId, toRemove)));
+  }
+}
+
 // Update role permissions (bulk)
 export async function updateRolePermissions(roleId: string,roleName:string, permissionIds: string[], actor: string = "system") {
   try {
@@ -281,7 +312,7 @@ export async function assignDefaultPermissionsToRoles() {
       }
 
       // Update permissions for this role
-      await updateRolePermissions(r.id,"", assignedPerms);
+await updateRolePermissionsSystem(r.id, assignedPerms);
     }
 
     return { success: true, message: "Default permissions assigned to roles successfully" };

@@ -27,7 +27,7 @@ import { Plus, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import PageHeader from "@/components/global/page-header";
 import { getRoles, Role } from "@/modules/role-management/actions/role.actions";
-import useRoleStore from "@/store/useRoleStore";
+import useRoleStore from "@/store/role-store";
 
 type User = typeof userTable.$inferSelect;
 

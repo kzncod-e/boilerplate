@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { createUser, signUp } from "../actions/auth.action";
-import useRoleStore from "@/store/useRoleStore";
+import useRoleStore from "@/store/role-store";
 
 const createUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
