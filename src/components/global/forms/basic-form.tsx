@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BasicButton } from "@/components/global/buttons/basic-button";
 
 export interface FormFieldProps {
@@ -97,36 +98,37 @@ export const CustomTextarea = forwardRef<HTMLTextAreaElement, CustomTextareaProp
 
 CustomTextarea.displayName = "CustomTextarea";
 
-export interface CustomSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  error?: boolean;
+export interface CustomSelectProps {
+  value?: string;
+  onValueChange?: (value: string) => void;
   options?: { value: string; label: string }[];
   placeholder?: string;
+  error?: boolean;
+  disabled?: boolean;
+  className?: string;
 }
 
-export const CustomSelect = forwardRef<HTMLSelectElement, CustomSelectProps>(
-  ({ className, error, options = [], placeholder, children, ...props }, ref) => {
+export const CustomSelect = forwardRef<HTMLButtonElement, CustomSelectProps>(
+  ({ value, onValueChange, options = [], placeholder, error, disabled, className }, ref) => {
     return (
-      <select
-        ref={ref}
-        className={cn(
-          "flex h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-input/30 dark:text-foreground",
-          error && "border-destructive focus-visible:ring-destructive/20",
-          className
-        )}
-        {...props}
-      >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-        {children}
-      </select>
+      <Select value={value} onValueChange={onValueChange} disabled={disabled}>
+        <SelectTrigger
+          ref={ref}
+          className={cn(
+            error && "border-destructive focus-visible:ring-destructive/20",
+            className
+          )}
+        >
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     );
   }
 );

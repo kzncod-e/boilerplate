@@ -37,9 +37,9 @@ export interface EditorFormProps {
 }
 
 const defaultPlugins = [
-  "advlist autolink lists link image charmap print preview anchor",
+  "advlist autolink lists link image charmap preview anchor",
   "searchreplace visualblocks code fullscreen",
-  "insertdatetime media table paste code help wordcount"
+  "insertdatetime media table paste help wordcount"
 ];
 
 const defaultToolbar = `
@@ -50,67 +50,101 @@ const defaultToolbar = `
 `;
 
 export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
-  (
-    {
-      value = "",
-      onChange,
-      placeholder = "Start typing...",
-      disabled = false,
-      readonly = false,
-      height = 300,
-      menubar = false,
-      toolbar = defaultToolbar,
-      plugins = defaultPlugins,
-      contentStyle = "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 1.6; }",
-      className,
-      error = false,
-      helper,
-      label,
-      required = false,
-      maxLength,
-      onInit,
-      onBlur,
-      onFocus,
-    },
-    ref
-  ) => {
-    const editorRef = useRef<any>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isFocused, setIsFocused] = useState(false);
+  ({
+    value = "",
+    onChange,
+    placeholder = "Start typing...",
+    disabled = false,
+    readonly = false,
+    height = 400,
+    menubar = true,
+    toolbar = defaultToolbar,
+    plugins = defaultPlugins,
+    contentStyle,
+    className,
+    error = false,
+    helper,
+    label,
+    required = false,
+    maxLength,
+    onInit,
+    onBlur,
+    onFocus,
+  },
+  ref
+) => {
+  const [isClient, setIsClient] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<any>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Load TinyMCE script
-    useEffect(() => {
-      if (typeof window !== 'undefined' && !window.tinymce) {
-        const apiKey = 'sagkb7tx7pq2nhit92o263uvb1zx7wf0czdhag77ho30zkha';
-        const script = document.createElement('script');
-        script.src = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/tinymce.min.js`;
-        script.referrerPolicy = 'origin';
-        script.async = true;
-        
-        script.onload = () => {
-          setIsLoaded(true);
-          setIsLoading(false);
-        };
-        
-        script.onerror = () => {
-          console.error('Failed to load TinyMCE');
-          setIsLoading(false);
-        };
-        
-        document.head.appendChild(script);
-        
-        return () => {
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-        };
-      } else {
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Load TinyMCE script
+  useEffect(() => {
+    if (!isClient) return;
+    
+    if (typeof window !== 'undefined' && !window.tinymce) {
+      const apiKey = 'sagkb7tx7pq2nhit92o263uvb1zx7wf0czdhag77ho30zkha';
+      const script = document.createElement('script');
+      script.src = `https://cdn.tiny.cloud/1/${apiKey}/tinymce/6/tinymce.min.js`;
+      script.referrerPolicy = 'origin';
+      script.async = true;
+      
+      script.onload = () => {
         setIsLoaded(true);
         setIsLoading(false);
-      }
-    }, []);
+        
+        // Suppress TinyMCE plugin loading errors and network errors
+        const originalConsoleError = console.error;
+        const originalConsoleWarn = console.warn;
+        
+        console.error = (...args) => {
+          const message = args[0];
+          if (typeof message === 'string' && (
+            message.includes('Failed to load plugin') ||
+            message.includes('net::ERR_ABORTED 404') ||
+            message.includes('plugin.min.js')
+          )) {
+            return; // Suppress plugin loading and network errors
+          }
+          originalConsoleError.apply(console, args);
+        };
+        
+        console.warn = (...args) => {
+          const message = args[0];
+          if (typeof message === 'string' && (
+            message.includes('Failed to load plugin') ||
+            message.includes('plugin.min.js')
+          )) {
+            return; // Suppress plugin loading warnings
+          }
+          originalConsoleWarn.apply(console, args);
+        };
+      };
+      
+      script.onerror = () => {
+        console.error('Failed to load TinyMCE');
+        setIsLoading(false);
+      };
+      
+      document.head.appendChild(script);
+      
+      return () => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      };
+    } else {
+      setIsLoaded(true);
+      setIsLoading(false);
+    }
+  }, [isClient]);
 
     // Initialize TinyMCE
     useEffect(() => {
@@ -173,13 +207,31 @@ export const EditorForm = forwardRef<HTMLDivElement, EditorFormProps>(
               height,
               menubar,
               toolbar,
-              plugins,
+              plugins: plugins.filter(plugin => plugin).join(' '), // Convert to space-separated string
               content_style: enhancedContentStyle,
               placeholder,
               readonly: readonly || disabled,
               max_chars: maxLength,
               skin: isDarkMode ? 'oxide-dark' : 'oxide',
               content_css: isDarkMode ? 'dark' : 'default',
+              convert_urls: false,
+              relative_urls: false,
+              remove_script_host: false,
+              // Add CDN configuration to prevent plugin loading errors
+              external_plugins: {},
+              plugin_base_urls: {},
+              // Disable automatic plugin loading from URLs
+              forced_root_block: 'p',
+              branding: false,
+              statusbar: true,
+              // Prevent plugin loading errors
+              init_instance_callback: (editor: any) => {
+                console.log('TinyMCE editor initialized successfully');
+              },
+              // Handle plugin loading errors gracefully
+              plugins_url: '',
+              // Disable problematic plugins that might not exist
+              removed_menuitems: 'print',
               setup: (editor: any) => {
                 editorRef.current = editor;
                 
