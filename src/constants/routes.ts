@@ -17,6 +17,7 @@ import {
   ShieldUser,
   Puzzle,
   Touchpad,
+  ChartNoAxesGantt,
 } from "lucide-react";
 
 export const ROOT_NAVBAR = [
@@ -67,6 +68,12 @@ export const ROOT_NAVBAR = [
         description: "Description here...",
         url: "/elements/modals",
         icon: Bell,
+      },
+      {
+        name: "News Ticker",
+        description: "Description here...",
+        url: "/elements/news-ticker",
+        icon: ChartNoAxesGantt
       },
     ],
   },
