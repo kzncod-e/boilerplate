@@ -6,6 +6,7 @@
 @import "./charts.css";
 @import "./tables.css";
 @import "./sna.css";
+@import "./animations.css";
 
 @custom-variant dark (&:is(.dark *));
 
