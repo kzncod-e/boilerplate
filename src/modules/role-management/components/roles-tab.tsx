@@ -23,7 +23,7 @@ import CreateRoleDialog from "./create-role-dialog";
 import EditRoleDialog from "./edit-role-dialog";
 import DeleteRoleDialog from "./delete-role-dialog";
 import toast from "react-hot-toast";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import GlobalCard from "@/components/global/cards/global-card";
 import { getUserByRole } from "@/modules/auth/actions/auth.action";
 
