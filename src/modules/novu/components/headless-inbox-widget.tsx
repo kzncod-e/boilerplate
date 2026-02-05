@@ -211,9 +211,8 @@ export function HeadlessInboxWidget({
                                                     </div>
                                                     {!read ? (
                                                         <Badge
-                                                            size="sm"
                                                             variant="secondary"
-                                                            rounded="full"
+                                                            className="rounded-full"
                                                         >
                                                             New
                                                         </Badge>
