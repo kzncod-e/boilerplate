@@ -141,7 +141,7 @@ export function HeadlessInboxWidget({
                     Headless
                     {unreadCount > 0 ? (
                         <span className="absolute -top-2 -right-2">
-                            <Badge size="sm" rounded="full">
+                            <Badge>
                                 {unreadCount}
                             </Badge>
                         </span>
