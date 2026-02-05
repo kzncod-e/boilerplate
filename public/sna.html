@@ -53,12 +53,23 @@ color: oklch(1 0 0) ;
 
     <script>
       (async function () {
-          window.addEventListener("message", (event) => {
-    const { type, theme } = event.data || {};
-    if (type === "SET_THEME" && window.MicroSna) {
-      window.MicroSna.setTheme(theme === "dark" ? "dark" : "light");
-    }
-  });
+         window.addEventListener("message", (event) => {
+  const data = event.data || {};
+
+  if (!window.MicroSna) return;
+
+  if (data.type === "SET_THEME") {
+    console.log("theme FROM PARENT:", data.theme);
+
+    window.MicroSna.setTheme(data.theme === "dark" ? "dark" : "light");
+  }
+
+  if (data.type === "APPLY_FILTER") {
+    console.log("FILTER FROM PARENT:", data);
+    window.MicroSna.submitFilter(data.filter);
+  }
+});
+
         const microSnaUrl = "https://sna.optimasi.ai";
 
         const res = await fetch(
@@ -83,19 +94,18 @@ color: oklch(1 0 0) ;
             showMenu: {
               fullscreen: true,
               themeSwitcher: false,
-              filter: true,
-              savedData: true,
+              filter: false,
+              savedData: false,
             },
             keepDragPosition: false,
             showGraphInfo: true,
             pointerInteraction: true,
           });
+          // notify parent that SNA iframe is ready to receive messages
+        
 
-          window.MicroSna.submitFilter({
-            topic: "Pemilu",
-            platforms: ["twitter"],
-            sentiment: ["negative"],
-          });
+          // Also expose a quick ready flag on window for same-origin checks
+        
         };
       })();
     </script>
