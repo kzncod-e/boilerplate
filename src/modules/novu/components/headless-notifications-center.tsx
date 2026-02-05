@@ -215,9 +215,7 @@ export function HeadlessNotificationsCenter({
                               </div>
                               {!read ? (
                                 <Badge
-                                  size="sm"
                                   variant="secondary"
-                                  rounded="full"
                                 >
                                   New
                                 </Badge>
