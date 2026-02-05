@@ -1,7 +1,8 @@
 
 import * as React from "react";
+import { BaseCardWrapper } from "./base-wrapper-card";
 import { badgeColorByValue } from "../../../modules/elements/card/utils/utils";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 
 type MetricItemProps = {
@@ -18,8 +19,7 @@ const MetricItem: React.FC<MetricItemProps> = ({
   percentageOfChange,
 }) => {
   return (
-  
-    <div className="bg-card rounded-lg p-4 shadow-xl  shadow-primary/5">
+    <BaseCardWrapper padding="md" hover={false} className="gap-1">
       <div className="flex gap-1 text-xs items-center">
         <h5 className="font-semibold leading-5 text-primary capitalize">
           {title}
@@ -30,7 +30,7 @@ const MetricItem: React.FC<MetricItemProps> = ({
           {Math.round(numberValue ?? 0)}
         </p>
         {percentageOfChange != null && percentageOfChange !== 0 ? (
-          <Badge variant={badgeColorByValue(percentageOfChange ?? 0)} size="xs">
+          <Badge variant="outline">
             {`${
               percentageOfChange > 0 ? "+" : percentageOfChange < 0 ? "-" : ""
             }${Math.round(Math.abs(percentageOfChange))}%`}
@@ -40,7 +40,7 @@ const MetricItem: React.FC<MetricItemProps> = ({
       {description ? (
         <span className="text-xs text-muted-foreground">{description}</span>
       ) : null}
-    </div>
+    </BaseCardWrapper>
   );
 };
 

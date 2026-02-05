@@ -15,7 +15,7 @@ const GlobalCard = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Card className={cn("border-0 shadow-xl shadow-black/5 h-auto", className)}>
+    <Card className={cn("border-0 shadow-xl shadow-blue-400/5 h-auto", className)}>
       <CardHeader>
         <CardTitle className="tracking-tight flex items-center gap-3 font-semibold text-xl text-primary">
           {title}
