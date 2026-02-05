@@ -6,7 +6,7 @@ import { TodoPriority, TodoStatus } from "@/modules/todos/models/todo.enum";
 import todosRoutes from "../routes/todos.route";
 import { DeleteTodo } from "./delete-todo";
 import { ToggleComplete } from "./toggle-complete";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface TodoCardProps {
   todo: {
