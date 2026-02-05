@@ -25,7 +25,7 @@ export function BaseCardWrapper({
     <Card
       className={cn(
         paddingMap[padding],
-        'bg-white rounded-lg shadow-xl',
+        'border-0 shadow-xl shadow-blue-400/5 h-auto',
         hover && 'hover:shadow-md transition-shadow duration-200',
         className
       )}

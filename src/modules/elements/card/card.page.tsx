@@ -11,8 +11,78 @@ import { socmedAccountsDummy } from "@/mock/socmeds-data";
 import { ScrollableCard } from "@/components/global/cards/scrollable-card";
 import PageHeader from "@/components/global/page-header";
 import { MultiActionAreaCard } from "@/components/global/cards/multi-action-area-card";
+import FirstPostCard, { RelatedPost } from "@/components/global/cards/news-first-post-card";
+import NewsTrendlineCard, { TrendlineEvent } from "@/components/global/cards/news-trendline-card";
 
 export default function CardsPage() {
+  // Sample data for First Post Card
+  const relatedPosts: RelatedPost[] = [
+    {
+      id: "1",
+      platform: "twitter",
+      author: "John Doe",
+      content: "Breaking: Major technology breakthrough announced today! This changes everything we thought we knew about AI. #TechNews #Innovation",
+      timestamp: "2 hours ago",
+      likes: 245,
+      comments: 89,
+      shares: 156
+    },
+    {
+      id: "2",
+      platform: "facebook",
+      author: "Tech Insights",
+      content: "The latest developments in artificial intelligence are reshaping industries. Read our comprehensive analysis of what this means for the future.",
+      timestamp: "4 hours ago",
+      likes: 523,
+      comments: 127,
+      shares: 89
+    }
+  ];
+
+  // Sample data for News Trendline Card
+  const trendlineEvents: TrendlineEvent[] = [
+    {
+      id: "1",
+      date: "15 Jan",
+      time: "09:00 AM",
+      title: "Product Launch Announcement",
+      description: "Official launch of our revolutionary AI-powered platform that transforms how businesses operate.",
+      type: "milestone",
+      status: "completed",
+      category: "Product"
+    },
+    {
+      id: "2",
+      date: "15 Jan",
+      time: "02:30 PM",
+      title: "Market Analysis Update",
+      description: "Q4 earnings report shows 45% growth in user acquisition and 32% increase in revenue.",
+      type: "update",
+      status: "completed",
+      category: "Finance"
+    },
+    {
+      id: "3",
+      date: "16 Jan",
+      time: "11:00 AM",
+      title: "Security Alert",
+      description: "Important security update available. All users are encouraged to update their applications immediately.",
+      type: "alert",
+      status: "ongoing",
+      category: "Security"
+    },
+    {
+      id: "4",
+      date: "17 Jan",
+      time: "03:00 PM",
+      title: "Team Expansion",
+      description: "Hiring 50 new engineers across multiple departments to support our rapid growth.",
+      type: "info",
+      status: "upcoming",
+      category: "HR"
+    }
+  ];
+
   return (
     <>
       <PageHeader
@@ -195,6 +265,57 @@ export default function CardsPage() {
             onClick={() => console.log("Card clicked")}
             onShare={() => console.log("Share clicked")}
           />
+        </div>
+
+        {/* News Cards Section */}
+        <div className="grid grid-cols-1 gap-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">News & Timeline Cards</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* First Post Card Example */}
+            <FirstPostCard
+              title="Revolutionary AI Breakthrough Transforms Industry Landscape"
+              excerpt="Scientists have announced a groundbreaking development in artificial intelligence that promises to revolutionize how we interact with technology. This breakthrough represents years of research and collaboration across multiple institutions, bringing us closer to truly intelligent systems that can understand and respond to human needs in unprecedented ways."
+              category="Technology"
+              author="Dr. Sarah Johnson"
+              publishDate="January 15, 2024"
+              readTime="5 min read"
+              imageUrl="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop"
+              relatedPosts={relatedPosts}
+            />
+
+            {/* News Trendline Card Example */}
+            <NewsTrendlineCard
+              title="Company Timeline"
+              description="Key events and milestones in our journey"
+              events={trendlineEvents}
+              showDateHeaders={true}
+              maxHeight="h-96"
+            />
+          </div>
+
+          {/* Additional Examples */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* First Post Card without image */}
+            <FirstPostCard
+              title="Market Trends: What's Next for Digital Transformation"
+              excerpt="As we move further into 2024, digital transformation continues to reshape industries across the globe. Companies are increasingly adopting cloud technologies, AI-driven solutions, and automation to stay competitive in an ever-evolving marketplace."
+              category="Business"
+              author="Michael Chen"
+              publishDate="January 14, 2024"
+              readTime="3 min read"
+              relatedPosts={relatedPosts.slice(0, 1)}
+            />
+
+            {/* News Trendline Card without date headers */}
+            <NewsTrendlineCard
+              title="Project Roadmap"
+              description="Upcoming features and improvements"
+              events={trendlineEvents.slice(2)}
+              showDateHeaders={false}
+              maxHeight="h-80"
+            />
+          </div>
         </div>
       </div>
     </>
