@@ -159,8 +159,8 @@ export default function SNASettingModal() {
 
       <PopoverContent
         side="bottom"
-        align="start"
-        className="bg-white rounded-xl w-[40rem] p-4"
+        align="end"
+        className="bg-white rounded-xl w-fit p-4"
       >
         <div className="flex flex-col gap-2 text-left">
           <div className="text-blue-700 text-xl font-semibold">SNA Setting</div>
@@ -248,7 +248,7 @@ export default function SNASettingModal() {
           </div>
 
           {/* DATE */}
-          <FormField className="w-full">
+          <FormField className="min-w-[29rem] w-full">
             <p className="text-sm font-medium">Date</p>
             <DatePicker
               mode="range"

@@ -24,7 +24,7 @@ const MicroSNA = () => {
 
       <div className="relative">
         {/* tombol modal */}
-        <div className="absolute w-full  top-4 left-0 z-40">
+        <div className="absolute top-3 right-4 z-40">
           <SNASettingModal />
         </div>
 
