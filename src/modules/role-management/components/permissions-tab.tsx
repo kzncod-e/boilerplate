@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import PermissionRow from "./permission-row";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,20 +32,23 @@ export default function PermissionsTab() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  // Group permissions by module
-  const permissionsByModule = permissions.reduce(
-    (acc, perm) => {
-      if (!acc[perm.module]) {
-        acc[perm.module] = [];
-      }
-      acc[perm.module].push(perm);
-      return acc;
-    },
-    {} as Record<string, Permission[]>,
-  );
+  // Group permissions by module (memoized)
+  const permissionsByModule = useMemo(() => {
+    return permissions.reduce(
+      (acc, perm) => {
+        if (!acc[perm.module]) acc[perm.module] = [];
+        acc[perm.module].push(perm);
+        return acc;
+      },
+      {} as Record<string, Permission[]>,
+    );
+  }, [permissions]);
 
-  // Get unique modules
-  const modules = Object.keys(permissionsByModule);
+  // Get unique modules (memoized)
+  const modules = useMemo(
+    () => Object.keys(permissionsByModule),
+    [permissionsByModule],
+  );
 
   useEffect(() => {
     const loadData = async () => {
@@ -84,74 +88,76 @@ export default function PermissionsTab() {
     loadData();
   }, []);
 
+  // Build initial permission matrix when data loads. Use a Set for faster lookup.
   useEffect(() => {
-    if (
-      permissions.length > 0 &&
-      roles.length > 0 &&
-      rolePermissions.length >= 0
-    ) {
-      // Build permission matrix
-      const matrix: PermissionMatrix = {};
-      roles.forEach((role) => {
-        matrix[role.id] = {};
-        permissions.forEach((perm) => {
-          const hasPermission = rolePermissions.some(
-            (rp) => rp.roleId === role.id && rp.permissionId === perm.id,
-          );
-          matrix[role.id][perm.id] = hasPermission;
-        });
-      });
+    if (permissions.length === 0 || roles.length === 0) return;
 
-      setPermissionMatrix(matrix);
+    const rpSet = new Set(
+      rolePermissions.map((rp) => `${rp.roleId}:${rp.permissionId}`),
+    );
+
+    const matrix: PermissionMatrix = {};
+    for (const role of roles) {
+      matrix[role.id] = {};
+      for (const perm of permissions) {
+        matrix[role.id][perm.id] = rpSet.has(`${role.id}:${perm.id}`);
+      }
     }
+
+    setPermissionMatrix(matrix);
+    setHasUnsavedChanges(false);
   }, [permissions, roles, rolePermissions]);
 
-  const handlePermissionChange = (
-    roleId: string,
-    permissionId: string,
-    checked: boolean,
-  ) => {
-    setPermissionMatrix((prev) => ({
-      ...prev,
-      [roleId]: {
-        ...prev[roleId],
-        [permissionId]: checked,
-      },
-    }));
-    setHasUnsavedChanges(true);
-  };
-
-  const handleSelectAllRow = (module: string, checked: boolean) => {
-    const modulePermissions = permissionsByModule[module] || [];
-
-    setPermissionMatrix((prev) => {
-      const newMatrix = { ...prev };
-      roles.forEach((role) => {
-        modulePermissions.forEach((perm) => {
-          newMatrix[role.id] = {
-            ...newMatrix[role.id],
-            [perm.id]: checked,
-          };
-        });
-      });
-      return newMatrix;
-    });
-    setHasUnsavedChanges(true);
-  };
-
-  const handleSelectAllColumn = (roleId: string, checked: boolean) => {
-    setPermissionMatrix((prev) => ({
-      ...prev,
-      [roleId]: Object.keys(prev[roleId]).reduce(
-        (acc, permId) => {
-          acc[permId] = checked;
-          return acc;
+  const handlePermissionChange = useCallback(
+    (roleId: string, permissionId: string, checked: boolean) => {
+      setPermissionMatrix((prev) => ({
+        ...prev,
+        [roleId]: {
+          ...prev[roleId],
+          [permissionId]: checked,
         },
-        {} as Record<string, boolean>,
-      ),
-    }));
-    setHasUnsavedChanges(true);
-  };
+      }));
+      setHasUnsavedChanges(true);
+    },
+    [],
+  );
+
+  const handleSelectAllRow = useCallback(
+    (module: string, checked: boolean) => {
+      const modulePermissions = permissionsByModule[module] || [];
+
+      setPermissionMatrix((prev) => {
+        const newMatrix = { ...prev };
+        for (const role of roles) {
+          const row = { ...newMatrix[role.id] };
+          for (const perm of modulePermissions) {
+            row[perm.id] = checked;
+          }
+          newMatrix[role.id] = row;
+        }
+        return newMatrix;
+      });
+      setHasUnsavedChanges(true);
+    },
+    [permissionsByModule, roles],
+  );
+
+  const handleSelectAllColumn = useCallback(
+    (roleId: string, checked: boolean) => {
+      setPermissionMatrix((prev) => ({
+        ...prev,
+        [roleId]: Object.keys(prev[roleId] || {}).reduce(
+          (acc, permId) => {
+            acc[permId] = checked;
+            return acc;
+          },
+          {} as Record<string, boolean>,
+        ),
+      }));
+      setHasUnsavedChanges(true);
+    },
+    [],
+  );
 
   const handleSave = async () => {
     try {
@@ -187,16 +193,49 @@ export default function PermissionsTab() {
     }
   };
 
-  const isRowFullySelected = (module: string, roleId: string) => {
-    const modulePermissions = permissionsByModule[module] || [];
-    return modulePermissions.every(
-      (perm) => permissionMatrix[roleId]?.[perm.id],
-    );
-  };
+  const isRowFullySelected = useCallback(
+    (module: string, roleId: string) => {
+      const modulePermissions = permissionsByModule[module] || [];
+      return (
+        modulePermissions.length > 0 &&
+        modulePermissions.every((perm) =>
+          Boolean(permissionMatrix[roleId]?.[perm.id]),
+        )
+      );
+    },
+    [permissionsByModule, permissionMatrix],
+  );
 
-  const isColumnFullySelected = (roleId: string) => {
-    return Object.values(permissionMatrix[roleId] || {}).every(Boolean);
-  };
+  const isColumnFullySelected = useCallback(
+    (roleId: string) => {
+      return (
+        Object.values(permissionMatrix[roleId] || {}).length > 0 &&
+        Object.values(permissionMatrix[roleId] || {}).every(Boolean)
+      );
+    },
+    [permissionMatrix],
+  );
+
+  // Precompute a simple per-role full-selection state for the select-all row
+  const isRoleSelectAllState = useMemo(() => {
+    const map: Record<string, boolean> = {};
+    for (const role of roles) {
+      map[role.id] = modules.every((module) =>
+        isRowFullySelected(module, role.id),
+      );
+    }
+    return map;
+  }, [roles, modules, isRowFullySelected]);
+
+  // Memoized check helper for PermissionRow to avoid passing whole matrix every time
+  const getChecked = useCallback(
+    (roleId: string, permissionId: string) => {
+      return Boolean(permissionMatrix[roleId]?.[permissionId]);
+    },
+    [permissionMatrix],
+  );
+
+  // PermissionRow moved to its own file for clarity and to reduce bundle size
 
   if (isLoading) {
     return (
@@ -263,36 +302,15 @@ export default function PermissionsTab() {
                 {modules.map((module) => {
                   const modulePermissions = permissionsByModule[module];
                   return modulePermissions.map((permission, index) => (
-                    <tr key={permission.id} className="border-b">
-                      {index === 0 && (
-                        <td
-                          rowSpan={modulePermissions.length}
-                          className="p-2 font-medium align-top"
-                        >
-                          {module}
-                        </td>
-                      )}
-                      <td className="p-2">
-                        {permission.action || permission.name}
-                      </td>
-                      {roles.map((role) => (
-                        <td key={role.id} className="p-2 text-center">
-                          <Checkbox
-                            checked={
-                              permissionMatrix[role.id]?.[permission.id] ||
-                              false
-                            }
-                            onCheckedChange={(checked) =>
-                              handlePermissionChange(
-                                role.id,
-                                permission.id,
-                                checked as boolean,
-                              )
-                            }
-                          />
-                        </td>
-                      ))}
-                    </tr>
+                    <PermissionRow
+                      key={permission.id}
+                      permission={permission}
+                      roles={roles}
+                      index={index}
+                      modulePermissionsLength={modulePermissions.length}
+                      onChange={handlePermissionChange}
+                      getChecked={getChecked}
+                    />
                   ));
                 })}
                 {/* Select All Row */}
