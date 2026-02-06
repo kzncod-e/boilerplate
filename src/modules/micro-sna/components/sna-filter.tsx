@@ -163,7 +163,7 @@ export default function SNASettingModal() {
         className="bg-white rounded-xl w-fit p-4"
       >
         <div className="flex flex-col gap-2 text-left">
-          <div className="text-blue-700 text-xl font-semibold">SNA Setting</div>
+          <div className="text-primary text-xl font-semibold">SNA Setting</div>
         </div>
 
         <form className="grid grid-cols-2 w-full gap-6 mt-4">
@@ -357,7 +357,9 @@ export default function SNASettingModal() {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleApply}>Apply</Button>
+          <Button onClick={handleApply} className="bg-primary">
+            Apply
+          </Button>
         </div>
       </PopoverContent>
     </Popover>
