@@ -18,6 +18,7 @@ import {
   Puzzle,
   Touchpad,
   ChartNoAxesGantt,
+  Calendar,
 } from "lucide-react";
 
 export const ROOT_NAVBAR = [
@@ -144,6 +145,12 @@ export const ROOT_NAVBAR = [
         description: "Description here...",
         url: "/widget/sna",
         icon: Link,
+      },
+      {
+        name: "Calendar",
+        description: "Description here...",
+        url: "/widget/calendar",
+        icon: Calendar,
       },
     ],
   },
