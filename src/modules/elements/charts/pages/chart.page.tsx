@@ -10,13 +10,13 @@ import { ChartPie } from "@/components/global/charts/pie-chart";
 import DotChart from "@/components/global/charts/dot-chart";
 
 import {
-  dummyBarChartConfig,
-  dummyBarChartData,
-  dummyLineChart,
-  dummyLineChatConfig,
-  dummyMultipleChartBar,
-  dummyMultipleChartBarConfig,
-  socmedAreaChartDummyData,
+    dummyBarChartConfig,
+    dummyBarChartData,
+    dummyLineChart,
+    dummyLineChatConfig,
+    dummyMultipleChartBar,
+    dummyMultipleChartBarConfig,
+    socmedAreaChartDummyData,
 } from "@/mock/chart-data";
 import { ChartLine } from "@/components/global/charts/line-chart";
 import { TrendingUp } from "lucide-react";
@@ -31,112 +31,119 @@ import { CardContent } from "@/components/ui/card";
 //  oklch(0.828 0.189 84.429);
 //  oklch(0.769 0.188 70.08);
 const browserData = [
-  { browser: "Chrome", users: 275, color: "oklch(0.646 0.222 41.116)" },
-  { browser: "Safari", users: 200, color: "oklch(0.6 0.118 184.704)" },
-  { browser: "Firefox", users: 187, color: "oklch(0.769 0.188 70.08);" },
+    { browser: "Chrome", users: 275, color: "oklch(0.646 0.222 41.116)" },
+    { browser: "Safari", users: 200, color: "oklch(0.6 0.118 184.704)" },
+    { browser: "Firefox", users: 187, color: "oklch(0.769 0.188 70.08);" },
 ];
 const ChartPage = () => {
-  return (
-    <>
-      <PageHeader
-        title="Chart page"
-        description="reusable chart components with dynamic props"
-      />
-
-      <div className="flex flex-col gap-5">
-        <GlobalCard title="Sentiment Analysis">
-          <SentimentAnalysisSection />
-        </GlobalCard>
-
-        <GlobalCard title="example of area charts">
-          <LineChart data={chartData} config={chartConfig} />
-        </GlobalCard>
-        <SocmedAreaChart
-          data={socmedAreaChartDummyData}
-          title="socmed area chart"
-        />
-
-        <ChartPie
-          title="Browser Usage"
-          description="Jan - Jun 2024"
-          data={browserData}
-          config={chartConfig}
-          valueKey="users"
-          labelKey="browser"
-          fillKey="color"
-        />
-
-        <DotChart data={socmedAreaChartDummyData} />
-        <BasicBarChart
-          data={dummyBarChartData}
-          config={dummyBarChartConfig}
-          footer={
-            <div className="flex flex-col gap-2 text-sm mt-4">
-              <div className="flex gap-2 font-medium">
-                Trending up by 5.2% this month{" "}
-                <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground">
-                Showing data for the last period
-              </div>
-            </div>
-          }
-        />
-        <ChartBarMulti
-          title="multiple chart bar"
-          data={dummyMultipleChartBar}
-          config={dummyMultipleChartBarConfig}
-          xKey="month"
-          series={[{ key: "desktop" }, { key: "mobile" }]}
-          footer={
-            <>
-              <div className="flex gap-2 font-medium">
-                Trending up 5.2% <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground">Last 6 months traffic</div>
-            </>
-          }
-        />
-
-        <ChartLine
-          title="User Growth"
-          description="Jan - Jun 2024"
-          data={dummyLineChart}
-          config={dummyLineChatConfig}
-          xKey="month"
-          valueKey="users"
-          footer={
-            <>
-              <div className="font-medium">Trending up this quarter 🚀</div>
-              <div className="text-muted-foreground">Monthly active users</div>
-            </>
-          }
-        />
-
-        <GlobalCard title="Treemap Chart Example">
-          <CardContent>
-            <TreeMapChart 
-              data={[
-                { title: "React Development", probability: 35 },
-                { title: "TypeScript", probability: 28 },
-                { title: "Node.js", probability: 22 },
-                { title: "Next.js", probability: 18 },
-                { title: "Tailwind CSS", probability: 15 },
-                { title: "GraphQL", probability: 12 },
-                { title: "Docker", probability: 10 },
-                { title: "AWS", probability: 8 },
-                { title: "MongoDB", probability: 7 },
-                { title: "PostgreSQL", probability: 6 },
-                { title: "Redis", probability: 5 },
-                { title: "Kubernetes", probability: 4 },
-              ]} 
-              isLoading={false} 
+    return (
+        <>
+            <PageHeader
+                title="Chart page"
+                description="reusable chart components with dynamic props"
             />
-          </CardContent>
-        </GlobalCard>
-      </div>
-    </>
-  );
+
+            <div className="flex flex-col gap-5">
+                <GlobalCard title="Sentiment Analysis">
+                    <SentimentAnalysisSection />
+                </GlobalCard>
+
+                <GlobalCard title="example of area charts">
+                    <LineChart data={chartData} config={chartConfig} />
+                </GlobalCard>
+                <SocmedAreaChart
+                    data={socmedAreaChartDummyData}
+                    title="socmed area chart"
+                />
+
+                <ChartPie
+                    title="Browser Usage"
+                    description="Jan - Jun 2024"
+                    data={browserData}
+                    config={chartConfig}
+                    valueKey="users"
+                    labelKey="browser"
+                    fillKey="color"
+                />
+
+                <DotChart data={socmedAreaChartDummyData} />
+                <BasicBarChart
+                    data={dummyBarChartData}
+                    config={dummyBarChartConfig}
+                    footer={
+                        <div className="flex flex-col gap-2 text-sm mt-4">
+                            <div className="flex gap-2 font-medium">
+                                Trending up by 5.2% this month{" "}
+                                <TrendingUp className="h-4 w-4" />
+                            </div>
+                            <div className="text-muted-foreground">
+                                Showing data for the last period
+                            </div>
+                        </div>
+                    }
+                />
+                <ChartBarMulti
+                    title="multiple chart bar"
+                    data={dummyMultipleChartBar}
+                    config={dummyMultipleChartBarConfig}
+                    xKey="month"
+                    series={[{ key: "desktop" }, { key: "mobile" }]}
+                    footer={
+                        <>
+                            <div className="flex gap-2 font-medium">
+                                Trending up 5.2%{" "}
+                                <TrendingUp className="h-4 w-4" />
+                            </div>
+                            <div className="text-muted-foreground">
+                                Last 6 months traffic
+                            </div>
+                        </>
+                    }
+                />
+
+                <ChartLine
+                    title="User Growth"
+                    description="Jan - Jun 2024"
+                    data={dummyLineChart}
+                    config={dummyLineChatConfig}
+                    xKey="month"
+                    valueKey="users"
+                    footer={
+                        <>
+                            <div className="font-medium">
+                                Trending up this quarter 🚀
+                            </div>
+                            <div className="text-muted-foreground">
+                                Monthly active users
+                            </div>
+                        </>
+                    }
+                />
+
+                <GlobalCard title="Treemap Chart Example">
+                    <CardContent>
+                        <TreeMapChart
+                            data={[
+                                { title: "React Development", probability: 35 },
+                                { title: "TypeScript", probability: 28 },
+                                { title: "Node.js", probability: 22 },
+                                { title: "Next.js", probability: 18 },
+                                { title: "Tailwind CSS", probability: 15 },
+                                { title: "GraphQL", probability: 12 },
+                                { title: "Docker", probability: 10 },
+                                { title: "AWS", probability: 8 },
+                                { title: "MongoDB", probability: 7 },
+                                { title: "PostgreSQL", probability: 6 },
+                                { title: "Redis", probability: 5 },
+                                { title: "Kubernetes", probability: 4 },
+                            ]}
+                            isLoading={false}
+                        />
+                    </CardContent>
+                </GlobalCard>
+            </div>
+        </>
+    );
 };
 
 export default ChartPage;

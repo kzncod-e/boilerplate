@@ -5,10 +5,10 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 import { CardFooter } from "@/components/ui/card";
 import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+    type ChartConfig,
 } from "@/components/ui/chart";
 import GlobalCard from "../cards/global-card";
 
@@ -17,71 +17,71 @@ import GlobalCard from "../cards/global-card";
 type KeyOf<T> = Extract<keyof T, string>;
 
 interface BarSeries<T> {
-  key: KeyOf<T>;
-  radius?: number;
+    key: KeyOf<T>;
+    radius?: number;
 }
 
 interface ChartBarMultiProps<T extends Record<string, any>> {
-  title?: string;
+    title?: string;
 
-  data: T[];
-  config: ChartConfig;
+    data: T[];
+    config: ChartConfig;
 
-  /** key untuk X axis */
-  xKey: KeyOf<T>;
+    /** key untuk X axis */
+    xKey: KeyOf<T>;
 
-  /** bar series (desktop, mobile, etc) */
-  series: BarSeries<T>[];
+    /** bar series (desktop, mobile, etc) */
+    series: BarSeries<T>[];
 
-  footer?: ReactNode;
+    footer?: ReactNode;
 }
 
 /* ================= COMPONENT ================= */
 
 export function ChartBarMulti<T extends Record<string, any>>({
-  title = "Multiple Bar Chart",
-  data,
-  config,
-  xKey,
-  series,
-  footer,
+    title = "Multiple Bar Chart",
+    data,
+    config,
+    xKey,
+    series,
+    footer,
 }: ChartBarMultiProps<T>) {
-  return (
-    <GlobalCard title={title}>
-      <ChartContainer config={config}>
-        <BarChart data={data} accessibilityLayer>
-          <CartesianGrid vertical={false} />
+    return (
+        <GlobalCard title={title}>
+            <ChartContainer config={config}>
+                <BarChart data={data} accessibilityLayer>
+                    <CartesianGrid vertical={false} />
 
-          <XAxis
-            dataKey={xKey}
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-          />
+                    <XAxis
+                        dataKey={xKey}
+                        tickLine={false}
+                        tickMargin={10}
+                        axisLine={false}
+                    />
 
-          <YAxis tickLine={false} axisLine={false} width={60} />
+                    <YAxis tickLine={false} axisLine={false} width={60} />
 
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator="dashed" />}
-          />
+                    <ChartTooltip
+                        cursor={false}
+                        content={<ChartTooltipContent indicator="dashed" />}
+                    />
 
-          {series.map((item) => (
-            <Bar
-              key={String(item.key)}
-              dataKey={item.key}
-              fill={`var(--color-${String(item.key)})`}
-              radius={item.radius ?? 4}
-            />
-          ))}
-        </BarChart>
-      </ChartContainer>
+                    {series.map((item) => (
+                        <Bar
+                            key={String(item.key)}
+                            dataKey={item.key}
+                            fill={`var(--color-${String(item.key)})`}
+                            radius={item.radius ?? 4}
+                        />
+                    ))}
+                </BarChart>
+            </ChartContainer>
 
-      {footer && (
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          {footer}
-        </CardFooter>
-      )}
-    </GlobalCard>
-  );
+            {footer && (
+                <CardFooter className="flex-col items-start gap-2 text-sm">
+                    {footer}
+                </CardFooter>
+            )}
+        </GlobalCard>
+    );
 }

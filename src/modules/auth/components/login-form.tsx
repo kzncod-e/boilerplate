@@ -8,132 +8,146 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
-  type SignInSchema,
-  signInSchema,
+    type SignInSchema,
+    signInSchema,
 } from "@/modules/auth/models/auth.model";
 import { authClient } from "@/modules/auth/utils/auth-client";
 import dashboardRoutes from "@/modules/dashboard/routes/dashboard.route";
 import { signIn } from "../actions/auth.action";
 
 export function LoginForm({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowpassword] = useState(false);
-  const form = useForm<SignInSchema>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const signInWithGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: dashboardRoutes.dashboard,
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const [showPassword, setShowpassword] = useState(false);
+    const form = useForm<SignInSchema>({
+        resolver: zodResolver(signInSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
     });
-  };
 
-  async function onSubmit(values: SignInSchema) {
-    setIsLoading(true);
-    const { success, message } = await signIn(values);
+    const signInWithGoogle = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+            callbackURL: dashboardRoutes.dashboard,
+        });
+    };
 
-    if (success) {
-      toast.success(message.toString());
-      router.push(dashboardRoutes.dashboard);
-    } else {
-      toast.error(message.toString());
+    async function onSubmit(values: SignInSchema) {
+        setIsLoading(true);
+        const { success, message } = await signIn(values);
+
+        if (success) {
+            toast.success(message.toString());
+            router.push(dashboardRoutes.dashboard);
+        } else {
+            toast.error(message.toString());
+        }
+        setIsLoading(false);
     }
-    setIsLoading(false);
-  }
 
-  return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="grid  gap-6">
-            <div className="grid gap-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="mail@mail.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-col gap-2">
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Input
-                            className=""
-                            placeholder="*********"
-                            {...field}
-                            type={showPassword ? "text" : "password"}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowpassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
-                          </button>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* <a
+    return (
+        <div className={cn("flex flex-col gap-6", className)} {...props}>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                >
+                    <div className="grid  gap-6">
+                        <div className="grid gap-6">
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="mail@mail.com"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <div className="flex flex-col gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Input
+                                                        className=""
+                                                        placeholder="*********"
+                                                        {...field}
+                                                        type={
+                                                            showPassword
+                                                                ? "text"
+                                                                : "password"
+                                                        }
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            setShowpassword(
+                                                                !showPassword,
+                                                            )
+                                                        }
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                                    >
+                                                        {showPassword ? (
+                                                            <EyeOff className="h-4 w-4" />
+                                                        ) : (
+                                                            <Eye className="h-4 w-4" />
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                {/* <a
                       href="#"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
                       Forgot your password?
                     </a> */}
-              </div>
-              <Button
-                type="submit"
-                className="w-full dark:text-white bg-[#0759a3]"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="size-4 animate-spin mr-2" />
-                    Loading...
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </Button>
-            </div>
-            {/* <div className="text-center text-sm">
+                            </div>
+                            <Button
+                                type="submit"
+                                className="w-full dark:text-white bg-[#0759a3]"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="size-4 animate-spin mr-2" />
+                                        Loading...
+                                    </>
+                                ) : (
+                                    "Login"
+                                )}
+                            </Button>
+                        </div>
+                        {/* <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
                   <Link
                     href={authRoutes.signup}
@@ -142,14 +156,15 @@ export function LoginForm({
                     Sign up
                   </Link>
                 </div> */}
-          </div>
-        </form>
-      </Form>
+                    </div>
+                </form>
+            </Form>
 
-      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
-    </div>
-  );
+            <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+                By clicking continue, you agree to our{" "}
+                <a href="#">Terms of Service</a> and{" "}
+                <a href="#">Privacy Policy</a>.
+            </div>
+        </div>
+    );
 }

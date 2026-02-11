@@ -6,21 +6,19 @@ import FullCalendar from "@/components/calendar/full-calendar";
 import MiniCalendar from "@/components/calendar/mini-calendar";
 
 export default function Page() {
-  return (
-    <div>
-      <PageHeader
-        title="Calendar"
-        description="Manage events with the calendar widget"
-      />
+    return (
+        <div>
+            <PageHeader
+                title="Calendar"
+                description="Manage events with the calendar widget"
+            />
 
-      <div className="mt-6 grid lg:grid-cols-2 gap-6">
-        <div className="lg:col-span-2">
-          <FullCalendar />
+            <div className="mt-6 space-y-6">
+                <FullCalendar />
+                <aside className="max-w-sm">
+                    <MiniCalendar />
+                </aside>
+            </div>
         </div>
-        <aside className="lg:col-span-1">
-          <MiniCalendar />
-        </aside>
-      </div>
-    </div>
-  );
+    );
 }

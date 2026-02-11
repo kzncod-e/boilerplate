@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/style/noNonNullAssertion: <we will make sure it's not null> */
-"use server"
+"use server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -7,26 +7,25 @@ import { nextCookies } from "better-auth/next-js";
 import { headers } from "next/headers";
 import { getDb } from "@/db";
 import type { AuthUser } from "@/modules/auth/models/user.model";
-import { admin } from "better-auth/plugins"
+import { admin } from "better-auth/plugins";
 /**
  * Cached auth instance singleton so we don't create a new instance every time
  */
-let cachedAuth: ReturnType<typeof betterAuth> | null = null
+let cachedAuth: ReturnType<typeof betterAuth> | null = null;
 
 /**
  * Create auth instance dynamically to avoid top-level async issues
  */
 
-
 async function getAuth() {
- if(cachedAuth){
-    return cachedAuth
- }
-    const { env } =  getCloudflareContext();
+    if (cachedAuth) {
+        return cachedAuth;
+    }
+    const { env } = getCloudflareContext();
     // console.log("Cloudflare Context:", env);
     const db = await getDb();
 
-cachedAuth = betterAuth({
+    cachedAuth = betterAuth({
         secret: env.BETTER_AUTH_SECRET,
         database: drizzleAdapter(db, {
             provider: "sqlite",
@@ -41,7 +40,7 @@ cachedAuth = betterAuth({
                 clientSecret: env.GOOGLE_CLIENT_SECRET,
             },
         },
-        plugins: [nextCookies(),admin(),],
+        plugins: [nextCookies(), admin()],
     });
 
     return cachedAuth;
@@ -65,7 +64,6 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
             id: session.user.id,
             name: session.user.name,
             email: session.user.email,
-            
         };
     } catch (error) {
         console.error("Error getting current user:", error);

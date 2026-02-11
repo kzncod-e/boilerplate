@@ -24,7 +24,7 @@ export default function handleApiError(error: unknown) {
                 error: "Invalid JSON format",
             }),
             {
-            status: 400,
+                status: 400,
                 headers: { "Content-Type": "application/json" },
             },
         );

@@ -1,5 +1,5 @@
 import { Error500 } from "@/components/global/system/error-500";
 
 export default function Error500Page() {
-  return <Error500 errorId={`ERR-${Date.now()}`} />;
+    return <Error500 errorId={`ERR-${Date.now()}`} />;
 }

@@ -1,62 +1,62 @@
 /* disable spinner icon on loading */
 #nprogress .spinner-icon {
-  display: none;
+    display: none;
 }
 
 /* News ticker animations */
 @keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-33.333%);
+    }
 }
 
 @keyframes marquee-reverse {
-  0% {
-    transform: translateX(-33.333%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+    0% {
+        transform: translateX(-33.333%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
 }
 
 @keyframes slide-up {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
 }
 
 @keyframes slide-down {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
 }
 
 .animate-marquee {
-  animation: marquee linear infinite;
+    animation: marquee linear infinite;
 }
 
 .animate-marquee-reverse {
-  animation: marquee-reverse linear infinite;
+    animation: marquee-reverse linear infinite;
 }
 
 .animate-slide-up {
-  animation: slide-up linear infinite;
+    animation: slide-up linear infinite;
 }
 
 .animate-slide-down {
-  animation: slide-down linear infinite;
+    animation: slide-down linear infinite;
 }
 
 /* Ensure smooth animations */
 .news-ticker-container {
-  will-change: transform;
+    will-change: transform;
 }

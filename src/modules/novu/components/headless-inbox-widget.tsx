@@ -113,7 +113,10 @@ export function HeadlessInboxWidget({
         (novu as any).on?.("notifications.unread_count_changed", onUnread);
 
         return () => {
-            (novu as any).off?.("notifications.notification_received", onReceived);
+            (novu as any).off?.(
+                "notifications.notification_received",
+                onReceived,
+            );
             (novu as any).off?.("notifications.unread_count_changed", onUnread);
         };
     }, [novu, refresh]);
@@ -141,9 +144,7 @@ export function HeadlessInboxWidget({
                     Headless
                     {unreadCount > 0 ? (
                         <span className="absolute -top-2 -right-2">
-                            <Badge>
-                                {unreadCount}
-                            </Badge>
+                            <Badge>{unreadCount}</Badge>
                         </span>
                     ) : null}
                 </Button>
@@ -258,4 +259,3 @@ export function HeadlessInboxWidget({
         </Dialog>
     );
 }
-

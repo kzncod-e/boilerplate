@@ -1,12 +1,17 @@
 import { user } from "@/db";
-import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import {
+    integer,
+    sqliteTable,
+    text,
+    uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 import z from "zod";
 
 export const role = sqliteTable("role", {
     id: text("id").primaryKey(),
     userId: text("userId").references(() => user.id, {
         onDelete: "cascade",
-        onUpdate: "cascade"
+        onUpdate: "cascade",
     }),
     name: text("name").notNull().unique(),
     description: text("description"),
@@ -35,42 +40,42 @@ export const permission = sqliteTable("permission", {
         .notNull(),
 });
 
-
-
 export const rolePermission = sqliteTable(
-  "role_permission",
-  {
-    id: text("id").primaryKey(),
+    "role_permission",
+    {
+        id: text("id").primaryKey(),
 
-    roleId: text("role_id")
-      .notNull()
-      .references(() => role.id, { onDelete: "cascade" }),
+        roleId: text("role_id")
+            .notNull()
+            .references(() => role.id, { onDelete: "cascade" }),
 
-    permissionId: text("permission_id")
-      .notNull()
-      .references(() => permission.id, { onDelete: "cascade" }),
+        permissionId: text("permission_id")
+            .notNull()
+            .references(() => permission.id, { onDelete: "cascade" }),
 
-    createdAt: integer("created_at", { mode: "timestamp" })
-      .defaultNow()
-      .notNull(),
+        createdAt: integer("created_at", { mode: "timestamp" })
+            .defaultNow()
+            .notNull(),
 
-    updatedAt: integer("updated_at", { mode: "timestamp" })
-      .defaultNow()
-      .$onUpdate(() => new Date())
-      .notNull(),
-  },
-  (table) => ({
-    uniqueRolePermission: uniqueIndex("unique_role_permission")
-      .on(table.roleId, table.permissionId),
-  })
+        updatedAt: integer("updated_at", { mode: "timestamp" })
+            .defaultNow()
+            .$onUpdate(() => new Date())
+            .notNull(),
+    },
+    (table) => ({
+        uniqueRolePermission: uniqueIndex("unique_role_permission").on(
+            table.roleId,
+            table.permissionId,
+        ),
+    }),
 );
 export const roleSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Role name is required")
-    .max(50, "Role name too long"),
-  description: z.string().max(200, "Description too long").optional(),
-  status: z.enum(["active", "inactive"]).optional(),
+    name: z
+        .string()
+        .min(1, "Role name is required")
+        .max(50, "Role name too long"),
+    description: z.string().max(200, "Description too long").optional(),
+    status: z.enum(["active", "inactive"]).optional(),
 });
 
 export type RoleFormData = z.infer<typeof roleSchema>;
