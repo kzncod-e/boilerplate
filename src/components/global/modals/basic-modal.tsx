@@ -55,24 +55,28 @@ export function BasicModal({
           "relative w-full mx-4 transform transition-all",
           sizeClasses[size],
           size === "full" && "m-0 w-screen h-screen",
-          className
+          className,
         )}
       >
-        <div className={cn(
-          "relative bg-white shadow-xl",
-          size === "full" ? "w-full h-full rounded-none" : "rounded-lg"
-        )}>
+        <div
+          className={cn(
+            "relative bg-card shadow-xl",
+            size === "full" ? "w-full h-full rounded-none" : "rounded-lg",
+          )}
+        >
           {/* Header */}
           {(title || description || showCloseButton) && (
             <div className="flex items-start justify-between p-6 border-b">
               <div className="flex-1">
                 {title && (
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                     {title}
                   </h2>
                 )}
                 {description && (
-                  <p className="mt-1 text-sm text-gray-600">{description}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {description}
+                  </p>
                 )}
               </div>
               {showCloseButton && (
@@ -87,25 +91,25 @@ export function BasicModal({
           )}
 
           {/* Body */}
-          <div className={cn(
-            "p-6",
-            size === "full" && "flex-1 overflow-y-auto p-0"
-          )}>
+          <div
+            className={cn(
+              "p-6",
+              size === "full" && "flex-1 overflow-y-auto p-0",
+            )}
+          >
             {children}
           </div>
 
           {/* Footer */}
           {(footerLeft || footerRight) && (
-            <div className={cn(
-              "flex items-center justify-between p-6 border-t bg-gray-50",
-              size === "full" ? "rounded-none" : "rounded-b-lg"
-            )}>
-              <div className="flex-1">
-                {footerLeft}
-              </div>
-              <div className="flex gap-3">
-                {footerRight}
-              </div>
+            <div
+              className={cn(
+                "flex items-center justify-between p-6 border-t bg-gray-50 dark:bg-primary/10",
+                size === "full" ? "rounded-none" : "rounded-b-lg",
+              )}
+            >
+              <div className="flex-1">{footerLeft}</div>
+              <div className="flex gap-3">{footerRight}</div>
             </div>
           )}
         </div>

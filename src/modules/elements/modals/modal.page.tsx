@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Settings, 
-  User, 
-  FileText, 
-  AlertCircle, 
+import {
+  Settings,
+  User,
+  FileText,
+  AlertCircle,
   CheckCircle,
   X,
   Save,
@@ -19,7 +19,7 @@ import {
   Download,
   Upload,
   Eye,
-  Edit
+  Edit,
 } from "lucide-react";
 import PageHeader from "@/components/global/page-header";
 import GlobalCard from "@/components/global/cards/global-card";
@@ -37,11 +37,11 @@ export default function ModalPage() {
   });
 
   const toggleModal = (key: keyof typeof modals) => {
-    setModals(prev => ({ ...prev, [key]: !prev[key] }));
+    setModals((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const closeModal = (key: keyof typeof modals) => {
-    setModals(prev => ({ ...prev, [key]: false }));
+    setModals((prev) => ({ ...prev, [key]: false }));
   };
 
   return (
@@ -90,9 +90,7 @@ export default function ModalPage() {
         title="Form Modal"
         description="Modal with form content and validation"
       >
-        <Button onClick={() => toggleModal("form")}>
-          Open Form Modal
-        </Button>
+        <Button onClick={() => toggleModal("form")}>Open Form Modal</Button>
       </GlobalCard>
 
       {/* Confirmation Modal */}
@@ -100,7 +98,10 @@ export default function ModalPage() {
         title="Confirmation Modal"
         description="Modal for confirmation dialogs"
       >
-        <Button onClick={() => toggleModal("confirmation")} variant="destructive">
+        <Button
+          onClick={() => toggleModal("confirmation")}
+          variant="destructive"
+        >
           Open Confirmation Modal
         </Button>
       </GlobalCard>
@@ -113,8 +114,9 @@ export default function ModalPage() {
         description="This is a small modal with minimal content"
         size="small"
       >
-        <p className="text-sm text-gray-600">
-          Small modals are perfect for quick confirmations, alerts, or simple forms.
+        <p className="text-sm ">
+          Small modals are perfect for quick confirmations, alerts, or simple
+          forms.
         </p>
       </BasicModal>
 
@@ -126,9 +128,9 @@ export default function ModalPage() {
         size="normal"
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
-            Normal modals work well for most use cases like forms, detailed information,
-            or standard interactions.
+          <p>
+            Normal modals work well for most use cases like forms, detailed
+            information, or standard interactions.
           </p>
           <div className="flex items-center gap-2">
             <Badge variant="secondary">Default Size</Badge>
@@ -145,18 +147,18 @@ export default function ModalPage() {
         size="lg"
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
-            Large modals are suitable for complex forms, data tables, or detailed content
-            that requires more space.
+          <p>
+            Large modals are suitable for complex forms, data tables, or
+            detailed content that requires more space.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">Feature 1</h4>
-              <p className="text-sm text-gray-600">Description of feature 1</p>
+              <p className="text-sm ">Description of feature 1</p>
             </div>
             <div className="p-4 border rounded-lg">
               <h4 className="font-semibold mb-2">Feature 2</h4>
-              <p className="text-sm text-gray-600">Description of feature 2</p>
+              <p className="text-sm ">Description of feature 2</p>
             </div>
           </div>
         </div>
@@ -170,16 +172,16 @@ export default function ModalPage() {
         size="xl"
       >
         <div className="space-y-6">
-          <p className="text-gray-600">
-            Extra large modals are perfect for dashboards, complex data visualization,
-            or when you need to display a lot of information.
+          <p>
+            Extra large modals are perfect for dashboards, complex data
+            visualization, or when you need to display a lot of information.
           </p>
-          
+
           <div className="grid grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <div key={item} className="p-4 border rounded-lg">
                 <h4 className="font-semibold mb-2">Card {item}</h4>
-                <p className="text-sm text-gray-600">Content for card {item}</p>
+                <p className="text-sm ">Content for card {item}</p>
               </div>
             ))}
           </div>
@@ -194,18 +196,18 @@ export default function ModalPage() {
         size="full"
       >
         <div className="space-y-6">
-          <p className="text-gray-600">
-            Full page modals are ideal for immersive experiences, complex workflows,
-            or when you need maximum screen real estate.
+          <p>
+            Full page modals are ideal for immersive experiences, complex
+            workflows, or when you need maximum screen real estate.
           </p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
               <div key={item} className="p-6 border rounded-lg">
                 <h4 className="font-semibold mb-2">Section {item}</h4>
-                <p className="text-sm text-gray-600">
-                  This is section {item} with more detailed content that would benefit
-                  from the full page modal experience.
+                <p className="text-sm ">
+                  This is section {item} with more detailed content that would
+                  benefit from the full page modal experience.
                 </p>
               </div>
             ))}
@@ -223,12 +225,15 @@ export default function ModalPage() {
         footerLeft={
           <div className="flex items-center gap-2">
             <AlertCircle className="h-4 w-4 text-yellow-500" />
-            <span className="text-sm text-gray-600">Auto-save enabled</span>
+            <span className="text-sm ">Auto-save enabled</span>
           </div>
         }
         footerRight={
           <>
-            <Button variant="outline" onClick={() => closeModal("customFooter")}>
+            <Button
+              variant="outline"
+              onClick={() => closeModal("customFooter")}
+            >
               Cancel
             </Button>
             <Button onClick={() => closeModal("customFooter")}>
@@ -238,16 +243,16 @@ export default function ModalPage() {
         }
       >
         <div className="space-y-4">
-          <p className="text-gray-600">
-            This modal shows how you can add custom React components to both the left
-            and right sides of the footer.
+          <p>
+            This modal shows how you can add custom React components to both the
+            left and right sides of the footer.
           </p>
           <div className="p-4 border border-yellow-200 bg-yellow-50 rounded-lg">
             <div className="flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5" />
               <p className="text-sm text-yellow-800">
-                The left footer can contain status indicators, while the right footer
-                typically contains action buttons.
+                The left footer can contain status indicators, while the right
+                footer typically contains action buttons.
               </p>
             </div>
           </div>
@@ -264,7 +269,7 @@ export default function ModalPage() {
         footerLeft={
           <div className="flex items-center gap-2">
             <Badge variant="outline">Draft</Badge>
-            <span className="text-sm text-gray-600">Last saved 2 minutes ago</span>
+            <span className="text-sm ">Last saved 2 minutes ago</span>
           </div>
         }
         footerRight={
@@ -290,21 +295,21 @@ export default function ModalPage() {
               <Input id="lastName" placeholder="Doe" />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="john.doe@example.com" />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="bio">Bio</Label>
-            <Textarea 
-              id="bio" 
+            <Textarea
+              id="bio"
               placeholder="Tell us about yourself..."
               rows={4}
             />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <input type="checkbox" id="newsletter" className="rounded" />
             <Label htmlFor="newsletter" className="text-sm">
@@ -330,11 +335,14 @@ export default function ModalPage() {
         }
         footerRight={
           <>
-            <Button variant="outline" onClick={() => closeModal("confirmation")}>
+            <Button
+              variant="outline"
+              onClick={() => closeModal("confirmation")}
+            >
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={() => closeModal("confirmation")}
             >
               <Trash2 className="h-4 w-4 mr-2" />
@@ -348,11 +356,12 @@ export default function ModalPage() {
             <div className="flex items-start gap-2">
               <AlertCircle className="h-4 w-4 text-red-600 mt-0.5" />
               <p className="text-sm text-red-800">
-                Deleting this item will remove all associated data and cannot be recovered.
+                Deleting this item will remove all associated data and cannot be
+                recovered.
               </p>
             </div>
           </div>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm ">
             Please confirm that you want to proceed with this action.
           </p>
         </div>
