@@ -12,9 +12,10 @@ import {
 } from "./utils";
 import type { CalendarEvent } from "./types";
 import useCalendarStore from "@/store/useCalendarStore";
+import useEventsStore from "@/store/useEventsStore";
 import { COLOR_DOT } from "./colors";
-import EventModal from "./EventModal";
-import EventDetailPopup from "./EventDetailPopup";
+import EventModal from "./event-modal";
+import EventDetailPopup from "./event-detail-popup";
 
 interface Props {
   events?: CalendarEvent[];
@@ -25,14 +26,23 @@ export default function MiniCalendar({ events = [] }: Props) {
   const selectedDate = useCalendarStore((s) => s.selectedDate);
   const setSelectedDate = useCalendarStore((s) => s.setSelectedDate);
   const [modalOpen, setModalOpen] = useState(false);
-  const [localEvents, setLocalEvents] = useState<CalendarEvent[]>(events);
+  const eventsStore = useEventsStore((s) => s.events);
+  const addOrUpdateEvent = useEventsStore((s) => s.addOrUpdateEvent);
+  const deleteEvent = useEventsStore((s) => s.deleteEvent);
+
+  // initialize store if `events` prop provided
+  React.useEffect(() => {
+    if (events && events.length > 0) {
+      useEventsStore.getState().setEvents(events);
+    }
+  }, [events]);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | undefined>(
     undefined,
   );
 
   const rows = getMonthGrid(current);
 
-  const eventsByDate = localEvents.reduce<Record<string, CalendarEvent[]>>(
+  const eventsByDate = eventsStore.reduce<Record<string, CalendarEvent[]>>(
     (acc, ev) => {
       acc[ev.date] = acc[ev.date] || [];
       acc[ev.date].push(ev);
@@ -120,15 +130,11 @@ export default function MiniCalendar({ events = [] }: Props) {
         dateIso={selectedDate ?? formatISODate(new Date())}
         initial={selectedEvent}
         onSave={(ev) => {
-          setLocalEvents((prev) => {
-            const exists = prev.find((p) => p.id === ev.id);
-            if (exists) return prev.map((p) => (p.id === ev.id ? ev : p));
-            return [...prev, ev];
-          });
+          addOrUpdateEvent(ev);
           setSelectedEvent(undefined);
         }}
         onDelete={(id) => {
-          setLocalEvents((prev) => prev.filter((p) => p.id !== id));
+          deleteEvent(id);
           setSelectedEvent(undefined);
         }}
       />

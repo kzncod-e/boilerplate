@@ -30,5 +30,6 @@ export function getMonthGrid(date: Date) {
 export const formatISODate = (d: Date) => format(d, "yyyy-MM-dd");
 
 export const formatMonthTitle = (d: Date) => format(d, "MMMM yyyy");
+export const formatMonth = (d: Date) => format(d, "MMMM ");
 
 export { addMonths, subMonths, isSameMonth, isSameDay };
