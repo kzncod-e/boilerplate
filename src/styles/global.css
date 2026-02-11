@@ -5,17 +5,16 @@
 @import "./forms.css";
 @import "./charts.css";
 @import "./tables.css";
+@import "./sna.css";
+@import "./animations.css";
 
 @custom-variant dark (&:is(.dark *));
 
-
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }
-
-

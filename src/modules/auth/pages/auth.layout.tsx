@@ -13,5 +13,5 @@ export default async function AuthLayout({
         redirect("/dashboard");
     }
 
-    return <div>{children}</div>;
+    return <div className="bg-background">{children}</div>;
 }

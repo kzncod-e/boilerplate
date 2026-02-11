@@ -1,27 +1,48 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "6",
-      "when": 1757850562913,
-      "tag": "0000_initial_schemas_migration",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1769140993914,
-      "tag": "0001_add_the_role_column_to_user",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1769154223905,
-      "tag": "0002_add_the_banned_column_to_user",
-      "breakpoints": true
-    }
-  ]
+    "version": "7",
+    "dialect": "sqlite",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "6",
+            "when": 1757850562913,
+            "tag": "0000_initial_schemas_migration",
+            "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "6",
+            "when": 1769140993914,
+            "tag": "0001_add_the_role_column_to_user",
+            "breakpoints": true
+        },
+        {
+            "idx": 2,
+            "version": "6",
+            "when": 1769154223905,
+            "tag": "0002_add_the_banned_column_to_user",
+            "breakpoints": true
+        },
+        {
+            "idx": 3,
+            "version": "6",
+            "when": 1769672487206,
+            "tag": "0003_add_role_and_log_Schema",
+            "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "6",
+            "when": 1769742832988,
+            "tag": "0004_add-relation-user-on-role-table",
+            "breakpoints": true
+        },
+        {
+            "idx": 5,
+            "version": "6",
+            "when": 1769914717945,
+            "tag": "0005_parallel_venom",
+            "breakpoints": true
+        }
+    ]
 }

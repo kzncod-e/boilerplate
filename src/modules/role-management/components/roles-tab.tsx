@@ -1,0 +1,258 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Pencil, Copy } from "lucide-react";
+import { type Role } from "../actions/role.actions";
+import {
+    getRoles,
+    createRole,
+    updateRole,
+    deleteRole,
+    duplicateRole,
+} from "../actions/role.actions";
+import CreateRoleDialog from "./create-role-dialog";
+import EditRoleDialog from "./edit-role-dialog";
+import DeleteRoleDialog from "./delete-role-dialog";
+import toast from "react-hot-toast";
+import { Badge } from "@/components/ui/badge";
+import GlobalCard from "@/components/global/cards/global-card";
+import { getUserByRole } from "@/modules/auth/actions/auth.action";
+
+export default function RolesTab() {
+    const [roles, setRoles] = useState<Role[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+
+    useEffect(() => {
+        const loadRoles = async () => {
+            setIsLoading(true);
+            const result = await getRoles();
+            if (result.success && result.data) {
+                setRoles(result?.data);
+            } else {
+                toast.error("Failed to load roles");
+                console.error("Error loading roles:", result.message);
+            }
+            setIsLoading(false);
+        };
+
+        loadRoles();
+    }, []);
+
+    const handleCreateRole = async (formData: any) => {
+        setIsCreateDialogOpen(false);
+        const result = await createRole(formData);
+        if (result.success) {
+            // Refresh roles from database
+            const refreshResult = await getRoles();
+            if (refreshResult.success && refreshResult.data) {
+                setRoles(refreshResult.data);
+            }
+            toast.success("Role created successfully");
+        } else {
+            toast.error("Failed to create role");
+            console.error("Error creating role:", result.message);
+        }
+    };
+
+    const handleUpdateRole = async (formData: any) => {
+        setIsEditDialogOpen(false);
+        setSelectedRole(null);
+        if (selectedRole) {
+            const result = await updateRole(selectedRole.id, formData);
+            if (result.success) {
+                // Refresh roles from database
+                const refreshResult = await getRoles();
+                if (refreshResult.success && refreshResult.data) {
+                    setRoles(refreshResult.data);
+                }
+                toast.success("Role updated successfully");
+            } else {
+                toast.error("Failed to update role");
+                console.error("Error updating role:", result.message);
+            }
+        }
+    };
+
+    const handleDeleteRole = async (roleId: string) => {
+        const result = await deleteRole(roleId);
+        if (result.success) {
+            // Refresh roles from database
+            const refreshResult = await getRoles();
+            if (refreshResult.success && refreshResult.data) {
+                setRoles(refreshResult.data);
+            }
+            toast.success("Role deleted successfully");
+        } else {
+            toast.error("Failed to delete role");
+            console.error("Error deleting role:", result.message);
+        }
+    };
+
+    const handleDuplicateRole = async (role: Role) => {
+        const result = await duplicateRole(role.id);
+        if (result.success) {
+            // Refresh roles from database
+            const refreshResult = await getRoles();
+            if (refreshResult.success && refreshResult.data) {
+                setRoles(refreshResult.data);
+            }
+            toast.success("Role duplicated successfully");
+        } else {
+            toast.error("Failed to duplicate role");
+            console.error("Error duplicating role:", result.message);
+        }
+    };
+
+    const handleEditRole = (role: Role) => {
+        setSelectedRole(role);
+        setIsEditDialogOpen(true);
+    };
+
+    const getTotalUsersForRole = async (roleName: string) => {
+        // Mock data - in real app, this would come from API
+        const userByRole = await getUserByRole(roleName);
+        if (userByRole.success && userByRole.data) {
+            return userByRole.data.length;
+        }
+        return 0;
+    };
+
+    return (
+        <GlobalCard
+            title="Roles"
+            description=" Manage user roles and their permissions"
+            className="space-y-4"
+        >
+            <div className="flex justify-end items-center">
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => handleDuplicateRole(roles[0])}
+                        disabled={roles.length === 0}
+                    >
+                        <Copy className="mr-2 h-4 w-4" />
+                        Duplicate Role
+                    </Button>
+                    <CreateRoleDialog
+                        isOpen={isCreateDialogOpen}
+                        onOpenChange={setIsCreateDialogOpen}
+                        onSuccess={handleCreateRole}
+                    />
+                </div>
+            </div>
+
+            <div className="border rounded-lg">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Role Name</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead>Total Users</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {isLoading ? (
+                            Array.from({ length: 5 }).map((_, i) => (
+                                <TableRow key={i}>
+                                    <TableCell>
+                                        <div className="h-4 w-32 bg-muted animate-pulse rounded" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="h-4 w-48 bg-muted animate-pulse rounded" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : roles.length === 0 ? (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={5}
+                                    className="text-center py-6 text-muted-foreground"
+                                >
+                                    No roles found
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            roles.map((role) => (
+                                <TableRow key={role.id}>
+                                    <TableCell className="font-medium">
+                                        {role.name}
+                                    </TableCell>
+                                    <TableCell>{role.description}</TableCell>
+                                    <TableCell>{role.totalUsers}</TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant={
+                                                role.status === "active"
+                                                    ? "default"
+                                                    : "secondary"
+                                            }
+                                        >
+                                            {role.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex gap-2">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleEditRole(role)
+                                                }
+                                            >
+                                                <Pencil className="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleDuplicateRole(role)
+                                                }
+                                            >
+                                                <Copy className="h-4 w-4" />
+                                            </Button>
+                                            <DeleteRoleDialog
+                                                role={role}
+                                                onConfirm={handleDeleteRole}
+                                            />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            {/* Edit Dialog */}
+            <EditRoleDialog
+                isOpen={isEditDialogOpen}
+                onOpenChange={setIsEditDialogOpen}
+                role={selectedRole}
+                onSuccess={handleUpdateRole}
+            />
+        </GlobalCard>
+    );
+}

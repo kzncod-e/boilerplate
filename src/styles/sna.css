@@ -1,0 +1,22 @@
+@import "./colors.css";
+
+.sna-popover-form-container {
+    background-color: oklch(1 0 0);
+
+    border-radius: var(--radius);
+}
+.sna-popover-title {
+    color: #0759a3;
+}
+.sna-btn-action {
+    background-color: #0759a3;
+    color: oklch(1 0 0);
+}
+#micro-sna-wrapper {
+    all: initial;
+    display: block;
+}
+
+#micro-sna-wrapper * {
+    box-sizing: border-box;
+}

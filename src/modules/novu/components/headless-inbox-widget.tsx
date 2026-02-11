@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Novu } from "@novu/js";
 import { Bell, CheckCheck, RefreshCcw, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
     Dialog,
     DialogContent,
@@ -113,7 +113,10 @@ export function HeadlessInboxWidget({
         (novu as any).on?.("notifications.unread_count_changed", onUnread);
 
         return () => {
-            (novu as any).off?.("notifications.notification_received", onReceived);
+            (novu as any).off?.(
+                "notifications.notification_received",
+                onReceived,
+            );
             (novu as any).off?.("notifications.unread_count_changed", onUnread);
         };
     }, [novu, refresh]);
@@ -141,9 +144,7 @@ export function HeadlessInboxWidget({
                     Headless
                     {unreadCount > 0 ? (
                         <span className="absolute -top-2 -right-2">
-                            <Badge size="sm" rounded="full">
-                                {unreadCount}
-                            </Badge>
+                            <Badge>{unreadCount}</Badge>
                         </span>
                     ) : null}
                 </Button>
@@ -211,9 +212,8 @@ export function HeadlessInboxWidget({
                                                     </div>
                                                     {!read ? (
                                                         <Badge
-                                                            size="sm"
                                                             variant="secondary"
-                                                            rounded="full"
+                                                            className="rounded-full"
                                                         >
                                                             New
                                                         </Badge>
@@ -259,4 +259,3 @@ export function HeadlessInboxWidget({
         </Dialog>
     );
 }
-
