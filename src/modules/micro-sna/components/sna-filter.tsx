@@ -154,7 +154,7 @@ export default function SNASettingModal() {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <button className="p-1 rounded-sm border hover:bg-gray-100">
+                <button className="p-1 rounded-sm border hover:bg-accent">
                     <Settings className="w-4 h-4" />
                 </button>
             </PopoverTrigger>
@@ -162,7 +162,7 @@ export default function SNASettingModal() {
             <PopoverContent
                 side="bottom"
                 align="end"
-                className="bg-white rounded-xl w-fit p-4"
+                className="bg-popover text-popover-foreground rounded-xl w-fit p-4"
             >
                 <div className="flex flex-col gap-2 text-left">
                     <div className="text-primary text-xl font-semibold">
@@ -237,7 +237,7 @@ export default function SNASettingModal() {
                                 ].map((p) => (
                                     <div
                                         key={p}
-                                        className="flex items-center justify-between py-1 cursor-pointer"
+                                        className="flex items-center justify-between py-1 px-2 rounded-md cursor-pointer hover:bg-accent"
                                         onClick={() =>
                                             toggle(
                                                 p as SnaPlatform,
@@ -262,7 +262,7 @@ export default function SNASettingModal() {
                                             {platforms.includes(
                                                 p as SnaPlatform,
                                             ) ? (
-                                                <Check className="w-4 h-4 text-blue-600" />
+                                                <Check className="w-4 h-4 text-primary" />
                                             ) : (
                                                 <span className="w-4 h-4" />
                                             )}
@@ -349,7 +349,7 @@ export default function SNASettingModal() {
                                 ].map((s) => (
                                     <div
                                         key={s.val}
-                                        className="flex items-center justify-between py-1 cursor-pointer"
+                                        className="flex items-center justify-between py-1 px-2 rounded-md cursor-pointer hover:bg-accent"
                                         onClick={() =>
                                             toggle(
                                                 s.val as SentimentNumber,
@@ -389,7 +389,7 @@ export default function SNASettingModal() {
                                             ).includes(
                                                 s.val as SentimentNumber,
                                             ) ? (
-                                                <Check className="w-4 h-4 text-blue-600" />
+                                                <Check className="w-4 h-4 text-primary" />
                                             ) : (
                                                 <span className="w-4 h-4" />
                                             )}
