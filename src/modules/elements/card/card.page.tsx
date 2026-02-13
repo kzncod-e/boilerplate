@@ -18,6 +18,7 @@ import NewsTrendlineCard, {
     TrendlineEvent,
 } from "@/components/global/cards/news-trendline-card";
 import VideoList from "@/components/global/video-list";
+import MediaPlayerCard from "@/components/global/media-player-card";
 
 export default function CardsPage() {
     // Sample data for First Post Card
@@ -179,6 +180,48 @@ export default function CardsPage() {
             shares: 334,
             publishedAt: "2 weeks ago",
             duration: "19:45"
+        }
+    ];
+
+    // Sample data for Media Player
+    const sampleMedia = [
+        {
+            id: "1",
+            type: "video" as const,
+            title: "Live Stream - Tech Conference 2024",
+            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            thumbnail: "https://images.unsplash.com/photo-1592842201225-453bc7173af7?w=800&h=450&fit=crop",
+            isLive: true,
+            author: "Tech Channel",
+            views: 15420
+        },
+        {
+            id: "2",
+            type: "video" as const,
+            title: "Product Launch Video",
+            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            thumbnail: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=450&fit=crop",
+            duration: "15:30",
+            author: "Company Official",
+            views: 89500
+        },
+        {
+            id: "3",
+            type: "audio" as const,
+            title: "Podcast Episode 42: AI Revolution",
+            src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+            author: "Tech Talks Podcast",
+            views: 12300
+        },
+        {
+            id: "4",
+            type: "video" as const,
+            title: "Tutorial: Getting Started",
+            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop",
+            duration: "8:45",
+            author: "Education Hub",
+            views: 45600
         }
     ];
 
@@ -460,6 +503,25 @@ export default function CardsPage() {
                         }}
                         gridCols="3"
                     />
+                </div>
+
+                {/* Media Player Section */}
+                <div className="grid grid-cols-1 gap-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        Media Player Gallery
+                    </h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {sampleMedia.map((media) => (
+                            <MediaPlayerCard
+                                key={media.id}
+                                media={media}
+                                onPlay={() => console.log(`Playing: ${media.title}`)}
+                                onPause={() => console.log(`Paused: ${media.title}`)}
+                                onEnded={() => console.log(`Ended: ${media.title}`)}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
