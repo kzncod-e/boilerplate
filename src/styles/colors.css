@@ -92,18 +92,9 @@
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.705 0.015 286.067);
 
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-
-    --chart-positive: 140 90% 50%; /* Bright green */
-    --chart-negative: 0 100% 60%; /* Vivid red */
-    --chart-neutral: 261 10% 71%;
-
-    --primary-chart: 45, 100%, 49%, 1;
-    --secondary-chart: 230, 56%, 33%;
+    --chart-positive: oklch(0.72 0.22 142);
+    --chart-negative: oklch(0.63 0.26 25);
+    --chart-neutral: oklch(0.71 0.02 261);
 
     /* Platform brand chart colors (OKLCH) */
     --chart-facebook: oklch(0.63 0.23 259); /* #1877F2 approx */
@@ -119,7 +110,7 @@
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.21 0.006 285.885);
     --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.21 0.006 285.885);
+    --popover: oklch(0.21 0.006 285 .885);
     --popover-foreground: oklch(0.985 0 0);
     --primary: oklch(0.92 0.004 286.32);
     --primary-foreground: oklch(0.21 0.006 285.885);
@@ -146,12 +137,6 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.552 0.016 285.938);
-
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
 
     /* Platform brand chart colors (OKLCH, dark) */
     --chart-facebook: oklch(0.7 0.23 259);

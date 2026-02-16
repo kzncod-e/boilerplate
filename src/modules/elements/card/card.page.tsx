@@ -4,227 +4,26 @@ import { CollapsibleCard } from "@/components/global/cards/collapsible-card";
 import { HeaderCard } from "@/components/global/cards/header-card";
 import { TaskCard } from "@/components/global/cards/header-footer-card";
 import { Users, TrendingUp, Activity, Clock } from "lucide-react";
-import { dummyMetrics } from "./constans/constan";
+import {
+    dummyMetrics,
+    dummyRelatedPosts,
+    dummyTrendlineEvents,
+    dummyVideos,
+    dummyMedia,
+    dummyTaskItems,
+} from "./constans/constan";
 import MetricItem from "../../../components/global/cards/statistic-card";
 import SocmedAccounts from "@/components/global/cards/sosmed-card";
 import { socmedAccountsDummy } from "@/mock/socmeds-data";
 import { ScrollableCard } from "@/components/global/cards/scrollable-card";
 import PageHeader from "@/components/global/page-header";
 import { MultiActionAreaCard } from "@/components/global/cards/multi-action-area-card";
-import FirstPostCard, {
-    RelatedPost,
-} from "@/components/global/cards/news-first-post-card";
-import NewsTrendlineCard, {
-    TrendlineEvent,
-} from "@/components/global/cards/news-trendline-card";
+import FirstPostCard from "@/components/global/cards/news-first-post-card";
+import NewsTrendlineCard from "@/components/global/cards/news-trendline-card";
 import VideoList from "@/components/global/video-list";
 import MediaPlayerCard from "@/components/global/media-player-card";
 
 export default function CardsPage() {
-    // Sample data for First Post Card
-    const relatedPosts: RelatedPost[] = [
-        {
-            id: "1",
-            platform: "twitter",
-            author: "John Doe",
-            content:
-                "Breaking: Major technology breakthrough announced today! This changes everything we thought we knew about AI. #TechNews #Innovation",
-            timestamp: "2 hours ago",
-            likes: 245,
-            comments: 89,
-            shares: 156,
-        },
-        {
-            id: "2",
-            platform: "facebook",
-            author: "Tech Insights",
-            content:
-                "The latest developments in artificial intelligence are reshaping industries. Read our comprehensive analysis of what this means for the future.",
-            timestamp: "4 hours ago",
-            likes: 523,
-            comments: 127,
-            shares: 89,
-        },
-    ];
-
-    // Sample data for News Trendline Card
-    const trendlineEvents: TrendlineEvent[] = [
-        {
-            id: "1",
-            date: "15 Jan",
-            time: "09:00 AM",
-            title: "Product Launch Announcement",
-            description:
-                "Official launch of our revolutionary AI-powered platform that transforms how businesses operate.",
-            type: "milestone",
-            status: "completed",
-            category: "Product",
-        },
-        {
-            id: "2",
-            date: "15 Jan",
-            time: "02:30 PM",
-            title: "Market Analysis Update",
-            description:
-                "Q4 earnings report shows 45% growth in user acquisition and 32% increase in revenue.",
-            type: "update",
-            status: "completed",
-            category: "Finance",
-        },
-        {
-            id: "3",
-            date: "16 Jan",
-            time: "11:00 AM",
-            title: "Security Alert",
-            description:
-                "Important security update available. All users are encouraged to update their applications immediately.",
-            type: "alert",
-            status: "ongoing",
-            category: "Security",
-        },
-        {
-            id: "4",
-            date: "17 Jan",
-            time: "03:00 PM",
-            title: "Team Expansion",
-            description:
-                "Hiring 50 new engineers across multiple departments to support our rapid growth.",
-            type: "info",
-            status: "upcoming",
-            category: "HR",
-        },
-    ];
-
-    // Sample data for Video List
-    const sampleVideos = [
-        {
-            id: "1",
-            platform: "youtube" as const,
-            title: "Building Modern Web Applications with Next.js 14",
-            thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=225&fit=crop",
-            author: "Tech Academy",
-            authorAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-            views: 125000,
-            likes: 8500,
-            comments: 342,
-            shares: 156,
-            publishedAt: "2 days ago",
-            duration: "15:24"
-        },
-        {
-            id: "2",
-            platform: "facebook" as const,
-            title: "The Future of Artificial Intelligence in Healthcare",
-            thumbnail: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=225&fit=crop",
-            author: "AI Research Lab",
-            authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-            views: 89000,
-            likes: 6200,
-            comments: 189,
-            shares: 234,
-            publishedAt: "1 week ago",
-            duration: "22:15"
-        },
-        {
-            id: "3",
-            platform: "instagram" as const,
-            title: "10 Productivity Tips for Remote Workers",
-            thumbnail: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=225&fit=crop",
-            author: "Work Life Balance",
-            authorAvatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face",
-            views: 234000,
-            likes: 18900,
-            comments: 567,
-            shares: 445,
-            publishedAt: "3 days ago",
-            duration: "8:45"
-        },
-        {
-            id: "4",
-            platform: "twitter" as const,
-            title: "Understanding Blockchain Technology in 2024",
-            thumbnail: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=225&fit=crop",
-            author: "Crypto Insights",
-            authorAvatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=40&h=40&fit=crop&crop=face",
-            views: 67000,
-            likes: 4200,
-            comments: 234,
-            shares: 123,
-            publishedAt: "5 days ago",
-            duration: "18:30"
-        },
-        {
-            id: "5",
-            platform: "youtube" as const,
-            title: "Complete Guide to Cloud Computing",
-            thumbnail: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=225&fit=crop",
-            author: "Cloud Experts",
-            authorAvatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=40&h=40&fit=crop&crop=face",
-            views: 345000,
-            likes: 23400,
-            comments: 892,
-            shares: 678,
-            publishedAt: "1 month ago",
-            duration: "25:12"
-        },
-        {
-            id: "6",
-            platform: "facebook" as const,
-            title: "Mobile App Development Best Practices",
-            thumbnail: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=225&fit=crop",
-            author: "Dev Studio",
-            authorAvatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-            views: 156000,
-            likes: 9800,
-            comments: 445,
-            shares: 334,
-            publishedAt: "2 weeks ago",
-            duration: "19:45"
-        }
-    ];
-
-    // Sample data for Media Player
-    const sampleMedia = [
-        {
-            id: "1",
-            type: "video" as const,
-            title: "Live Stream - Tech Conference 2024",
-            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            thumbnail: "https://images.unsplash.com/photo-1592842201225-453bc7173af7?w=800&h=450&fit=crop",
-            isLive: true,
-            author: "Tech Channel",
-            views: 15420
-        },
-        {
-            id: "2",
-            type: "video" as const,
-            title: "Product Launch Video",
-            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-            thumbnail: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=450&fit=crop",
-            duration: "15:30",
-            author: "Company Official",
-            views: 89500
-        },
-        {
-            id: "3",
-            type: "audio" as const,
-            title: "Podcast Episode 42: AI Revolution",
-            src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-            author: "Tech Talks Podcast",
-            views: 12300
-        },
-        {
-            id: "4",
-            type: "video" as const,
-            title: "Tutorial: Getting Started",
-            src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-            thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=450&fit=crop",
-            duration: "8:45",
-            author: "Education Hub",
-            views: 45600
-        }
-    ];
-
     return (
         <>
             <PageHeader
@@ -283,11 +82,7 @@ export default function CardsPage() {
                     <TaskCard
                         title="Tasks & Activities"
                         description="Pending items"
-                        items={[
-                            { label: "Code Review", value: 5 },
-                            { label: "Bug Fixes", value: 12 },
-                            { label: "Deployments", value: 3 },
-                        ]}
+                        items={dummyTaskItems}
                         primaryAction={{
                             label: "View All",
                             onClick: () => console.log("View all tasks"),
@@ -446,14 +241,14 @@ export default function CardsPage() {
                             publishDate="January 15, 2024"
                             readTime="5 min read"
                             imageUrl="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop"
-                            relatedPosts={relatedPosts}
+                            relatedPosts={dummyRelatedPosts}
                         />
 
                         {/* News Trendline Card Example */}
                         <NewsTrendlineCard
                             title="Company Timeline"
                             description="Key events and milestones in our journey"
-                            events={trendlineEvents}
+                            events={dummyTrendlineEvents}
                             showDateHeaders={true}
                             maxHeight="h-96"
                         />
@@ -469,14 +264,14 @@ export default function CardsPage() {
                             author="Michael Chen"
                             publishDate="January 14, 2024"
                             readTime="3 min read"
-                            relatedPosts={relatedPosts.slice(0, 1)}
+                            relatedPosts={dummyRelatedPosts.slice(0, 1)}
                         />
 
                         {/* News Trendline Card without date headers */}
                         <NewsTrendlineCard
                             title="Project Roadmap"
                             description="Upcoming features and improvements"
-                            events={trendlineEvents.slice(2)}
+                            events={dummyTrendlineEvents.slice(2)}
                             showDateHeaders={false}
                             maxHeight="h-80"
                         />
@@ -492,7 +287,7 @@ export default function CardsPage() {
                     <VideoList
                         title="Featured Videos"
                         description="Discover the latest content from our creators across multiple platforms"
-                        videos={sampleVideos}
+                        videos={dummyVideos}
                         pagination={{
                             currentPage: 1,
                             totalPages: 5,
@@ -512,7 +307,7 @@ export default function CardsPage() {
                     </h2>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {sampleMedia.map((media) => (
+                        {dummyMedia.map((media) => (
                             <MediaPlayerCard
                                 key={media.id}
                                 media={media}
