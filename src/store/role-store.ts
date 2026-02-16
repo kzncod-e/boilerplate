@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import type { Role } from "@/modules/role-management/mock/role-data";
 

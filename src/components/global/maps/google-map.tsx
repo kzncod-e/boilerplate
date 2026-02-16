@@ -1,3 +1,5 @@
+"use client";
+
 import {
     useLoadScript,
     GoogleMap as GoogleMapComponent,

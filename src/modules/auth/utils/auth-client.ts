@@ -1,3 +1,5 @@
+"use client";
+
 import { createAuthClient } from "better-auth/react";
 import { adminClient } from "better-auth/client/plugins";
 // Create the auth client for client-side usage

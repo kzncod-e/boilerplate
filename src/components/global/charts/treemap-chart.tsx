@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { generateGoogleSearchUrl } from "@/lib/url-helpers";
 import { Skeleton } from "@/components/ui/skeleton";
