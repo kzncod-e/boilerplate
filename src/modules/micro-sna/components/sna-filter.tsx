@@ -154,7 +154,7 @@ export default function SNASettingModal() {
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <button className="p-1 rounded-sm border hover:bg-gray-100">
+                <button className="p-1 rounded-sm border hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400">
                     <Settings className="w-4 h-4" />
                 </button>
             </PopoverTrigger>
@@ -162,10 +162,10 @@ export default function SNASettingModal() {
             <PopoverContent
                 side="bottom"
                 align="end"
-                className="bg-white rounded-xl w-fit p-4"
+                className="bg-card rounded-xl w-fit p-4"
             >
                 <div className="flex flex-col gap-2 text-left">
-                    <div className="text-primary text-xl font-semibold">
+                    <div className="text-gray-900 dark:text-white text-xl font-semibold">
                         SNA Setting
                     </div>
                 </div>
@@ -173,7 +173,7 @@ export default function SNASettingModal() {
                 <form className="grid grid-cols-2 w-full gap-6 mt-4">
                     {/* TOPIC (user input) */}
                     <FormField className="w-full">
-                        <p className="text-sm font-medium">Topic</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Topic</p>
                         <Select
                             value={topic ? String(topic.id) : ""}
                             onValueChange={(v) => {
@@ -198,7 +198,7 @@ export default function SNASettingModal() {
 
                     {/* CLUSTER */}
                     <div className="min-w-40 w-full">
-                        <p className="text-sm font-medium">Select Cluster</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Select Cluster</p>
                         <Select
                             value={cluster}
                             onValueChange={(v) => setCluster(v as SnaCluster)}
@@ -217,7 +217,7 @@ export default function SNASettingModal() {
 
                     {/* PLATFORM MULTI */}
                     <div className="w-full">
-                        <p className="text-sm font-medium">Platform</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Platform</p>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button
@@ -237,7 +237,7 @@ export default function SNASettingModal() {
                                 ].map((p) => (
                                     <div
                                         key={p}
-                                        className="flex items-center justify-between py-1 cursor-pointer"
+                                        className="flex items-center justify-between py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
                                         onClick={() =>
                                             toggle(
                                                 p as SnaPlatform,
@@ -275,7 +275,7 @@ export default function SNASettingModal() {
 
                     {/* DATE */}
                     <FormField className="min-w-[29rem] w-full">
-                        <p className="text-sm font-medium">Date</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Date</p>
                         <DatePicker
                             mode="range"
                             value={date}
@@ -290,7 +290,7 @@ export default function SNASettingModal() {
 
                     {/* EMOTIONAL */}
                     <div className="w-full">
-                        <p className="text-sm font-medium">
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                             Emotional Perception
                         </p>
                         <Select
@@ -317,7 +317,7 @@ export default function SNASettingModal() {
 
                     {/* SENTIMENT MULTI */}
                     <div className="w-full">
-                        <p className="text-sm font-medium">Select Sentiments</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Select Sentiments</p>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button
@@ -349,7 +349,7 @@ export default function SNASettingModal() {
                                 ].map((s) => (
                                     <div
                                         key={s.val}
-                                        className="flex items-center justify-between py-1 cursor-pointer"
+                                        className="flex items-center justify-between py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
                                         onClick={() =>
                                             toggle(
                                                 s.val as SentimentNumber,
@@ -401,7 +401,7 @@ export default function SNASettingModal() {
                     </div>
                 </form>
 
-                <div className="flex justify-end gap-3 mt-6">
+                <div className="flex justify-end gap-3 mt-6 pt-4 border-t bg-gray-50 dark:bg-primary/10 -mx-4 px-4 -mb-4 pb-4 rounded-b-xl">
                     <Button variant="outline" onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
