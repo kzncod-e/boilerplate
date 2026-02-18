@@ -19,6 +19,8 @@ import NewsTrendlineCard, {
 } from "@/components/global/cards/news-trendline-card";
 import VideoList from "@/components/global/video-list";
 import MediaPlayerCard from "@/components/global/media-player-card";
+import FunctionalCard from "@/components/global/cards/functionaly-card";
+import { Trash2, Share, Eye, Archive, RefreshCw, Bell, Lock } from "lucide-react";
 
 export default function CardsPage() {
     // Sample data for First Post Card
@@ -521,6 +523,209 @@ export default function CardsPage() {
                                 onEnded={() => console.log(`Ended: ${media.title}`)}
                             />
                         ))}
+                    </div>
+                </div>
+
+                {/* Functional Card Section */}
+                <div className="grid grid-cols-1 gap-6">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        Functional Cards - All Modes in One Component
+                    </h2>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Dropdown Mode (Original) */}
+                        <FunctionalCard
+                            title="Dropdown Mode"
+                            description="Original dropdown menu style"
+                            optionMode="dropdown"
+                            onSetting={() => console.log("Dropdown: Settings clicked")}
+                            onEdit={() => console.log("Dropdown: Edit clicked")}
+                            onCopy={(content) => console.log("Dropdown copied:", content)}
+                            onDownload={() => console.log("Dropdown: Download clicked")}
+                        >
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Users</p>
+                                        <p className="text-2xl font-bold">12,345</p>
+                                    </div>
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Revenue</p>
+                                        <p className="text-2xl font-bold">$45,678</p>
+                                    </div>
+                                </div>
+                                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <p className="text-sm text-blue-600 dark:text-blue-400">Performance: 94% optimal</p>
+                                </div>
+                            </div>
+                        </FunctionalCard>
+
+                        {/* Popover Mode */}
+                        <FunctionalCard
+                            title="Popover Mode"
+                            description="Options appear in a popover dropdown"
+                            optionMode="popover"
+                            onSetting={() => console.log("Popover: Settings clicked")}
+                            onEdit={() => console.log("Popover: Edit clicked")}
+                            onCopy={(content) => console.log("Popover copied:", content)}
+                            onDownload={() => console.log("Popover: Download clicked")}
+                        >
+                            <div className="space-y-4">
+                                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <p className="text-sm text-blue-600 dark:text-blue-400">Click the menu icon to see options in popover mode</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">Popover</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Dropdown style</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">Clean</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Minimal space</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </FunctionalCard>
+
+                        {/* Expand Mode */}
+                        <FunctionalCard
+                            title="Expand Mode"
+                            description="Options expand horizontally below the header"
+                            optionMode="expand"
+                            options={{
+                                setting: true,
+                                edit: true,
+                                copy: true,
+                                download: true,
+                                custom: [
+                                    {
+                                        label: "Archive",
+                                        icon: <Archive className="h-4 w-4" />,
+                                        onClick: () => console.log("Expand: Archive clicked"),
+                                    },
+                                    {
+                                        label: "Refresh",
+                                        icon: <RefreshCw className="h-4 w-4" />,
+                                        onClick: () => console.log("Expand: Refresh clicked"),
+                                    },
+                                ],
+                            }}
+                            onSetting={() => console.log("Expand: Settings clicked")}
+                            onEdit={() => console.log("Expand: Edit clicked")}
+                            onCopy={(content) => console.log("Expand copied:", content)}
+                            onDownload={() => console.log("Expand: Download clicked")}
+                        >
+                            <div className="space-y-4">
+                                <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                    <p className="text-sm text-green-600 dark:text-green-400">Click the menu icon to expand options horizontally</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">Expand</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Horizontal bar</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">Direct</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Quick access</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </FunctionalCard>
+
+                        {/* Inline Mode */}
+                        <FunctionalCard
+                            title="Inline Mode"
+                            description="Options are always visible without clicking"
+                            optionMode="inline"
+                            onSetting={() => console.log("Inline: Settings clicked")}
+                            onEdit={() => console.log("Inline: Edit clicked")}
+                            onCopy={(content) => console.log("Inline copied:", content)}
+                            onDownload={() => console.log("Inline: Download clicked")}
+                        >
+                            <div className="space-y-4">
+                                <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                                    <p className="text-sm text-purple-600 dark:text-purple-400">Options are always visible - no click needed!</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">Always Visible</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Direct access</p>
+                                    </div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                        <p className="text-lg font-semibold">No Toggle</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">Instant actions</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </FunctionalCard>
+
+                        {/* Custom Options - Dropdown */}
+                        <FunctionalCard
+                            title="Custom Options"
+                            description="Card with custom actions only"
+                            optionMode="dropdown"
+                            options={{
+                                setting: false,
+                                edit: false,
+                                copy: false,
+                                download: false,
+                                custom: [
+                                    {
+                                        label: "View Details",
+                                        icon: <Eye className="h-4 w-4" />,
+                                        onClick: () => console.log("Custom: View details clicked"),
+                                    },
+                                    {
+                                        label: "Share",
+                                        icon: <Share className="h-4 w-4" />,
+                                        onClick: () => console.log("Custom: Share clicked"),
+                                    },
+                                    {
+                                        label: "Delete",
+                                        icon: <Trash2 className="h-4 w-4" />,
+                                        onClick: () => console.log("Custom: Delete clicked"),
+                                        variant: "destructive",
+                                    },
+                                ],
+                            }}
+                            onCopy={(content) => console.log("Custom copied:", content)}
+                        >
+                            <div className="space-y-3">
+                                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div>
+                                        <p className="font-medium">John Doe</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">john@example.com</p>
+                                    </div>
+                                    <span className="px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs rounded-full">Active</span>
+                                </div>
+                                <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div>
+                                        <p className="font-medium">Jane Smith</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400">jane@example.com</p>
+                                    </div>
+                                    <span className="px-2 py-1 bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 text-xs rounded-full">Pending</span>
+                                </div>
+                            </div>
+                        </FunctionalCard>
+
+                        {/* Minimal Options - Inline */}
+                        <FunctionalCard
+                            title="Minimal Inline"
+                            description="Only essential options always visible"
+                            optionMode="inline"
+                            options={{
+                                setting: false,
+                                edit: true,
+                                copy: true,
+                                download: false,
+                            }}
+                            onEdit={() => console.log("Minimal: Edit clicked")}
+                            onCopy={(content) => console.log("Minimal copied:", content)}
+                        >
+                            <div className="p-6 text-center">
+                                <p className="text-gray-600 dark:text-gray-400">Minimal inline mode with only edit and copy options always visible.</p>
+                            </div>
+                        </FunctionalCard>
                     </div>
                 </div>
             </div>
