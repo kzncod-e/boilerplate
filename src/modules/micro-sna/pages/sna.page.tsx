@@ -28,11 +28,13 @@ const MicroSNA = () => {
                     <SNASettingModal />
                 </div>
 
+                <div className="dark:border dark:border-gray-300/10 rounded-lg overflow-hidden">
                 <iframe
                     ref={iframeRef}
                     src="/sna.html"
-                    className="w-full h-[90vh] border-none"
+                    className="w-full h-[90vh]"
                 />
+                </div>
             </div>
         </>
     );
